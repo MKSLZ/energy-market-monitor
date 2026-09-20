@@ -146,7 +146,7 @@
       "name": "红海/关键航道航运扰动与运费上涨",
       "category": "地缘政治",
       "weight": 1,
-      "keywords": ["红海", "胡塞袭击商船", "绕行好望角", "航运中断", "运费上涨", "red sea", "bab el-mandeb", "vessel reroute", "shipping rates surge", "tanker rates", "suez disruption"],
+      "keywords": ["红海", "胡塞袭击商船", "绕行好望角", "航运中断", "运费上涨", "运费飙升", "油轮短缺", "超级油轮", "油运成本", "油运", "VLCC", "red sea", "bab el-mandeb", "vessel reroute", "shipping rates surge", "tanker rates", "tanker shortage", "freight rates surge", "shipping costs", "suez disruption"],
       "inverters": ["复航", "航线恢复", "rerouting ends"],
       "effects": {
         "oil":   {"dir": 1, "mag": 2, "horizon": "数周", "channel": "绕行拉长运距、收紧有效运力，VLCC运费上行直接抬升到岸成本"},

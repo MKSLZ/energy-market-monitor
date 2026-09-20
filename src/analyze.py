@@ -46,7 +46,13 @@ def classify(text: str, themes: list[dict]) -> list[dict]:
     return hits
 
 
-def analyze(news_items: list[dict], matrix: dict) -> dict:
+def analyze(news_items: list[dict], matrix: dict, new_hashes: set | None = None) -> dict:
+    """对给定事件窗口做因子归类与评分。
+
+    news_items 为参与评分的事件窗口（近 24h 滚动窗口 → 市场态势；或仅本周期新增 → 边际）。
+    new_hashes 非空时，用于在证据上标注哪些属于“本周期新增”（new=True）。
+    """
+    new_hashes = new_hashes or set()
     themes = matrix["themes"]
     theme_by_id = {t["id"]: t for t in themes}
 
@@ -87,7 +93,8 @@ def analyze(news_items: list[dict], matrix: dict) -> dict:
                 agg["evidence"].append(
                     {"title": item["title"], "link": item.get("link", ""),
                      "source": item.get("source", ""), "mult": h["mult"], "real_dir": real_dir,
-                     "inverter": h["inverter"], "published": item.get("published", "")}
+                     "inverter": h["inverter"], "published": item.get("published", ""),
+                     "new": item.get("hash") in new_hashes}
                 )
             for ck, _ in COMMODITIES:
                 eff = th["effects"].get(ck, {"dir": 0, "mag": 0})

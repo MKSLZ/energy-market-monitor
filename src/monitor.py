@@ -31,11 +31,14 @@ def main() -> int:
     # 3) 行情基线兜底（实时源全失败时，用 7 天内人工核验报价占位并标注）
     _apply_seed_prices(quote_items, bundle["seed_prices"], cn_time)
 
-    # 4) 事件分析：仅对新增事件评分；若本周期无新增，回退近24h存量信号（在报告中注明）
+    # 4) 事件分析（双层）：
+    #    主态势 analysis —— 近 24h 滚动窗口，保证任何时候打开都反映当前市场状态；
+    #    边际 delta      —— 仅本周期新增事件，体现最近 3 小时的边际变化。
     matrix = analyze.load_matrix()
-    analysis_input = bundle["new_items"] if bundle["new_items"] else bundle["recent_items"]
-    using_recent_fallback = not bool(bundle["new_items"])
-    analysis = analyze.analyze(analysis_input, matrix)
+    new_hashes = {it["hash"] for it in bundle["new_items"]}
+    analysis = analyze.analyze(bundle["recent_items"], matrix, new_hashes=new_hashes)
+    delta = analyze.analyze(bundle["new_items"], matrix)
+    no_new_events = not bool(bundle["new_items"])
 
     # 5) 现货报价提取（新增 + 近24h）
     merged: dict[str, dict] = {}
@@ -53,8 +56,8 @@ def main() -> int:
     # 现货报价跨期沿用（TTL 内最近值），仅用于国内电价等量化推演；2.2 表展示当期值（含确定性源）
     effective_spot = spot_store.merge(spot, cn_time)
 
-    # 6) 可选 LLM 研判
-    commentary = analyze.llm_commentary(analysis, analysis_input, quote_items)
+    # 6) 可选 LLM 研判（基于 24h 滚动态势）
+    commentary = analyze.llm_commentary(analysis, bundle["recent_items"], quote_items)
 
     # 6.5) 国内电价专项推演（油/气/煤价格与事件 → 中国国内电价，分时间/分区域量化）
     cn_view = cn_power.build_view(
@@ -68,11 +71,12 @@ def main() -> int:
         "prices": quote_items,
         "news": bundle,
         "analysis": analysis,
+        "delta": delta,
         "spot": spot,
         "cn": cn_view,
         "llm": commentary,
         "errors": errors,
-        "fallback_window": using_recent_fallback,
+        "fallback_window": no_new_events,
     }
     md = report.render(ctx)
     paths = report.save(md, cn_time)

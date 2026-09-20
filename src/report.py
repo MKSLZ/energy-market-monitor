@@ -24,27 +24,31 @@ def render(ctx: dict) -> str:
 
     L.append(f"# 能源电力市场监控日报（第 {run_no} 期）")
     L.append("")
+    delta_temp = (ctx.get("delta") or {}).get("temperature", {})
     L.append(f"> 生成时间：{cn.strftime('%Y-%m-%d %H:%M')}（北京/UTC+8）　|　监控周期：每 3 小时　|　"
-             f"新增事件：{ctx['news']['new_count']} 条　|　命中主题：{ctx['analysis']['tagged_count']} 条")
+             f"本3h新增：{ctx['news']['new_count']} 条、命中 {(ctx.get('delta') or {}).get('tagged_count', 0)} 主题　|　"
+             f"近24h事件：{ctx['news']['total_count']} 条、命中 {ctx['analysis']['tagged_count']} 主题")
     if ctx["news"]["first_run"]:
         L.append(">")
         L.append("> **首期运行**：事件池包含人工核验基线（2026-09-20 前公开信息），后续各期仅展示新监控到的增量信息。")
     if ctx.get("fallback_window"):
         L.append(">")
-        L.append("> **本周期无新增重大事件**，下列信号基于近 24 小时存量资讯滚动分析，价格沿既有主线运行。")
+        L.append("> **本3小时无新增重大事件**，下列主态势基于近 24 小时滚动资讯，价格沿既有主线运行；本3h边际均为 0。")
     L.append("")
 
     # 1 速览
-    L.append("## 一、四品种影响速览")
+    L.append("## 一、四品种影响速览（主分=近24h市场态势，末列=本3h边际）")
     L.append("")
-    L.append("| 品种 | 方向信号 | 量化评分 | 本期利多/利空事件数 | 核心驱动（Top） |")
-    L.append("|---|---|---|---|---|")
+    L.append("| 品种 | 方向信号 | 24h态势分 | 近24h利多/利空 | 本3h边际 | 核心驱动（Top） |")
+    L.append("|---|---|---|---|---|---|")
     for key in ("oil", "gas", "coal", "power"):
         v = temp[key]
         top = _top_driver(ctx["analysis"]["signals"], key)
-        L.append(f"| {v['name']} | {ARROW[v['label']]} {v['label']} | {v['score']} | {v['pos']} / {v['neg']} | {top} |")
+        ds = delta_temp.get(key, {}).get("score", 0)
+        dm = f"▲ +{ds:.0f}" if ds > 0 else (f"▼ {ds:.0f}" if ds < 0 else "无新增驱动")
+        L.append(f"| {v['name']} | {ARROW[v['label']]} {v['label']} | {v['score']} | {v['pos']} / {v['neg']} | {dm} | {top} |")
     L.append("")
-    L.append("> 评分=Σ(主题权重×历史影响强度×方向)，仅衡量本期新增事件的边际压力，非价格预测点位；评分高代表边际驱动集中。")
+    L.append("> 24h态势分=Σ(主题权重×历史影响强度×方向)，同一因子只计一次，基于近24小时滚动事件，反映当前市场压力与集中度；本3h边际仅计最新3小时新增。均非价格预测点位。")
     L.append("")
 
     # 2 行情
@@ -74,24 +78,27 @@ def render(ctx: dict) -> str:
     L.append("")
 
     # 3 重大事件
-    L.append("## 三、本期重大事件（按影响因子分组）")
+    L.append("## 三、近24小时重大事件（按影响因子分组，**[NEW·3h]** 为本3小时新增）")
     L.append("")
     sigs = ctx["analysis"]["signals"]
     if not sigs:
-        L.append("_本期新增新闻未命中核心影响因子，可能以噪声/价格复述为主。_")
+        L.append("_近24小时监控到的资讯未命中核心影响因子，多为噪声/价格复述；行情与国内电价板块仍在更新。_")
     for i, sg in enumerate(sigs, 1):
+        n_new = sum(1 for evd in sg["evidence"] if evd.get("new"))
+        ntip = f"，其中本3h新增 {n_new}" if n_new else ""
         if sg.get("structural"):
-            L.append(f"### 3.{i} {sg['name']}　【{sg['category']}｜结构性变化：{sg['neutral'] + sg['up'] + sg['down']} 条相关，不计多空评分】")
+            L.append(f"### 3.{i} {sg['name']}　【{sg['category']}｜结构性变化：{sg['neutral'] + sg['up'] + sg['down']} 条相关，不计多空评分{ntip}】")
         else:
-            L.append(f"### 3.{i} {sg['name']}　【{sg['category']}｜对商品利多 {sg['up']} 条 / 利空 {sg['down']} 条】")
+            L.append(f"### 3.{i} {sg['name']}　【{sg['category']}｜近24h对商品利多 {sg['up']} 条 / 利空 {sg['down']} 条{ntip}】")
         for ev in sg["evidence"]:
             mark = {1: "▲", -1: "▼"}.get(ev.get("real_dir", 0), "•")
+            newb = "**[NEW·3h]** " if ev.get("new") else ""
             tail = f"（反转信号：{ev['inverter']}）" if ev["inverter"] else ""
-            L.append(f"- {mark} [{ev['title']}]({ev['link']}) — {ev['source']}，{ev['published'][:16]}{tail}")
+            L.append(f"- {mark} {newb}[{ev['title']}]({ev['link']}) — {ev['source']}，{ev['published'][:16]}{tail}")
         L.append("")
     other = [x for x in ctx["news"]["new_items"] if x.get("channel") != "seed"][:10]
     if other:
-        L.append("<details><summary>其他能源相关资讯（点击展开）</summary>")
+        L.append("<details><summary>本3小时其他新增资讯（点击展开）</summary>")
         L.append("")
         for it in other:
             L.append(f"- [{it['title']}]({it['link']}) — {it['source']}，{it['published'][:16]}")
@@ -100,20 +107,22 @@ def render(ctx: dict) -> str:
         L.append("")
 
     # 4 推演
-    L.append("## 四、事件 → 价格传导推演（基于历史经验矩阵）")
+    L.append("## 四、事件 → 价格传导推演（近24h主线 · 基于历史经验矩阵）")
     L.append("")
     for key in ("oil", "gas", "coal", "power"):
         v = temp[key]
-        L.append(f"### 4.{['oil','gas','coal','power'].index(key)+1} {v['name']}：{ARROW[v['label']]} {v['label']}（评分 {v['score']}）")
+        ds = delta_temp.get(key, {}).get("score", 0)
+        dm = f"本3h边际 ▲+{ds:.0f}" if ds > 0 else (f"本3h边际 ▼{ds:.0f}" if ds < 0 else "本3h无新增驱动")
+        L.append(f"### 4.{['oil','gas','coal','power'].index(key)+1} {v['name']}：{ARROW[v['label']]} {v['label']}（24h态势 {v['score']}；{dm}）")
         drivers, channels, horizons = _driver_details(sigs, key)
         if drivers:
-            L.append(f"- **本期驱动**：{'；'.join(drivers)}")
+            L.append(f"- **近24h主线驱动**：{'；'.join(drivers)}")
             for ch in channels[:4]:
                 L.append(f"- **传导逻辑**：{ch}")
             for hz in horizons[:3]:
                 L.append(f"- **时滞/持续性**：{hz}")
         else:
-            L.append("- **本期驱动**：无显著新增冲击，价格沿存量主线（地缘溢价、季节性与政策预期）运行。")
+            L.append("- **近24h主线驱动**：无显著主导因子，价格沿存量主线（地缘溢价、季节性与政策预期）运行。")
         if key == "power":
             L.append("- **中国市场注记**：国内电量电价受中长期合约、容量电价与政府调控平滑，对国际油气短期冲击钝化；"
                      "成本压力主要通过次年长协谈判与沿海现货报价体现。结构性看，现货扩围+负价下限调整使**峰谷价差双向放大**，不能只看日均价。")

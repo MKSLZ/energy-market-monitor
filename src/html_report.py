@@ -105,6 +105,8 @@ ul.ev li:last-child{border-bottom:none}
 .mk{font-weight:800;margin-right:6px}
 .src{color:var(--mut);font-size:12px;margin-left:6px;white-space:nowrap}
 .inv{color:var(--amber);font-size:12px;margin-left:6px}
+.newb{display:inline-block;background:var(--up);color:#fff;font-size:10.5px;font-weight:800;
+ padding:1px 6px;border-radius:4px;margin-right:6px;vertical-align:1px;letter-spacing:.3px}
 details.other{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 16px;margin-top:6px}
 details.other summary{cursor:pointer;font-weight:600;color:var(--navy2)}
 details.other ul{margin:10px 0 4px;padding-left:20px;font-size:13.5px}
@@ -194,8 +196,10 @@ def render(ctx: dict) -> str:
     H.append(f"<span class='chip'>生成 <b>{cn.strftime('%H:%M')}</b>（北京）</span>")
     H.append(f"<span class='chip'>第 <b>{ctx['run_no']}</b> 期</span>")
     H.append("<span class='chip'>监控 <b>每 3 小时</b></span>")
-    H.append(f"<span class='chip'>新增事件 <b>{news['new_count']}</b></span>")
-    H.append(f"<span class='chip'>命中因子 <b>{ctx['analysis']['tagged_count']}</b></span>")
+    H.append(f"<span class='chip'>本3h新增 <b>{news['new_count']}</b></span>")
+    H.append(f"<span class='chip'>本3h命中 <b>{(ctx.get('delta') or {}).get('tagged_count', 0)}</b></span>")
+    H.append(f"<span class='chip'>近24h事件 <b>{news['total_count']}</b></span>")
+    H.append(f"<span class='chip'>近24h命中 <b>{ctx['analysis']['tagged_count']}</b></span>")
     H.append("</div>")
     if news["first_run"]:
         H.append("<div class='firstrun'>首期运行：事件池含人工核验基线（2026-09-20 前公开信息），此后仅展示监控到的增量信息。</div>")
@@ -206,7 +210,8 @@ def render(ctx: dict) -> str:
     H.append("<div class='wrap'>")
 
     # ---------- 1 速览卡片 ----------
-    H.append("<h2>一、四品种影响速览</h2>")
+    delta_temp = (ctx.get("delta") or {}).get("temperature", {})
+    H.append("<h2>一、四品种影响速览 <span class='mut' style='font-size:13px;font-weight:400'>主分为近24h市场态势 · 角标为本3小时边际</span></h2>")
     H.append("<div class='cards'>")
     for k in keys:
         v = temp[k]
@@ -214,11 +219,18 @@ def render(ctx: dict) -> str:
         tot = max(v["pos"] + v["neg"], 1)
         up_w, dn_w = v["pos"] / tot * 100, v["neg"] / tot * 100
         top = _top_driver(sigs, k)
+        ds = delta_temp.get(k, {}).get("score", 0)
+        if ds > 0:
+            dhtml = f"<span class='up-txt'>本3h边际 ▲ +{ds:.0f}</span>"
+        elif ds < 0:
+            dhtml = f"<span class='dn-txt'>本3h边际 ▼ {ds:.0f}</span>"
+        else:
+            dhtml = "<span class='mut'>本3h · 无新增驱动</span>"
         H.append("<div class='card pcard'>")
         H.append(f"<div class='name'><span class='dot' style='background:{_dotcolor(cls)}'></span>{e(v['name'])}</div>")
         H.append(f"<div><span class='pill {cls}'>{ar} {e(v['label'])}</span></div>")
-        H.append(f"<div class='score {cls.split()[0].replace('s-','t-')}'>{v['score']}<small>边际评分</small></div>")
-        H.append(f"<div class='pn'>利多 {v['pos']} 条 · 利空 {v['neg']} 条</div>")
+        H.append(f"<div class='score {cls.split()[0].replace('s-','t-')}'>{v['score']}<small>24h态势分</small></div>")
+        H.append(f"<div class='pn'>近24h 利多 {v['pos']} · 利空 {v['neg']} ｜ {dhtml}</div>")
         H.append("<div class='bar'>")
         if up_w:
             H.append(f"<i class='u' style='width:{up_w:.1f}%'></i>")
@@ -228,7 +240,7 @@ def render(ctx: dict) -> str:
         H.append(f"<div class='driver'>核心驱动：{e(top)}</div>")
         H.append("</div>")
     H.append("</div>")
-    H.append("<p class='mut' style='font-size:12.5px;margin-top:9px'>评分 = Σ（因子权重 × 历史影响强度 × 方向），同一因子只计一次；衡量本期新增事件的边际压力与集中度，非点位预测。红=利多/上涨，绿=利空/下跌。</p>")
+    H.append("<p class='mut' style='font-size:12.5px;margin-top:9px'>主分（24h态势）= Σ（因子权重 × 历史影响强度 × 方向），同一因子只计一次，基于近24小时滚动事件反映当前市场压力与集中度；“本3h边际”仅计最新3小时新增。均非点位预测。红=利多/上涨，绿=利空/下跌。</p>")
 
     # ---------- 2 行情 ----------
     H.append("<h2>二、行情快照</h2>")
@@ -258,32 +270,35 @@ def render(ctx: dict) -> str:
         H.append("<div class='card mut' style='font-size:13.5px'>本期新闻文本未识别到结构化现货报价。</div>")
 
     # ---------- 3 事件 ----------
-    H.append("<h2>三、本期重大事件（按影响因子分组）</h2>")
+    H.append("<h2>三、近24小时重大事件（按影响因子分组）<span class='mut' style='font-size:12.5px;font-weight:400'>　红标 NEW=本3小时新增</span></h2>")
     if not sigs:
-        H.append("<div class='card mut'>本期新增新闻未命中核心影响因子，可能以噪声 / 价格复述为主。</div>")
+        H.append("<div class='card mut'>近 24 小时监控到的资讯未命中核心影响因子，多为噪声 / 价格复述；行情与国内电价板块仍在更新。</div>")
     for sg in sigs:
+        n_new = sum(1 for evd in sg["evidence"] if evd.get("new"))
+        new_tip = f" · 其中本3h新增 <b class='up'>{n_new}</b>" if n_new else ""
         H.append("<div class='factor'>")
         H.append("<div class='hd'>")
         H.append(f"<span class='ft'>{e(sg['name'])}</span>")
         H.append(f"<span class='badge'>{e(sg['category'])}</span>")
         if sg.get("structural"):
-            H.append(f"<span class='cnt'>结构性变化 · {sg['neutral']+sg['up']+sg['down']} 条相关（不计多空评分）</span>")
+            H.append(f"<span class='cnt'>结构性变化 · {sg['neutral']+sg['up']+sg['down']} 条相关（不计多空评分）{new_tip}</span>")
         else:
-            H.append("<span class='cnt'>对商品 <b class='up'>利多 %d</b> / <b class='dn'>利空 %d</b></span>" % (sg["up"], sg["down"]))
+            H.append(("<span class='cnt'>近24h 对商品 <b class='up'>利多 %d</b> / <b class='dn'>利空 %d</b>" + new_tip + "</span>") % (sg["up"], sg["down"]))
         H.append("</div><ul class='ev'>")
         for ev in sg["evidence"]:
             rd = ev.get("real_dir", 0)
             mk = {1: "<span class='mk up-txt'>▲</span>", -1: "<span class='mk dn-txt'>▼</span>"}.get(rd, "<span class='mk mut'>•</span>")
+            newb = "<span class='newb'>NEW·3h</span>" if ev.get("new") else ""
             u = safe_url(ev.get("link"))
             ttl = e(ev["title"])
             link = f"<a href='{e(u)}' target='_blank' rel='noopener'>{ttl}</a>" if u else ttl
             inv = f"<span class='inv'>反转信号：{e(ev['inverter'])}</span>" if ev.get("inverter") else ""
-            H.append(f"<li>{mk}{link}<span class='src'>{e(ev.get('source'))} · {e(ev.get('published','')[:16])}</span>{inv}</li>")
+            H.append(f"<li>{mk}{newb}{link}<span class='src'>{e(ev.get('source'))} · {e(ev.get('published','')[:16])}</span>{inv}</li>")
         H.append("</ul></div>")
 
     other = [x for x in news["new_items"] if x.get("channel") != "seed"][:10]
     if other:
-        H.append("<details class='other'><summary>其他能源相关资讯（点击展开）</summary><ul>")
+        H.append("<details class='other'><summary>本3小时其他新增资讯（点击展开）</summary><ul>")
         for it in other:
             u = safe_url(it.get("link"))
             ttl = e(it["title"])
@@ -292,13 +307,18 @@ def render(ctx: dict) -> str:
         H.append("</ul></details>")
 
     # ---------- 4 传导 ----------
-    H.append("<h2>四、事件 → 价格传导推演（基于历史经验矩阵）</h2>")
+    H.append("<h2>四、事件 → 价格传导推演 <span class='mut' style='font-size:12.5px;font-weight:400'>近24h主线 · 基于历史经验矩阵</span></h2>")
     for idx, k in enumerate(keys, 1):
         v = temp[k]
         cls, ar = SIG_META[v["label"]]
+        dv = delta_temp.get(k, {})
+        dscore = dv.get("score", 0)
+        dmark = (f"<span class='up-txt' style='font-size:12.5px'>本3h边际 ▲+{dscore:.0f}</span>" if dscore > 0
+                 else f"<span class='dn-txt' style='font-size:12.5px'>本3h边际 ▼{dscore:.0f}</span>" if dscore < 0
+                 else "<span class='mut' style='font-size:12.5px'>本3h无新增驱动</span>")
         drivers, channels, horizons = _driver_details(sigs, k)
         H.append("<div class='chain'>")
-        H.append(f"<h3>4.{idx} {e(v['name'])} <span class='{cls.split()[0].replace('s-','t-')}' style='font-size:14px'>{ar} {e(v['label'])}</span> <span class='mut' style='font-size:12.5px'>（评分 {v['score']}）</span></h3>")
+        H.append(f"<h3>4.{idx} {e(v['name'])} <span class='{cls.split()[0].replace('s-','t-')}' style='font-size:14px'>{ar} {e(v['label'])}</span> <span class='mut' style='font-size:12.5px'>（24h态势 {v['score']}）</span>　{dmark}</h3>")
         if drivers:
             H.append("<div class='chiprow'>" + "".join(f"<span class='dchip {'up' if d[0]=='▲' else 'dn'}'>{e(d)}</span>" for d in drivers) + "</div>")
             for ch in channels[:4]:
