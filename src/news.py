@@ -98,10 +98,19 @@ def save_link_map(link_map: dict) -> None:
 
 
 def _resolve_one(url: str, timeout: float) -> str | None:
-    """尝试把聚合跳转链接还原为媒体原文直链（跟随重定向）。失败/仍是聚合页返回 None。"""
+    """尝试把聚合跳转链接还原为媒体原文直链（跟随重定向）。失败/仍是聚合页返回 None。
+
+    带 Google 同意 cookie 与美区参数，尽量绕过 consent/JS 中间页拿到对原文的 302；
+    新版加密链接若仍只返回 200 HTML 则放弃（不做激进的页面 URL 猜测，避免给错链接）。
+    """
     try:
-        r = requests.get(url, headers={"User-Agent": _UA, "Accept-Language": "en-US,en;q=0.9,zh-CN;q=0.8"},
-                         timeout=timeout, allow_redirects=True)
+        target = url + ("&" if "?" in url else "?") + "hl=en-US&gl=US&ceid=US:en"
+        cookies = {"CONSENT": "PENDING+987",
+                   "SOCS": "CAISHAgCEhJnd3NfMjAyNDA5MjctMF9SQzEaAmRlIAEaBgiA_LGuBg"}
+        r = requests.get(target, headers={"User-Agent": _UA,
+                                          "Accept-Language": "en-US,en;q=0.9",
+                                          "Referer": "https://news.google.com/"},
+                         cookies=cookies, timeout=timeout, allow_redirects=True)
         final = r.url
         if final and not is_aggregator(final) and final.startswith("http"):
             return final
