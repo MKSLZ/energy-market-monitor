@@ -30,6 +30,7 @@
       {"q": "电力现货 日前 实时 出清价 OR 代理购电 OR 容量电价", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
       {"q": "年度长协 电价 成交 OR 电力中长期 交易 上浮 OR 工商业 电价", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
       {"q": "CECI 电煤价格指数 OR 长协煤 兑现 OR 电厂 日耗 库存 OR 来水 水电", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "秦皇岛 Q5500 平仓价 OR 动力煤现货 元/吨 OR 环渤海动力煤价格指数 OR 纽卡斯尔动力煤 美元", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
       {"q": "伊朗 OR 霍尔木兹 OR 中东 石油 OR 红海 航运", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
       {"q": "Brent crude oil OPEC OR Strait of Hormuz", "hl": "en-US", "gl": "US", "ceid": "US:en"},
       {"q": "TTF natural gas OR LNG price OR gas storage", "hl": "en-US", "gl": "US", "ceid": "US:en"},

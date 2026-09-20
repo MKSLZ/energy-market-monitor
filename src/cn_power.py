@@ -85,9 +85,14 @@ def build_view(prices: list[dict], spot: list[dict], signals: list[dict],
     fmap = _factor_map(signals)
 
     spot_by_id = {s["id"]: s for s in spot}
-    q5500 = spot_by_id.get("qhd5500", {}).get("value")
-    newcastle = spot_by_id.get("newcastle", {}).get("value")
-    ttf = spot_by_id.get("ttf", {}).get("value")
+
+    def _meta(sid: str):
+        r = spot_by_id.get(sid) or {}
+        return r.get("value"), (r.get("published") or "")[:10], bool(r.get("_fresh", True))
+
+    q5500, q_date, q_fresh = _meta("qhd5500")
+    ttf, t_date, t_fresh = _meta("ttf")
+    newcastle, n_date, _ = _meta("newcastle")
 
     def _cd(fid: str, ck: str) -> int:
         """因子 fid 对商品 ck 的实际多空方向：原始效应方向 × 叙事方向（含反转词）。"""
@@ -112,6 +117,7 @@ def build_view(prices: list[dict], spot: list[dict], signals: list[dict],
     lc_share = cp["longcontract_coal_share"]
 
     coal_block = {"q5500": q5500, "anchor": anchor, "bracket": None,
+                  "q_date": q_date, "q_fresh": q_fresh,
                   "marginal_fuel_cost": None, "marginal_gap_fen": None,
                   "blended_gap_fen": None, "scenarios": []}
     if q5500 is not None:
@@ -164,7 +170,8 @@ def build_view(prices: list[dict], spot: list[dict], signals: list[dict],
 
     # ---------- 天然气（只决定沿海尖峰，不主导综合电价） ----------
     gas_block = {
-        "ttf": ttf, "gas_share": cfg["generation_mix"]["gas_share"],
+        "ttf": ttf, "ttf_date": t_date, "t_fresh": t_fresh,
+        "gas_share": cfg["generation_mix"]["gas_share"],
         "gas_use_m3": gp["gas_use_m3_per_kwh"],
         "cost_per_1yuan": round(gp["gas_use_m3_per_kwh"] * 100, 1),  # 气价每涨1元/方→度电成本(分)
         "intl_up": gas_intl_up,
@@ -221,14 +228,17 @@ def build_view(prices: list[dict], spot: list[dict], signals: list[dict],
 
     domestic_quotes = _extract_domestic_prices(news_items)
 
+    q_when = f"{q_date}报价" if q_date else "最近一期报价"
+    q_lead = "当前秦港Q5500约" if q_fresh else f"沿用{q_when}，秦港Q5500约"
     summary = (
-        f"国内电价以煤为锚：当前秦港Q5500约 {q5500:.0f} 元/吨（{coal_block['bracket']}），"
+        f"国内电价以煤为锚：{q_lead} {q5500:.0f} 元/吨（{coal_block['bracket']}），"
         f"较长协锚 {anchor:.0f} 元高 {q5500-anchor:.0f} 元，边际煤机燃料成本端压力约 "
         f"{coal_block['marginal_gap_fen']:.0f} 分/千瓦时；经长协煤（约{int(lc_share*100)}%）对冲后，"
         f"综合上网电量成本压力约 {coal_block['blended_gap_fen']:.1f} 分/千瓦时。"
         "国际油价对国内电价几乎无直接影响，国际气价主要推沿海尖峰。"
+        + ("" if q_fresh else "（本期未抓到新煤价，采用 TTL 内最近值，方向判断仍有效、幅度需以最新报价校准）")
     ) if q5500 is not None else (
-        "本期未取到秦港Q5500报价，国内电价以信号方向定性判断：煤价/政策是核心变量，"
+        "本期及近10日均未取到秦港Q5500报价，国内电价以信号方向定性判断：煤价/政策是核心变量，"
         "国际油气直接传导有限。"
     )
 
@@ -244,7 +254,7 @@ def build_view(prices: list[dict], spot: list[dict], signals: list[dict],
         "params": {"coal_share": cfg["generation_mix"]["coal_share"],
                    "gas_share": cfg["generation_mix"]["gas_share"],
                    "oil_share": cfg["generation_mix"]["oil_share"],
-                   "newcastle": newcastle},
+                   "newcastle": newcastle, "newcastle_date": n_date},
     }
 
 

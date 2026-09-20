@@ -162,6 +162,9 @@ def _cn_md(ctx: dict) -> str:
         return ""
     coal, gas, oil, pm = cn["coal"], cn["gas"], cn["oil"], cn["params"]
     q = coal.get("q5500")
+    q = coal.get("q5500")
+    cdt = (f"（{coal.get('q_date')}·当期）" if coal.get("q_fresh", True) else f"（沿用{coal.get('q_date')}）") if q is not None and coal.get("q_date") else ""
+    tdt = (f"（{gas.get('ttf_date')}·当期）" if gas.get("t_fresh", True) else f"（沿用{gas.get('ttf_date')}）") if gas.get("ttf") is not None and gas.get("ttf_date") else ""
     L = ["## 五、国内电价专项推演 · 事件 / 油价 / 气价 / 煤价 → 中国电价", ""]
     L.append(f"**国内现货电价成本压力指数：{cn['score']}/100（{cn['label']}）**")
     L.append("")
@@ -171,10 +174,10 @@ def _cn_md(ctx: dict) -> str:
     L.append("")
     L.append(f"- **原油（几乎不传导）**：Brent {oil.get('brent') if oil.get('brent') is not None else '—'} 美元/桶，"
              f"油电仅占发电约 {pm['oil_share']*100:.1f}%。{oil['verdict']}")
-    L.append(f"- **天然气（沿海尖峰）**：TTF {gas.get('ttf') if gas.get('ttf') is not None else '—'} 欧元/兆瓦时，"
+    L.append(f"- **天然气（沿海尖峰）**：TTF {gas.get('ttf') if gas.get('ttf') is not None else '—'} 欧元/兆瓦时 {tdt}，"
              f"气电占发电约 {pm['gas_share']*100:.1f}%、气耗约 {gas['gas_use_m3']} m³/度。{gas['verdict']} "
              f"敏感度：气价每涨 1 元/方，气电度电燃料成本约 +{gas['cost_per_1yuan']:.0f} 分。")
-    L.append(f"- **煤炭（定价主体）**：秦港Q5500 {q if q is not None else '—'} 元/吨（{coal.get('bracket') or '报价缺失'}），"
+    L.append(f"- **煤炭（定价主体）**：秦港Q5500 {q if q is not None else '—'} 元/吨 {cdt}（{coal.get('bracket') or '报价缺失'}），"
              f"煤电占发电约 {pm['coal_share']*100:.0f}%、度电煤耗约 300 克。国内电价以煤为锚，但约 80% 电煤走长协，"
              f"现货煤波动被大幅对冲；进口煤（约 9%、集中沿海）与国际煤价（纽卡斯尔 {pm.get('newcastle') or '—'}）主要影响边际与情绪。")
     L.append("")

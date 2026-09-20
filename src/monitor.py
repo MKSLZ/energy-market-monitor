@@ -9,7 +9,7 @@ import json
 import sys
 from datetime import datetime, timedelta, timezone
 
-from src import analyze, cn_power, html_report, news, prices, report
+from src import analyze, cn_power, html_report, news, prices, report, spot_store
 
 ROOT = report.ROOT
 CN_TZ = timezone(timedelta(hours=8))
@@ -42,13 +42,15 @@ def main() -> int:
     for it in bundle["new_items"] + bundle["recent_items"]:
         merged[it["hash"]] = it
     spot = analyze.extract_spot_prices(list(merged.values()), cfg["prices"]["spot_patterns"])
+    # 现货报价跨期沿用（TTL 内最近值），仅用于国内电价等量化推演；2.2 表仍展示当期提取值
+    effective_spot = spot_store.merge(spot, cn_time)
 
     # 6) 可选 LLM 研判
     commentary = analyze.llm_commentary(analysis, analysis_input, quote_items)
 
     # 6.5) 国内电价专项推演（油/气/煤价格与事件 → 中国国内电价，分时间/分区域量化）
     cn_view = cn_power.build_view(
-        quote_items, spot, analysis["signals"], analysis["temperature"], list(merged.values())
+        quote_items, effective_spot, analysis["signals"], analysis["temperature"], list(merged.values())
     )
 
     ctx = {

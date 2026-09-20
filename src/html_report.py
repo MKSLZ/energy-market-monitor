@@ -377,6 +377,10 @@ def _cn_section(ctx: dict) -> str:
         return ""
     coal, gas, oil, pm = cn["coal"], cn["gas"], cn["oil"], cn["params"]
     q = coal.get("q5500")
+    gtag = (f"<span class='tag'>{gas.get('ttf_date') or ''}{'·当期' if gas.get('t_fresh', True) else '·沿用最近'}</span>"
+            if gas.get("ttf") is not None and gas.get("ttf_date") else "")
+    ctag = (f"<span class='tag'>{coal.get('q_date') or ''}{'·当期' if coal.get('q_fresh', True) else '·沿用最近'}</span>"
+            if q is not None and coal.get("q_date") else "")
     H = ["<h2>五、国内电价专项推演 · 事件 / 油价 / 气价 / 煤价 → 中国电价</h2>"]
 
     # 总览：压力指数 + 一句话测算
@@ -393,12 +397,12 @@ def _cn_section(ctx: dict) -> str:
 
     gas_hi = (gas.get("ttf") is not None and gas["ttf"] >= 60) or gas.get("intl_up")
     H.append(f"<div class='ecard'><div class='en'>天然气 <span class='lv {'strong' if gas_hi else 'mid'}'>{'推高沿海尖峰' if gas_hi else '沿海调峰'}</span></div>")
-    H.append(f"<div class='meta'>TTF {gas.get('ttf') if gas.get('ttf') is not None else '—'} 欧元/兆瓦时 · 气电占发电约 {pm['gas_share']*100:.1f}% · 气耗约 {gas['gas_use_m3']} m³/度</div>")
+    H.append(f"<div class='meta'>TTF {gas.get('ttf') if gas.get('ttf') is not None else '—'} 欧元/兆瓦时 {gtag}· 气电占发电约 {pm['gas_share']*100:.1f}% · 气耗约 {gas['gas_use_m3']} m³/度</div>")
     H.append(f"<p>{e(gas['verdict'])} 敏感度：气价每涨 1 元/立方米，气电度电燃料成本约 +{gas['cost_per_1yuan']:.0f} 分。</p></div>")
 
     coal_hi = q is not None and q >= 850
     H.append(f"<div class='ecard'><div class='en'>煤炭 · 定价主体 <span class='lv {'strong' if coal_hi else 'mid' if q is not None else 'weak'}'>{e(coal.get('bracket') or '报价缺失')}</span></div>")
-    H.append(f"<div class='meta'>秦港Q5500 {q if q is not None else '—'} 元/吨 · 煤电占发电约 {pm['coal_share']*100:.0f}% · 度电煤耗约 300 克</div>")
+    H.append(f"<div class='meta'>秦港Q5500 {q if q is not None else '—'} 元/吨 {ctag}· 煤电占发电约 {pm['coal_share']*100:.0f}% · 度电煤耗约 300 克</div>")
     H.append(f"<p>煤电是电量与边际定价主体，国内电价以煤为锚；但约 80% 电煤走长协，现货煤波动被大幅对冲，进口煤（约 9%、集中沿海）与国际煤价（纽卡斯尔 {pm.get('newcastle') or '—'}）主要影响边际与情绪。</p></div>")
     H.append("</div>")
 
@@ -416,6 +420,7 @@ def _cn_section(ctx: dict) -> str:
         H.append(f"<p class='mut' style='font-size:12.5px;margin:7px 0 0'>当前较长协锚（{coal['anchor']:.0f} 元）："
                  f"边际煤机燃料成本端约 <b class='up-txt'>+{coal['marginal_gap_fen']:.0f} 分/度</b>；"
                  f"经长协煤对冲后，综合上网电量成本端约 <b class='up-txt'>+{coal['blended_gap_fen']:.1f} 分/度</b>。"
+                 f"{'煤价为沿用 ' + str(coal.get('q_date')) + ' 报价、非当期，幅度需以最新报价校准；' if not coal.get('q_fresh', True) else ''}"
                  "此为成本端推力、非电价预测点位；实际出清还取决于负荷、新能源出力与政策限价。</p>")
 
     # 5.3 分时间维度
