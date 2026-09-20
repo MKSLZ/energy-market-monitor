@@ -122,8 +122,11 @@ def render(ctx: dict) -> str:
             L.append("- **结构注记**：国内看'三西'安监与秦港库存，进口看印尼 HBA/RKAB 与纽卡斯尔；长协煤（'三锁'定价）与现货价差决定电厂采购节奏。")
         L.append("")
 
-    # 5 综合研判
-    L.append("## 五、综合研判与情景")
+    # 5 国内电价专项
+    L.append(_cn_md(ctx))
+
+    # 6 综合研判
+    L.append("## 六、综合研判与情景")
     L.append("")
     if ctx.get("llm"):
         L.append(ctx["llm"])
@@ -135,13 +138,13 @@ def render(ctx: dict) -> str:
     L.append(WATCH_CALENDAR)
     L.append("")
 
-    # 6 附录
-    L.append("## 六、运行信息与免责声明")
+    # 7 附录
+    L.append("## 七、运行信息与免责声明")
     L.append("")
     L.append(f"- 抓取条目：新增 {ctx['news']['new_count']} / 近24h去重后 {ctx['news']['total_count']}；"
              f"未命中主题 {ctx['analysis']['untagged_count']} 条（作为资讯留存，不进入评分）")
     L.append(f"- 数据源：Google News RSS（{len(ctx['config']['news']['google_news'])} 组关键词，中英文）、"
-             f"公开 RSS {len(ctx['config']['news']['direct_feeds'])} 个、Yahoo Finance/Stooq 行情")
+             f"公开 RSS {len(ctx['config']['news']['direct_feeds'])} 个、CNBC 行情（Yahoo 备用）")
     if ctx["errors"]:
         L.append(f"- 本次失败源（{len(ctx['errors'])}，已自动跳过，不影响其余源）：`{'`, `'.join(ctx['errors'][:12])}`")
     else:
@@ -149,6 +152,76 @@ def render(ctx: dict) -> str:
     L.append("- **免责声明**：本报告由监控程序基于公开信息与预设的历史传导规则自动生成，仅供交易研究参考，"
              "不构成任何投资建议。规则方向为历史经验的统计性概括，单次事件的实际价格反应受仓位、预期差、"
              "政策干预与流动性影响，可能与历史规律偏离，请结合实时盘口独立决策。")
+    L.append("")
+    return "\n".join(L)
+
+
+def _cn_md(ctx: dict) -> str:
+    cn = ctx.get("cn")
+    if not cn:
+        return ""
+    coal, gas, oil, pm = cn["coal"], cn["gas"], cn["oil"], cn["params"]
+    q = coal.get("q5500")
+    L = ["## 五、国内电价专项推演 · 事件 / 油价 / 气价 / 煤价 → 中国电价", ""]
+    L.append(f"**国内现货电价成本压力指数：{cn['score']}/100（{cn['label']}）**")
+    L.append("")
+    L.append(cn["summary"])
+    L.append("")
+    L.append("### 5.1 三种能源对国内电价的传导权重")
+    L.append("")
+    L.append(f"- **原油（几乎不传导）**：Brent {oil.get('brent') if oil.get('brent') is not None else '—'} 美元/桶，"
+             f"油电仅占发电约 {pm['oil_share']*100:.1f}%。{oil['verdict']}")
+    L.append(f"- **天然气（沿海尖峰）**：TTF {gas.get('ttf') if gas.get('ttf') is not None else '—'} 欧元/兆瓦时，"
+             f"气电占发电约 {pm['gas_share']*100:.1f}%、气耗约 {gas['gas_use_m3']} m³/度。{gas['verdict']} "
+             f"敏感度：气价每涨 1 元/方，气电度电燃料成本约 +{gas['cost_per_1yuan']:.0f} 分。")
+    L.append(f"- **煤炭（定价主体）**：秦港Q5500 {q if q is not None else '—'} 元/吨（{coal.get('bracket') or '报价缺失'}），"
+             f"煤电占发电约 {pm['coal_share']*100:.0f}%、度电煤耗约 300 克。国内电价以煤为锚，但约 80% 电煤走长协，"
+             f"现货煤波动被大幅对冲；进口煤（约 9%、集中沿海）与国际煤价（纽卡斯尔 {pm.get('newcastle') or '—'}）主要影响边际与情绪。")
+    L.append("")
+    if q is not None:
+        L.append("### 5.2 煤价 → 度电燃料成本测算（行业经验参数）")
+        L.append("")
+        L.append("| 情景：秦港Q5500（元/吨） | 边际煤机燃料成本（元/度） | 长协煤80%对冲后综合燃料成本（元/度） |")
+        L.append("|---|---|---|")
+        labels = ["长协锚", "当前", "再涨100"]
+        for i, sc in enumerate(coal["scenarios"]):
+            L.append(f"| {sc['coal_price']}（{labels[i]}） | {sc['marginal_fuel']:.3f} | {sc['blended_fuel']:.3f} |")
+        L.append("")
+        L.append(f"> 当前较长协锚（{coal['anchor']:.0f} 元）：边际煤机燃料成本端约 **+{coal['marginal_gap_fen']:.0f} 分/度**；"
+                 f"经长协煤对冲后，综合上网电量成本端约 **+{coal['blended_gap_fen']:.1f} 分/度**。"
+                 "此为成本端推力、非电价预测点位；实际出清还取决于负荷、新能源出力与政策限价。")
+        L.append("")
+    L.append("### 5.3 对国内电价各环节的方向与时滞")
+    L.append("")
+    L.append("| 环节 | 方向 | 成本推力 | 说明 |")
+    L.append("|---|---|---|---|")
+    for hz in cn["horizons"]:
+        push = (f"+{hz['push_fen'][0]:.1f}~{hz['push_fen'][1]:.1f} 分/度"
+                if hz.get("push_fen") else "滞后，不直接量化")
+        L.append(f"| {hz['name']} | {hz['dir']} | {push} | {hz['note']} |")
+    L.append("")
+    if cn.get("domestic_quotes"):
+        L.append("### 5.4 本期新闻文本识别到的国内电价参考（自动提取，以官方交易中心为准）")
+        L.append("")
+        L.append("| 类型 | 数值 | 出处 |")
+        L.append("|---|---|---|")
+        for qt in cn["domestic_quotes"]:
+            tname = "省现货均价（日前/实时）" if "兆瓦时" in qt["unit"] else "年度长协成交均价"
+            L.append(f"| {tname} | {qt['value']} {qt['unit']} | {qt['source']}：{qt['evidence'][:30]} |")
+        L.append("")
+    L.append("**分区域敏感度**")
+    L.append("")
+    for r in cn["regions"]:
+        L.append(f"- {r['region']}（{r['sensitivity']}）：{r['note']}")
+    L.append("")
+    L.append("**结构性机制提示（影响价格结构而非单一方向）**")
+    L.append("")
+    for n in cn["struct_notes"]:
+        L.append(f"- {n}")
+    L.append("")
+    L.append("> 测算口径：供电煤耗约 300 克标煤/度、电煤长协约 80%（测算锚 700 元/吨，合理区间 570-770）、"
+             "气电度电气耗约 0.19 m³，均为公开行业经验近似；数字为成本端推力，用于判断方向与弹性，"
+             "不等于实际成交电价，不构成投资建议。")
     L.append("")
     return "\n".join(L)
 

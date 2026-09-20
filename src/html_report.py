@@ -137,6 +137,30 @@ details.other li{padding:3px 0}
 code{background:#eef2f7;padding:1px 6px;border-radius:4px;font-size:12px}
 @media (max-width:860px){.cards{grid-template-columns:repeat(2,1fr)}.scen{grid-template-columns:1fr}.cal .r{grid-template-columns:1fr}.cal .r .t{border-right:none;border-bottom:1px solid var(--line)}}
 @media print{body{background:#fff}header.hero{box-shadow:none}}
+.cn-hero{display:grid;grid-template-columns:190px 1fr;gap:18px;align-items:center;
+ background:linear-gradient(135deg,#13314f,#1d4e7a);border-radius:14px;padding:18px 22px;color:#fff;margin-bottom:16px}
+.cn-gauge .num{font-size:46px;font-weight:800;line-height:1}
+.cn-gauge .lab{font-size:15px;font-weight:700;margin-top:5px;color:#ffd9a8}
+.cn-gauge .cap{font-size:11.5px;opacity:.7;margin-top:3px}
+.cn-summary{font-size:14px;line-height:1.7;opacity:.95}
+.e3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:6px 0 16px}
+.ecard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 15px;box-shadow:0 1px 3px rgba(16,40,67,.06)}
+.ecard .en{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:14.5px;margin-bottom:6px}
+.ecard .meta{font-size:12px;color:var(--mut);margin-bottom:6px}
+.ecard p{margin:6px 0 0;font-size:12.8px;color:var(--ink2);line-height:1.6}
+.lv{font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px}
+.lv.weak{color:var(--flat);background:var(--flat-bg)}
+.lv.mid{color:#9a6a00;background:#fdf3df}
+.lv.strong{color:var(--up);background:var(--up-bg)}
+.hz4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:6px 0 16px}
+.hzc{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:12px 13px}
+.hzc .hn{font-size:13.5px;font-weight:700;margin-bottom:5px}
+.hzc .hd{font-size:14px;font-weight:800;margin-bottom:4px}
+.hzc .push{font-size:12px;color:var(--mut);margin-bottom:5px}
+.hzc p{margin:0;font-size:12.2px;color:var(--ink2);line-height:1.55}
+.cnlist{margin:6px 0 0;padding-left:20px;font-size:13.2px;color:var(--ink2)}
+.cnlist li{padding:3px 0}
+@media (max-width:860px){.cn-hero{grid-template-columns:1fr}.e3{grid-template-columns:1fr}.hz4{grid-template-columns:repeat(2,1fr)}}
 """
 
 
@@ -291,8 +315,11 @@ def render(ctx: dict) -> str:
             H.append(f"<div class='note'>{e(NOTE_COAL)}</div>")
         H.append("</div>")
 
-    # ---------- 5 情景 + 日历 ----------
-    H.append("<h2>五、综合研判与情景</h2>")
+    # ---------- 5 国内电价专项 ----------
+    H.append(_cn_section(ctx))
+
+    # ---------- 6 情景 + 日历 ----------
+    H.append("<h2>六、综合研判与情景</h2>")
     geo_on = any(s["id"] == "middle_east" and s["direction"] > 0 for s in sigs)
     H.append("<div class='scen'>")
     if geo_on:
@@ -317,8 +344,8 @@ def render(ctx: dict) -> str:
         H.append(f"<div class='r'><div class='t'>{e(t)}</div><div class='v'>{e(v)}</div></div>")
     H.append("</div>")
 
-    # ---------- 6 footer ----------
-    H.append("<h2>六、运行信息与免责声明</h2><div class='foot'>")
+    # ---------- 7 footer ----------
+    H.append("<h2>七、运行信息与免责声明</h2><div class='foot'>")
     H.append("<div class='box'>")
     H.append(f"抓取条目：新增 <b>{news['new_count']}</b> / 近 24h 去重后 <b>{news['total_count']}</b>；未命中因子 {ctx['analysis']['untagged_count']} 条（仅资讯留存，不进评分）。<br>")
     H.append(f"数据源：Google / Bing News RSS（{len(ctx['config']['news']['google_news'])} 组关键词，中英文）、"
@@ -333,6 +360,106 @@ def render(ctx: dict) -> str:
     H.append("</div>")  # /foot
 
     H.append("</div></body></html>")
+    return "".join(H)
+
+
+def _dir_color(d: str) -> str:
+    if "上行" in d:
+        return "up-txt"
+    if "弱" in d or "下行" in d:
+        return "dn-txt"
+    return "mut"
+
+
+def _cn_section(ctx: dict) -> str:
+    cn = ctx.get("cn")
+    if not cn:
+        return ""
+    coal, gas, oil, pm = cn["coal"], cn["gas"], cn["oil"], cn["params"]
+    q = coal.get("q5500")
+    H = ["<h2>五、国内电价专项推演 · 事件 / 油价 / 气价 / 煤价 → 中国电价</h2>"]
+
+    # 总览：压力指数 + 一句话测算
+    H.append("<div class='cn-hero'><div class='cn-gauge'>")
+    H.append(f"<div class='num'>{cn['score']}</div><div class='lab'>{e(cn['label'])}</div>")
+    H.append("<div class='cap'>国内现货电价成本压力指数 0-100</div></div>")
+    H.append(f"<div class='cn-summary'>{e(cn['summary'])}</div></div>")
+
+    # 5.1 三能源传导权重
+    H.append("<h3>5.1 三种能源对国内电价的传导权重</h3><div class='e3'>")
+    H.append("<div class='ecard'><div class='en'>原油 <span class='lv weak'>几乎不传导</span></div>")
+    H.append(f"<div class='meta'>Brent {oil.get('brent') if oil.get('brent') is not None else '—'} 美元/桶 · 油电占发电约 {pm['oil_share']*100:.1f}%</div>")
+    H.append(f"<p>{e(oil['verdict'])}</p></div>")
+
+    gas_hi = (gas.get("ttf") is not None and gas["ttf"] >= 60) or gas.get("intl_up")
+    H.append(f"<div class='ecard'><div class='en'>天然气 <span class='lv {'strong' if gas_hi else 'mid'}'>{'推高沿海尖峰' if gas_hi else '沿海调峰'}</span></div>")
+    H.append(f"<div class='meta'>TTF {gas.get('ttf') if gas.get('ttf') is not None else '—'} 欧元/兆瓦时 · 气电占发电约 {pm['gas_share']*100:.1f}% · 气耗约 {gas['gas_use_m3']} m³/度</div>")
+    H.append(f"<p>{e(gas['verdict'])} 敏感度：气价每涨 1 元/立方米，气电度电燃料成本约 +{gas['cost_per_1yuan']:.0f} 分。</p></div>")
+
+    coal_hi = q is not None and q >= 850
+    H.append(f"<div class='ecard'><div class='en'>煤炭 · 定价主体 <span class='lv {'strong' if coal_hi else 'mid' if q is not None else 'weak'}'>{e(coal.get('bracket') or '报价缺失')}</span></div>")
+    H.append(f"<div class='meta'>秦港Q5500 {q if q is not None else '—'} 元/吨 · 煤电占发电约 {pm['coal_share']*100:.0f}% · 度电煤耗约 300 克</div>")
+    H.append(f"<p>煤电是电量与边际定价主体，国内电价以煤为锚；但约 80% 电煤走长协，现货煤波动被大幅对冲，进口煤（约 9%、集中沿海）与国际煤价（纽卡斯尔 {pm.get('newcastle') or '—'}）主要影响边际与情绪。</p></div>")
+    H.append("</div>")
+
+    # 5.2 煤价→度电成本
+    if q is not None:
+        H.append("<h3>5.2 煤价 → 度电燃料成本测算（行业经验参数）</h3>")
+        H.append("<table><thead><tr><th>情景：秦港Q5500（元/吨）</th><th>边际煤机燃料成本（元/度）</th>"
+                 "<th>长协煤80%对冲后综合燃料成本（元/度）</th></tr></thead><tbody>")
+        labels = ["长协锚", "当前", "再涨100"]
+        for i, sc in enumerate(coal["scenarios"]):
+            bold = " style='font-weight:700'" if i == 1 else ""
+            H.append(f"<tr><td{bold}>{sc['coal_price']}（{labels[i]}）</td>"
+                     f"<td>{sc['marginal_fuel']:.3f}</td><td>{sc['blended_fuel']:.3f}</td></tr>")
+        H.append("</tbody></table>")
+        H.append(f"<p class='mut' style='font-size:12.5px;margin:7px 0 0'>当前较长协锚（{coal['anchor']:.0f} 元）："
+                 f"边际煤机燃料成本端约 <b class='up-txt'>+{coal['marginal_gap_fen']:.0f} 分/度</b>；"
+                 f"经长协煤对冲后，综合上网电量成本端约 <b class='up-txt'>+{coal['blended_gap_fen']:.1f} 分/度</b>。"
+                 "此为成本端推力、非电价预测点位；实际出清还取决于负荷、新能源出力与政策限价。</p>")
+
+    # 5.3 分时间维度
+    H.append("<h3>5.3 对国内电价各环节的方向与时滞</h3><div class='hz4'>")
+    for hz in cn["horizons"]:
+        push = (f"成本推力约 +{hz['push_fen'][0]:.1f}~{hz['push_fen'][1]:.1f} 分/度"
+                if hz.get("push_fen") else "滞后传导（不直接量化）")
+        H.append(f"<div class='hzc'><div class='hn'>{e(hz['name'])}</div>"
+                 f"<div class='hd {_dir_color(hz['dir'])}'>{e(hz['dir'])}</div>"
+                 f"<div class='push'>{e(push)}</div><p>{e(hz['note'])}</p></div>")
+    H.append("</div>")
+
+    # best-effort 国内电价点
+    if cn.get("domestic_quotes"):
+        H.append("<h3>5.4 本期新闻文本识别到的国内电价参考</h3>")
+        H.append("<table><thead><tr><th>类型</th><th>数值</th><th>出处</th></tr></thead><tbody>")
+        for qt in cn["domestic_quotes"]:
+            tname = "省现货均价（日前/实时）" if "兆瓦时" in qt["unit"] else "年度长协成交均价"
+            H.append(f"<tr><td>{tname}</td><td><b>{qt['value']}</b> {e(qt['unit'])}</td>"
+                     f"<td>{e(qt['evidence'][:42])}<span class='src'>{e(qt.get('source'))}</span></td></tr>")
+        H.append("</tbody></table>")
+        H.append("<p class='mut' style='font-size:12px'>自动提取，口径以各省电力交易中心官方公告为准。</p>")
+
+    # 分区域
+    H.append("<h3>分区域敏感度</h3><table><thead><tr><th>区域</th><th>敏感度</th><th>说明</th></tr></thead><tbody>")
+    for r in cn["regions"]:
+        scls = {"高": "up-txt", "中": "mut", "低（短期）": "dn-txt"}.get(r["sensitivity"], "mut")
+        H.append(f"<tr><td><b>{e(r['region'])}</b></td><td class='{scls}'>{e(r['sensitivity'])}</td>"
+                 f"<td style='color:var(--ink2)'>{e(r['note'])}</td></tr>")
+    H.append("</tbody></table>")
+
+    # 结构性机制
+    H.append("<h3>结构性机制提示（影响价格结构而非单一方向）</h3><ul class='cnlist'>")
+    for n in cn["struct_notes"]:
+        H.append(f"<li>{e(n)}</li>")
+    H.append("</ul>")
+
+    H.append("<details class='other'><summary>国内电价关键观测指标（点击展开）</summary><ul class='cnlist'>")
+    for ind in cn["indicators"]:
+        H.append(f"<li>{e(ind)}</li>")
+    H.append("</ul></details>")
+    H.append("<div class='note'>测算口径：供电煤耗约 300 克标煤/度、电煤长协约 80%（测算锚 700 元/吨，合理区间 570-770）、"
+             "气电度电气耗约 0.19 m³，均为公开行业经验近似；数字为成本端推力，用于判断方向与弹性，"
+             "不等于实际成交电价，不构成投资建议。</div>")
     return "".join(H)
 
 

@@ -27,7 +27,9 @@
       {"q": "原油 OR 油价 OR OPEC OR 布伦特", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
       {"q": "天然气 OR LNG OR TTF OR 储气", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
       {"q": "动力煤 OR 煤价 OR 秦皇岛 OR 印尼煤", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
-      {"q": "电价 OR 电力现货 OR 容量电价 OR 新能源消纳", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "电力现货 日前 实时 出清价 OR 代理购电 OR 容量电价", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "年度长协 电价 成交 OR 电力中长期 交易 上浮 OR 工商业 电价", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "CECI 电煤价格指数 OR 长协煤 兑现 OR 电厂 日耗 库存 OR 来水 水电", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
       {"q": "伊朗 OR 霍尔木兹 OR 中东 石油 OR 红海 航运", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
       {"q": "Brent crude oil OPEC OR Strait of Hormuz", "hl": "en-US", "gl": "US", "ceid": "US:en"},
       {"q": "TTF natural gas OR LNG price OR gas storage", "hl": "en-US", "gl": "US", "ceid": "US:en"},
@@ -41,7 +43,7 @@
       {"name": "BBC Business", "url": "https://feeds.bbci.co.uk/news/business/rss.xml"},
       {"name": "The Guardian Energy", "url": "https://www.theguardian.com/environment/energy/rss"}
     ],
-    "filter_keywords": ["oil", "crude", "opec", "brent", "wti", "gas", "lng", "gasoline", "diesel", "fuel", "coal", "electric", "power", "grid", "energy", "pipeline", "refin", "iran", "hormuz", "sanction", "houthi", "strait", "nuclear", "renewable", "eia", "inventor", "barrel", "石油", "原油", "油价", "布伦特", "天然气", "煤", "电力", "电价", "现货", "能源", "霍尔木兹", "伊朗", "俄", "OPEC", "库存", "储气", "LNG", "寒潮", "高温"],
+    "filter_keywords": ["oil", "crude", "opec", "brent", "wti", "gas", "lng", "gasoline", "diesel", "fuel", "coal", "electric", "power", "grid", "energy", "pipeline", "refin", "iran", "hormuz", "sanction", "houthi", "strait", "nuclear", "renewable", "eia", "inventor", "barrel", "石油", "原油", "油价", "布伦特", "天然气", "煤", "电力", "电价", "现货", "能源", "霍尔木兹", "伊朗", "俄", "OPEC", "库存", "储气", "LNG", "寒潮", "高温", "长协", "购电", "出清", "日耗", "来水", "水电", "千瓦", "峰谷", "消纳", "容量电价", "代理购电", "CECI", "度电"],
     "per_query_limit": 12,
     "lookback_hours": 24,
     "max_items_in_report": 36

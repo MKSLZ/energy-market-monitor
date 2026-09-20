@@ -9,7 +9,7 @@ import json
 import sys
 from datetime import datetime, timedelta, timezone
 
-from src import analyze, html_report, news, prices, report
+from src import analyze, cn_power, html_report, news, prices, report
 
 ROOT = report.ROOT
 CN_TZ = timezone(timedelta(hours=8))
@@ -46,6 +46,11 @@ def main() -> int:
     # 6) 可选 LLM 研判
     commentary = analyze.llm_commentary(analysis, analysis_input, quote_items)
 
+    # 6.5) 国内电价专项推演（油/气/煤价格与事件 → 中国国内电价，分时间/分区域量化）
+    cn_view = cn_power.build_view(
+        quote_items, spot, analysis["signals"], analysis["temperature"], list(merged.values())
+    )
+
     ctx = {
         "cn_time": cn_time,
         "run_no": bundle.get("run_no", 1),
@@ -54,6 +59,7 @@ def main() -> int:
         "news": bundle,
         "analysis": analysis,
         "spot": spot,
+        "cn": cn_view,
         "llm": commentary,
         "errors": errors,
         "fallback_window": using_recent_fallback,
