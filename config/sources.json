@@ -37,7 +37,6 @@
     "direct_feeds": [
       {"name": "OilPrice.com", "url": "https://oilprice.com/rss/main"},
       {"name": "EIA Today in Energy", "url": "https://www.eia.gov/rss/todayinenergy.xml"},
-      {"name": "Reuters Energy", "url": "https://www.reuters.com/business/energy/rss"},
       {"name": "MarketWatch", "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories"},
       {"name": "BBC Business", "url": "https://feeds.bbci.co.uk/news/business/rss.xml"},
       {"name": "The Guardian Energy", "url": "https://www.theguardian.com/environment/energy/rss"}
