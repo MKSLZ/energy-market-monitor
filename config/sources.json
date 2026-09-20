@@ -1,16 +1,17 @@
 {
   "_comment": "监控信息源配置。所有源均免费、无需 API Key。Google News / Yahoo 在 GitHub Actions(美国节点) 可直接访问。",
   "prices": {
-    "yahoo": [
-      {"code": "BZ=F", "name": "Brent原油(近月期货)", "unit": "美元/桶", "category": "国际原油"},
-      {"code": "CL=F", "name": "WTI原油(近月期货)", "unit": "美元/桶", "category": "国际原油"},
-      {"code": "NG=F", "name": "NYMEX天然气(Henry Hub)", "unit": "美元/百万英热", "category": "国际天然气"},
-      {"code": "^DXY", "name": "美元指数", "unit": "点", "category": "宏观金融"}
+    "cnbc": [
+      {"code": "@CL.1", "name": "WTI原油(近月期货)", "unit": "美元/桶", "category": "国际原油"},
+      {"code": "@LCO.1", "name": "Brent原油(近月期货)", "unit": "美元/桶", "category": "国际原油"},
+      {"code": "@NG.1", "name": "NYMEX天然气(Henry Hub)", "unit": "美元/百万英热", "category": "国际天然气"},
+      {"code": ".DXY", "name": "美元指数", "unit": "点", "category": "宏观金融"}
     ],
-    "stooq": [
-      {"code": "cb.f", "name": "Brent原油(近月期货)", "unit": "美元/桶", "category": "国际原油"},
-      {"code": "cl.f", "name": "WTI原油(近月期货)", "unit": "美元/桶", "category": "国际原油"},
-      {"code": "ng.f", "name": "NYMEX天然气(Henry Hub)", "unit": "美元/百万英热", "category": "国际天然气"}
+    "yahoo": [
+      {"code": "BZ=F", "name": "Brent原油(近月期货)"},
+      {"code": "CL=F", "name": "WTI原油(近月期货)"},
+      {"code": "NG=F", "name": "NYMEX天然气(Henry Hub)"},
+      {"code": "^DXY", "name": "美元指数"}
     ],
     "_spot_note": "以下现货/区域基准无稳定免费接口，由程序从当期新闻文本中自动正则提取，并标注来源与口径",
     "spot_patterns": [

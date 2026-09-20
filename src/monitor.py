@@ -31,9 +31,11 @@ def main() -> int:
     # 3) 行情基线兜底（实时源全失败时，用 7 天内人工核验报价占位并标注）
     _apply_seed_prices(quote_items, bundle["seed_prices"], cn_time)
 
-    # 4) 事件分析（只对新增事件评分）
+    # 4) 事件分析：仅对新增事件评分；若本周期无新增，回退近24h存量信号（在报告中注明）
     matrix = analyze.load_matrix()
-    analysis = analyze.analyze(bundle["new_items"], matrix)
+    analysis_input = bundle["new_items"] if bundle["new_items"] else bundle["recent_items"]
+    using_recent_fallback = not bool(bundle["new_items"])
+    analysis = analyze.analyze(analysis_input, matrix)
 
     # 5) 现货报价提取（新增 + 近24h）
     merged: dict[str, dict] = {}
@@ -42,7 +44,7 @@ def main() -> int:
     spot = analyze.extract_spot_prices(list(merged.values()), cfg["prices"]["spot_patterns"])
 
     # 6) 可选 LLM 研判
-    commentary = analyze.llm_commentary(analysis, bundle["new_items"], quote_items)
+    commentary = analyze.llm_commentary(analysis, analysis_input, quote_items)
 
     ctx = {
         "cn_time": cn_time,
@@ -54,6 +56,7 @@ def main() -> int:
         "spot": spot,
         "llm": commentary,
         "errors": errors,
+        "fallback_window": using_recent_fallback,
     }
     md = report.render(ctx)
     paths = report.save(md, cn_time)

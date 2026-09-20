@@ -1,11 +1,9 @@
-"""能源期货行情抓取：Yahoo Finance chart API 为主，Stooq CSV 为备。
+"""能源期货行情抓取：CNBC 报价接口为主（云服务器 IP 友好、含涨跌幅），Yahoo Finance 为备。
 
-无需 API Key。任何源失败均抛出/返回 None，由上层降级，不影响报告生成。
+无需 API Key。任何源失败均返回 None，由上层降级，不影响报告生成。
 """
 from __future__ import annotations
 
-import csv
-import io
 import time
 from datetime import datetime, timezone
 from typing import Optional
@@ -16,12 +14,42 @@ UA = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 )
-HEADERS = {"User-Agent": UA, "Accept": "application/json,text/csv,*/*"}
+HEADERS = {"User-Agent": UA, "Accept": "application/json,*/*"}
 TIMEOUT = 15
+
+CNBC_URL = (
+    "https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol"
+    "?requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json"
+)
 
 
 def _now_iso() -> str:
     return datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
+
+
+def fetch_cnbc(code: str) -> Optional[dict]:
+    r = requests.get(CNBC_URL, params={"symbols": code}, headers=HEADERS, timeout=TIMEOUT)
+    r.raise_for_status()
+    q = r.json().get("FormattedQuoteResult", {}).get("FormattedQuote")
+    if isinstance(q, list):
+        q = q[0] if q else None
+    if not q or q.get("code") not in (None, 0) or not q.get("last"):
+        return None
+    price = float(q["last"])
+    chg_raw = q.get("change_pct", "")
+    change_pct: Optional[float]
+    if chg_raw and chg_raw.upper() != "UNCH":
+        change_pct = round(float(str(chg_raw).replace("%", "")), 2)
+    elif chg_raw.upper() == "UNCH":
+        change_pct = 0.0
+    else:
+        change_pct = None
+    return {
+        "value": round(price, 3),
+        "change_pct": change_pct,
+        "source": "CNBC",
+        "ts": q.get("last_time") or _now_iso(),
+    }
 
 
 def fetch_yahoo(code: str) -> Optional[dict]:
@@ -29,8 +57,7 @@ def fetch_yahoo(code: str) -> Optional[dict]:
     params = {"interval": "1d", "range": "5d"}
     r = requests.get(url, params=params, headers=HEADERS, timeout=TIMEOUT)
     r.raise_for_status()
-    j = r.json()
-    result = (j.get("chart", {}).get("result") or [None])[0]
+    result = (r.json().get("chart", {}).get("result") or [None])[0]
     if not result:
         return None
     meta = result.get("meta", {})
@@ -38,71 +65,35 @@ def fetch_yahoo(code: str) -> Optional[dict]:
     if price is None:
         return None
     prev = meta.get("chartPreviousClose") or meta.get("previousClose")
-    change_pct = None
-    if prev:
-        change_pct = round((price - prev) / prev * 100, 2)
+    change_pct = round((price - prev) / prev * 100, 2) if prev else None
     ts = meta.get("regularMarketTime")
     return {
-        "value": round(float(price), 2),
+        "value": round(float(price), 3),
         "change_pct": change_pct,
         "source": "Yahoo Finance",
         "ts": datetime.fromtimestamp(ts, tz=timezone.utc).isoformat(timespec="seconds") if ts else _now_iso(),
     }
 
 
-def fetch_stooq(code: str) -> Optional[dict]:
-    url = "https://stooq.com/q/l/"
-    params = {"s": code, "f": "sd2t2ohlcv", "h": "", "e": "csv"}
-    r = requests.get(url, params=params, headers=HEADERS, timeout=TIMEOUT)
-    r.raise_for_status()
-    text = r.text.strip()
-    if not text or text.startswith("<") or text.lower().startswith("<!doctype"):
-        return None
-    row = next(csv.reader(io.StringIO(text)))
-    # Symbol,Date,Time,Open,High,Low,Close,Volume
-    if len(row) < 7 or row[6] in ("N/D", "0"):
-        return None
-    close = float(row[6])
-    return {
-        "value": round(close, 2),
-        "change_pct": None,
-        "source": "Stooq",
-        "ts": f"{row[1]} {row[2]}",
-    }
-
-
 def fetch_all(cfg: dict) -> tuple[list[dict], list[str]]:
-    """按配置抓取，yahoo -> stooq 顺序兜底。"""
+    """主源 CNBC，失败按名称映射用 Yahoo 兜底。"""
     out: list[dict] = []
     errors: list[str] = []
+    ymap = {x["name"]: x["code"] for x in cfg["prices"].get("yahoo", [])}
 
-    ycodes = {x["code"]: x for x in cfg["prices"]["yahoo"]}
-    seen_names = set()
-    for code, meta in ycodes.items():
+    for meta in cfg["prices"]["cnbc"]:
         got = None
-        for fn, c in ((fetch_yahoo, code), (fetch_stooq, next((s["code"] for s in cfg["prices"].get("stooq", []) if s["name"] == meta["name"]), None))):
-            if not c:
-                continue
-            try:
-                got = fn(c)
-                if got:
-                    break
-            except Exception as e:  # noqa: BLE001
-                errors.append(f"{fn.__name__}:{c} {type(e).__name__}")
-            time.sleep(0.4)
-        item = {**meta, **(got or {})} if got else {**meta, "value": None, "change_pct": None, "source": None, "ts": None}
-        out.append(item)
-        seen_names.add(meta["name"])
-
-    # stooq 补充 yahoo 列表没有的品种（若未来配置）
-    for meta in cfg["prices"].get("stooq", []):
-        if meta["name"] in seen_names:
-            continue
         try:
-            got = fetch_stooq(meta["code"])
+            got = fetch_cnbc(meta["code"])
         except Exception as e:  # noqa: BLE001
-            errors.append(f"stooq:{meta['code']} {type(e).__name__}")
-            got = None
-        out.append({**meta, **(got or {"value": None, "change_pct": None, "source": None, "ts": None})})
+            errors.append(f"cnbc:{meta['code']} {type(e).__name__}")
+        if got is None and meta["name"] in ymap:
+            try:
+                got = fetch_yahoo(ymap[meta["name"]])
+            except Exception as e:  # noqa: BLE001
+                errors.append(f"yahoo:{ymap[meta['name']]} {type(e).__name__}")
+        item = {k: meta.get(k) for k in ("name", "unit", "category")}
+        out.append({**item, **(got or {"value": None, "change_pct": None, "source": None, "ts": None})})
+        time.sleep(0.3)
 
     return out, errors

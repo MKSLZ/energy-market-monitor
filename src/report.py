@@ -29,6 +29,9 @@ def render(ctx: dict) -> str:
     if ctx["news"]["first_run"]:
         L.append(">")
         L.append("> **首期运行**：事件池包含人工核验基线（2026-09-20 前公开信息），后续各期仅展示新监控到的增量信息。")
+    if ctx.get("fallback_window"):
+        L.append(">")
+        L.append("> **本周期无新增重大事件**，下列信号基于近 24 小时存量资讯滚动分析，价格沿既有主线运行。")
     L.append("")
 
     # 1 速览
