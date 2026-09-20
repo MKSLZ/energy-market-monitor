@@ -162,9 +162,17 @@ def _cn_md(ctx: dict) -> str:
         return ""
     coal, gas, oil, pm = cn["coal"], cn["gas"], cn["oil"], cn["params"]
     q = coal.get("q5500")
-    q = coal.get("q5500")
+    nc = pm.get("newcastle")
     cdt = (f"（{coal.get('q_date')}·当期）" if coal.get("q_fresh", True) else f"（沿用{coal.get('q_date')}）") if q is not None and coal.get("q_date") else ""
     tdt = (f"（{gas.get('ttf_date')}·当期）" if gas.get("t_fresh", True) else f"（沿用{gas.get('ttf_date')}）") if gas.get("ttf") is not None and gas.get("ttf_date") else ""
+    ttf_part = (f"TTF {gas.get('ttf')} 欧元/兆瓦时 {tdt}" if gas.get("ttf") is not None
+                else (f"TTF 待报（HH {gas.get('hh')} 美元/百万英热）" if gas.get("hh") is not None else "TTF 待报"))
+    if q is not None:
+        cstate = coal.get("bracket")
+    elif nc is not None:
+        cstate = f"秦港待报·国际煤 {nc:.0f}$"
+    else:
+        cstate = "报价缺失"
     L = ["## 五、国内电价专项推演 · 事件 / 油价 / 气价 / 煤价 → 中国电价", ""]
     L.append(f"**国内现货电价成本压力指数：{cn['score']}/100（{cn['label']}）**")
     L.append("")
@@ -174,33 +182,40 @@ def _cn_md(ctx: dict) -> str:
     L.append("")
     L.append(f"- **原油（几乎不传导）**：Brent {oil.get('brent') if oil.get('brent') is not None else '—'} 美元/桶，"
              f"油电仅占发电约 {pm['oil_share']*100:.1f}%。{oil['verdict']}")
-    L.append(f"- **天然气（沿海尖峰）**：TTF {gas.get('ttf') if gas.get('ttf') is not None else '—'} 欧元/兆瓦时 {tdt}，"
+    L.append(f"- **天然气（沿海尖峰）**：{ttf_part}，"
              f"气电占发电约 {pm['gas_share']*100:.1f}%、气耗约 {gas['gas_use_m3']} m³/度。{gas['verdict']} "
              f"敏感度：气价每涨 1 元/方，气电度电燃料成本约 +{gas['cost_per_1yuan']:.0f} 分。")
-    L.append(f"- **煤炭（定价主体）**：秦港Q5500 {q if q is not None else '—'} 元/吨 {cdt}（{coal.get('bracket') or '报价缺失'}），"
+    L.append(f"- **煤炭（定价主体）**：秦港Q5500 {q if q is not None else '—'} 元/吨 {cdt}（{cstate}），"
              f"煤电占发电约 {pm['coal_share']*100:.0f}%、度电煤耗约 300 克。国内电价以煤为锚，但约 80% 电煤走长协，"
-             f"现货煤波动被大幅对冲；进口煤（约 9%、集中沿海）与国际煤价（纽卡斯尔 {pm.get('newcastle') or '—'}）主要影响边际与情绪。")
+             f"现货煤波动被大幅对冲；进口煤（约 9%、集中沿海）与国际煤价（纽卡斯尔 {nc if nc is not None else '—'}）主要影响边际与情绪。")
     L.append("")
-    if q is not None:
-        L.append("### 5.2 煤价 → 度电燃料成本测算（行业经验参数）")
-        L.append("")
-        L.append("| 情景：秦港Q5500（元/吨） | 边际煤机燃料成本（元/度） | 长协煤80%对冲后综合燃料成本（元/度） |")
-        L.append("|---|---|---|")
-        labels = ["长协锚", "当前", "再涨100"]
-        for i, sc in enumerate(coal["scenarios"]):
-            L.append(f"| {sc['coal_price']}（{labels[i]}） | {sc['marginal_fuel']:.3f} | {sc['blended_fuel']:.3f} |")
-        L.append("")
+    syn = bool(coal.get("synthetic", q is None))
+    L.append(("### 5.2 煤价 → 度电燃料成本 · 情景对照（本期未取到秦港官方价，下列为假设档位）" if syn
+              else "### 5.2 煤价 → 度电燃料成本测算（行业经验参数）"))
+    L.append("")
+    L.append("| 煤价情景：秦港Q5500（元/吨） | 边际煤机燃料成本（元/度） | 长协煤80%对冲后综合燃料成本（元/度） |")
+    L.append("|---|---|---|")
+    for sc in coal["scenarios"]:
+        L.append(f"| {sc['coal_price']}（{sc['label']}） | {sc['marginal_fuel']:.3f} | {sc['blended_fuel']:.3f} |")
+    L.append("")
+    if not syn:
         L.append(f"> 当前较长协锚（{coal['anchor']:.0f} 元）：边际煤机燃料成本端约 **+{coal['marginal_gap_fen']:.0f} 分/度**；"
                  f"经长协煤对冲后，综合上网电量成本端约 **+{coal['blended_gap_fen']:.1f} 分/度**。"
                  "此为成本端推力、非电价预测点位；实际出清还取决于负荷、新能源出力与政策限价。")
-        L.append("")
+    else:
+        tail = f"国际煤价纽卡斯尔当前约 **{nc:.0f} 美元/吨**，高位进口煤对沿海现货与次年长协形成成本支撑。" if nc is not None else "国际煤价当前待报。"
+        L.append(f"> 本期未取到秦港Q5500官方价，上表为假设煤价档位（非实测），用于弹性参照；{tail}"
+                 "官方秦港价以 CECI 沿海电煤采购指数 / 秦皇岛海运煤炭交易网为准。")
+    L.append("")
     L.append("### 5.3 对国内电价各环节的方向与时滞")
     L.append("")
     L.append("| 环节 | 方向 | 成本推力 | 说明 |")
     L.append("|---|---|---|---|")
     for hz in cn["horizons"]:
-        push = (f"+{hz['push_fen'][0]:.1f}~{hz['push_fen'][1]:.1f} 分/度"
-                if hz.get("push_fen") else "滞后，不直接量化")
+        if hz.get("push_fen"):
+            push = f"+{hz['push_fen'][0]:.1f}~{hz['push_fen'][1]:.1f} 分/度"
+        else:
+            push = "滞后 1-2 个月" if hz["key"] == "retail" else "见 5.2 煤价情景"
         L.append(f"| {hz['name']} | {hz['dir']} | {push} | {hz['note']} |")
     L.append("")
     if cn.get("domestic_quotes"):

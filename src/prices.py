@@ -4,8 +4,9 @@
 """
 from __future__ import annotations
 
+import re
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 import requests
@@ -73,6 +74,62 @@ def fetch_yahoo(code: str) -> Optional[dict]:
         "source": "Yahoo Finance",
         "ts": datetime.fromtimestamp(ts, tz=timezone.utc).isoformat(timespec="seconds") if ts else _now_iso(),
     }
+
+
+def fetch_live_spot(cfg: dict) -> tuple[list[dict], list[str]]:
+    """确定性区域基准取数（无 API Key）：Trading Economics 国际煤价、energy-charts 欧洲日前电价。
+
+    新闻正则提取现货价不稳定，这里提供每 3 小时稳定的锚点；任一源失败返回错误并跳过，不影响主流程。
+    返回结构与 analyze.extract_spot_prices 一致，可直接并入现货池。
+    """
+    out: list[dict] = []
+    errors: list[str] = []
+    now_iso = datetime.now(timezone(timedelta(hours=8))).isoformat(timespec="minutes")
+    browser_h = {"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"}
+
+    for meta in cfg.get("prices", {}).get("live_spot", []):
+        try:
+            typ = meta["type"]
+            if typ == "tradingeconomics":
+                r = requests.get(meta["url"], headers=browser_h, timeout=TIMEOUT)
+                r.raise_for_status()
+                m = re.search(r'"last"\s*:\s*"?(-?\d+(?:\.\d+)?)', r.text)
+                if not m:
+                    raise ValueError("last not found")
+                val = float(m.group(1))
+                lo, hi = meta.get("range", [-1e9, 1e9])
+                if not (lo <= val <= hi):
+                    raise ValueError(f"out of range {val}")
+                evidence = f"{meta['name']}自动取数（Trading Economics）"
+            elif typ == "energy_charts":
+                end = datetime.now(timezone.utc)
+                start = end - timedelta(days=meta.get("lookback_days", 3))
+                r = requests.get(
+                    meta["url"],
+                    params={"country": meta.get("country", "de"),
+                            "start": start.strftime("%Y-%m-%dT%H:%MZ"),
+                            "end": end.strftime("%Y-%m-%dT%H:%MZ")},
+                    headers=browser_h, timeout=TIMEOUT,
+                )
+                r.raise_for_status()
+                arr = [x for x in r.json().get("price", []) if x is not None]
+                if not arr:
+                    raise ValueError("empty price series")
+                last24 = arr[-24:]
+                val = sum(last24) / len(last24)   # 最近24小时日前均值，避免取到单小时极端价
+                evidence = (f"{meta['name']}近24小时日前均值 {val:.1f}"
+                            f"（最新小时 {arr[-1]:.1f}，近{len(arr)}小时均值 {sum(arr)/len(arr):.1f}）")
+            else:
+                errors.append(f"live_spot unknown:{typ}")
+                continue
+            out.append({"id": meta["id"], "name": meta["name"], "unit": meta["unit"],
+                        "value": round(float(val), 2), "evidence": evidence,
+                        "source": meta.get("source_name", typ),
+                        "published": now_iso, "link": meta["url"]})
+        except Exception as e:  # noqa: BLE001
+            errors.append(f"live_spot:{meta.get('id')} {type(e).__name__}")
+        time.sleep(0.4)
+    return out, errors
 
 
 def fetch_all(cfg: dict) -> tuple[list[dict], list[str]]:

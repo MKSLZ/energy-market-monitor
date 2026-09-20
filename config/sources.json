@@ -20,6 +20,10 @@
       {"id": "newcastle", "name": "纽卡斯尔动力煤期货", "unit": "美元/吨", "patterns": ["(?:纽卡斯尔|Newcastle)[^。]{0,40}?(?<![\\d.])(\\d{2,3}(?:\\.\\d{1,2})?)\\s*美元/吨"]},
       {"id": "hba", "name": "印尼HBA基准煤价(5300kcal)", "unit": "美元/吨", "patterns": ["(?:HBA|印尼(?:能源部)?基准价?|5300千卡)[^。]{0,30}?(?<![\\d.])(\\d{2,3}(?:\\.\\d{1,2})?)\\s*美元/吨"]},
       {"id": "eu_power", "name": "欧洲电力(基准/冬季合约)", "unit": "欧元/兆瓦时", "patterns": ["电力[^。]{0,40}?(?<![\\d.])(\\d{2,3}(?:\\.\\d{1,2})?)\\s*(?:欧元/兆瓦时|€/MWh|欧元/MWh)"]}
+    ],
+    "live_spot": [
+      {"type": "tradingeconomics", "id": "newcastle", "name": "纽卡斯尔动力煤(国际现货)", "unit": "美元/吨", "url": "https://tradingeconomics.com/commodity/coal", "source_name": "Trading Economics", "range": [50, 400]},
+      {"type": "energy_charts", "id": "eu_power", "name": "德国日前现货电价(EPEX)", "unit": "欧元/兆瓦时", "url": "https://api.energy-charts.info/price", "country": "de", "source_name": "energy-charts/SMARD", "lookback_days": 3, "range": [-1000, 3000]}
     ]
   },
   "news": {

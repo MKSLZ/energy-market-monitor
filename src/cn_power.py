@@ -116,8 +116,13 @@ def build_view(prices: list[dict], spot: list[dict], signals: list[dict],
     mton_kwh = cp["marginal_ton_per_kwh"]
     lc_share = cp["longcontract_coal_share"]
 
+    def _scen(price: float, label: str) -> dict:
+        return {"coal_price": round(price), "label": label,
+                "marginal_fuel": round(price * mton_kwh, 3),
+                "blended_fuel": round((lc_share * anchor + (1 - lc_share) * price) * ton_kwh, 3)}
+
     coal_block = {"q5500": q5500, "anchor": anchor, "bracket": None,
-                  "q_date": q_date, "q_fresh": q_fresh,
+                  "q_date": q_date, "q_fresh": q_fresh, "synthetic": q5500 is None,
                   "marginal_fuel_cost": None, "marginal_gap_fen": None,
                   "blended_gap_fen": None, "scenarios": []}
     if q5500 is not None:
@@ -127,12 +132,10 @@ def build_view(prices: list[dict], spot: list[dict], signals: list[dict],
         gap_ton = q5500 - anchor
         coal_block["marginal_gap_fen"] = round(gap_ton * mton_kwh * 100, 1)          # 边际煤机 vs 长协锚
         coal_block["blended_gap_fen"] = round((1 - lc_share) * gap_ton * ton_kwh * 100, 1)  # 综合电量(长协煤对冲后)
-        for scen in (anchor, q5500, q5500 + 100):
-            coal_block["scenarios"].append({
-                "coal_price": round(scen),
-                "marginal_fuel": round(scen * mton_kwh, 3),
-                "blended_fuel": round((lc_share * anchor + (1 - lc_share) * scen) * ton_kwh, 3),
-            })
+        coal_block["scenarios"] = [_scen(anchor, "长协锚"), _scen(q5500, "当前"), _scen(q5500 + 100, "再涨100")]
+    else:
+        # 无官方秦港价：给假设档位情景，不伪造实测价
+        coal_block["scenarios"] = [_scen(anchor, "长协锚"), _scen(850, "偏紧假设"), _scen(1000, "高位假设")]
 
     # 分时间维度的“成本推力”方向与幅度（分/千瓦时，相对长协煤锚）
     pt = cfg["pass_through"]
@@ -158,19 +161,23 @@ def build_view(prices: list[dict], spot: list[dict], signals: list[dict],
     if q5500 is not None:
         brk = _bracket(q5500, cfg["price_brackets_q5500"])
         score += {0: 0, 1: 22, 2: 40, 3: 55}.get(brk["spot_pressure"] if brk else 0, 0)
+    elif newcastle is not None:
+        # 无秦港价时用国际煤价（进口煤边际）给基础压力，权重低于国内官方价
+        score += 42 if newcastle >= 140 else 30 if newcastle >= 120 else 16 if newcastle >= 90 else 6
     score += 10 * coal_up + 7 * demand_up + 7 * hydro_up + 12 * policy_up
     score += 8 if (ttf and ttf >= 60) else 0       # 高气价→沿海气电尖峰
     score -= 8 * coal_dn + 8 * demand_dn + 6 * hydro_dn
     score = max(0, min(100, score))
-    if q5500 is None and score == 0:
+    if q5500 is None and newcastle is None and score == 0:
         label = "信号不足·暂中性看待"
     else:
         label = ("上行压力强" if score >= 60 else "温和上行" if score >= 35 else
                  "多空平衡" if score >= 20 else "偏弱")
 
     # ---------- 天然气（只决定沿海尖峰，不主导综合电价） ----------
+    hh_price = next((p["value"] for p in prices if "Henry Hub" in p["name"] and p.get("value")), None)
     gas_block = {
-        "ttf": ttf, "ttf_date": t_date, "t_fresh": t_fresh,
+        "ttf": ttf, "ttf_date": t_date, "t_fresh": t_fresh, "hh": hh_price,
         "gas_share": cfg["generation_mix"]["gas_share"],
         "gas_use_m3": gp["gas_use_m3_per_kwh"],
         "cost_per_1yuan": round(gp["gas_use_m3_per_kwh"] * 100, 1),  # 气价每涨1元/方→度电成本(分)
@@ -217,7 +224,7 @@ def build_view(prices: list[dict], spot: list[dict], signals: list[dict],
          "push_fen": month_b,
          "note": "中长期合约对冲掉部分燃料波动，方向跟随但幅度约为现货的一半。"},
         {"key": "annual_nextyear", "name": "次年(2027)年度长协",
-         "dir": "上行" if policy_up or (q5500 and q5500 >= 850) else "中性",
+         "dir": "上行" if policy_up or (q5500 and q5500 >= 850) or (newcastle and newcastle >= 120) else "中性",
          "push_fen": year_b,
          "note": "慢变量，由全年煤价中枢+成本监审/反内卷决定；高煤价年份后年度长协中枢通常上修（2026Q2已现约+1.1分/千瓦时改善）。"},
         {"key": "retail", "name": "终端工商业(代理购电)",
@@ -225,6 +232,11 @@ def build_view(prices: list[dict], spot: list[dict], signals: list[dict],
          "push_fen": None,
          "note": "滞后发电侧约1-2个月，并叠加容量电价补偿、系统调节与输配费用。"},
     ]
+    if q5500 is None:
+        # 无官方秦港价时不给伪精确推力，方向以国际煤价/信号为准，幅度见5.2情景表
+        for h in horizons:
+            h["push_fen"] = None
+        horizons[0]["note"] = "边际煤机/气电报价主导，成本与供需几乎即时反映；本期无官方秦港价，推力幅度见 5.2 煤价情景对照，实际出清还取决于新能源出力与负荷。"
 
     domestic_quotes = _extract_domestic_prices(news_items)
 
@@ -238,7 +250,12 @@ def build_view(prices: list[dict], spot: list[dict], signals: list[dict],
         "国际油价对国内电价几乎无直接影响，国际气价主要推沿海尖峰。"
         + ("" if q_fresh else "（本期未抓到新煤价，采用 TTL 内最近值，方向判断仍有效、幅度需以最新报价校准）")
     ) if q5500 is not None else (
-        "本期及近10日均未取到秦港Q5500报价，国内电价以信号方向定性判断：煤价/政策是核心变量，"
+        (f"本期及近10天未取到秦港Q5500官方价，改以国际煤价判断方向：纽卡斯尔现货约 {newcastle:.0f} 美元/吨，"
+         "处于" + ("历史高位，进口煤到岸对沿海现货与次年长协形成成本支撑；" if newcastle >= 120 else
+                    "中性偏上区间，对国内沿海现货有一定支撑；" if newcastle >= 90 else "温和区间，对国内成本传导有限；")
+         + "度电成本幅度见 5.2 假设煤价情景，官方秦港价以 CECI/秦皇岛海运煤炭交易网为准。")
+        if newcastle is not None else
+        "本期及近10日均未取到秦港Q5500与国际煤价，国内电价以信号方向定性判断：煤价/政策是核心变量，"
         "国际油气直接传导有限。"
     )
 

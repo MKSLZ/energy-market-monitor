@@ -41,8 +41,16 @@ def main() -> int:
     merged: dict[str, dict] = {}
     for it in bundle["new_items"] + bundle["recent_items"]:
         merged[it["hash"]] = it
-    spot = analyze.extract_spot_prices(list(merged.values()), cfg["prices"]["spot_patterns"])
-    # 现货报价跨期沿用（TTL 内最近值），仅用于国内电价等量化推演；2.2 表仍展示当期提取值
+    spot_news = analyze.extract_spot_prices(list(merged.values()), cfg["prices"]["spot_patterns"])
+    # 确定性区域基准（国际煤价/欧洲日前电价）优先；新闻正则补充未覆盖的基准（如秦港、TTF）
+    live_spot, live_errs = prices.fetch_live_spot(cfg)
+    errors += live_errs
+    spot = list(live_spot)
+    _have = {s["id"] for s in live_spot}
+    for s in spot_news:
+        if s["id"] not in _have:
+            spot.append(s)
+    # 现货报价跨期沿用（TTL 内最近值），仅用于国内电价等量化推演；2.2 表展示当期值（含确定性源）
     effective_spot = spot_store.merge(spot, cn_time)
 
     # 6) 可选 LLM 研判

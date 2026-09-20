@@ -396,38 +396,54 @@ def _cn_section(ctx: dict) -> str:
     H.append(f"<p>{e(oil['verdict'])}</p></div>")
 
     gas_hi = (gas.get("ttf") is not None and gas["ttf"] >= 60) or gas.get("intl_up")
+    ttf_txt = f"{gas['ttf']} 欧元/兆瓦时 {gtag}" if gas.get("ttf") is not None else (
+        f"TTF 待报（HH {gas['hh']} 美元/百万英热）" if gas.get("hh") is not None else "TTF 待报")
     H.append(f"<div class='ecard'><div class='en'>天然气 <span class='lv {'strong' if gas_hi else 'mid'}'>{'推高沿海尖峰' if gas_hi else '沿海调峰'}</span></div>")
-    H.append(f"<div class='meta'>TTF {gas.get('ttf') if gas.get('ttf') is not None else '—'} 欧元/兆瓦时 {gtag}· 气电占发电约 {pm['gas_share']*100:.1f}% · 气耗约 {gas['gas_use_m3']} m³/度</div>")
+    H.append(f"<div class='meta'>{ttf_txt} · 气电占发电约 {pm['gas_share']*100:.1f}% · 气耗约 {gas['gas_use_m3']} m³/度</div>")
     H.append(f"<p>{e(gas['verdict'])} 敏感度：气价每涨 1 元/立方米，气电度电燃料成本约 +{gas['cost_per_1yuan']:.0f} 分。</p></div>")
 
-    coal_hi = q is not None and q >= 850
-    H.append(f"<div class='ecard'><div class='en'>煤炭 · 定价主体 <span class='lv {'strong' if coal_hi else 'mid' if q is not None else 'weak'}'>{e(coal.get('bracket') or '报价缺失')}</span></div>")
+    if q is not None:
+        clv, ctxt = ("strong" if q >= 850 else "mid"), coal.get("bracket")
+    elif pm.get("newcastle") is not None:
+        clv = "strong" if pm["newcastle"] >= 120 else "mid"
+        ctxt = f"秦港待报·国际煤 {pm['newcastle']:.0f}$"
+    else:
+        clv, ctxt = "weak", "报价缺失"
+    H.append(f"<div class='ecard'><div class='en'>煤炭 · 定价主体 <span class='lv {clv}'>{e(ctxt)}</span></div>")
     H.append(f"<div class='meta'>秦港Q5500 {q if q is not None else '—'} 元/吨 {ctag}· 煤电占发电约 {pm['coal_share']*100:.0f}% · 度电煤耗约 300 克</div>")
     H.append(f"<p>煤电是电量与边际定价主体，国内电价以煤为锚；但约 80% 电煤走长协，现货煤波动被大幅对冲，进口煤（约 9%、集中沿海）与国际煤价（纽卡斯尔 {pm.get('newcastle') or '—'}）主要影响边际与情绪。</p></div>")
     H.append("</div>")
 
-    # 5.2 煤价→度电成本
-    if q is not None:
-        H.append("<h3>5.2 煤价 → 度电燃料成本测算（行业经验参数）</h3>")
-        H.append("<table><thead><tr><th>情景：秦港Q5500（元/吨）</th><th>边际煤机燃料成本（元/度）</th>"
-                 "<th>长协煤80%对冲后综合燃料成本（元/度）</th></tr></thead><tbody>")
-        labels = ["长协锚", "当前", "再涨100"]
-        for i, sc in enumerate(coal["scenarios"]):
-            bold = " style='font-weight:700'" if i == 1 else ""
-            H.append(f"<tr><td{bold}>{sc['coal_price']}（{labels[i]}）</td>"
-                     f"<td>{sc['marginal_fuel']:.3f}</td><td>{sc['blended_fuel']:.3f}</td></tr>")
-        H.append("</tbody></table>")
+    # 5.2 煤价→度电成本（有官方价=实测；无官方价=假设情景档位）
+    syn = bool(coal.get("synthetic", q is None))
+    H.append(f"<h3>{e('5.2 煤价 → 度电燃料成本 · 情景对照（本期未取到秦港官方价，下列为假设档位）' if syn else '5.2 煤价 → 度电燃料成本测算（行业经验参数）')}</h3>")
+    H.append("<table><thead><tr><th>煤价情景：秦港Q5500（元/吨）</th><th>边际煤机燃料成本（元/度）</th>"
+             "<th>长协煤80%对冲后综合燃料成本（元/度）</th></tr></thead><tbody>")
+    for i, sc in enumerate(coal["scenarios"]):
+        bold = " style='font-weight:700'" if (i == 1 and not syn) else ""
+        H.append(f"<tr><td{bold}>{sc['coal_price']}（{e(sc['label'])}）</td>"
+                 f"<td>{sc['marginal_fuel']:.3f}</td><td>{sc['blended_fuel']:.3f}</td></tr>")
+    H.append("</tbody></table>")
+    if not syn:
         H.append(f"<p class='mut' style='font-size:12.5px;margin:7px 0 0'>当前较长协锚（{coal['anchor']:.0f} 元）："
                  f"边际煤机燃料成本端约 <b class='up-txt'>+{coal['marginal_gap_fen']:.0f} 分/度</b>；"
                  f"经长协煤对冲后，综合上网电量成本端约 <b class='up-txt'>+{coal['blended_gap_fen']:.1f} 分/度</b>。"
                  f"{'煤价为沿用 ' + str(coal.get('q_date')) + ' 报价、非当期，幅度需以最新报价校准；' if not coal.get('q_fresh', True) else ''}"
                  "此为成本端推力、非电价预测点位；实际出清还取决于负荷、新能源出力与政策限价。</p>")
+    else:
+        nc = pm.get("newcastle")
+        tail = (f"国际煤价纽卡斯尔当前约 <b>{nc:.0f} 美元/吨</b>，高位进口煤对沿海现货与次年长协形成成本支撑。"
+                if nc is not None else "国际煤价当前待报。")
+        H.append("<p class='mut' style='font-size:12.5px;margin:7px 0 0'>本期未取到秦港Q5500官方价，上表为假设煤价档位（非实测），用于弹性参照；"
+                 f"{tail}官方秦港价以 CECI 沿海电煤采购指数 / 秦皇岛海运煤炭交易网为准；实际出清还取决于负荷、新能源与政策限价。</p>")
 
     # 5.3 分时间维度
     H.append("<h3>5.3 对国内电价各环节的方向与时滞</h3><div class='hz4'>")
     for hz in cn["horizons"]:
-        push = (f"成本推力约 +{hz['push_fen'][0]:.1f}~{hz['push_fen'][1]:.1f} 分/度"
-                if hz.get("push_fen") else "滞后传导（不直接量化）")
+        if hz.get("push_fen"):
+            push = f"成本推力约 +{hz['push_fen'][0]:.1f}~{hz['push_fen'][1]:.1f} 分/度"
+        else:
+            push = "滞后传导（1-2 个月）" if hz["key"] == "retail" else "幅度见 5.2 煤价情景"
         H.append(f"<div class='hzc'><div class='hn'>{e(hz['name'])}</div>"
                  f"<div class='hd {_dir_color(hz['dir'])}'>{e(hz['dir'])}</div>"
                  f"<div class='push'>{e(push)}</div><p>{e(hz['note'])}</p></div>")
