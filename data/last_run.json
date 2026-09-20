@@ -1,6 +1,6 @@
 {
-  "run_time": "2026-09-20T11:23+08:00",
-  "run_no": 7,
+  "run_time": "2026-09-20T11:44+08:00",
+  "run_no": 8,
   "temperature": {
     "oil": {
       "name": "原油",
@@ -31,7 +31,7 @@
       "neg": 0
     }
   },
-  "new_events": 1,
+  "new_events": 2,
   "errors": [],
   "llm_enabled": false,
   "html": "site/index.html"
