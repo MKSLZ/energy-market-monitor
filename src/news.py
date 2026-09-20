@@ -119,21 +119,36 @@ def _resolve_one(url: str, timeout: float) -> str | None:
     return None
 
 
-def resolve_links(items: list[dict], link_map: dict, timeout: float = 6.0,
-                  workers: int = 8) -> dict:
-    """对聚合链接尽力还原真实网址；按 hash 缓存，只对未缓存项请求网络，更新后返回 link_map。
+def resolve_links(items: list[dict], link_map: dict, timeout: float = 4.0,
+                  workers: int = 10, fail_ttl_hours: float = 24.0) -> dict:
+    """对聚合链接尽力还原真实网址；按 hash 缓存，只对未成功/不在失败冷却期内的项请求网络。
 
-    解析成功会就地把 item['link'] 替换为原文直链；失败保留聚合链接，由渲染层给国内检索兜底。
+    - 成功：link_map[hash] = "原文直链"，就地回填 item['link']；
+    - 失败：link_map[hash] = {"_fail": iso}，fail_ttl_hours 内不再重试（Google 新版加密链接
+      纯 HTTP 无法还原，反复请求只拖慢任务），由渲染层给国内可达的百度检索兜底。
     """
     from concurrent.futures import ThreadPoolExecutor
+
+    now = datetime.now(timezone.utc)
+
+    def _failed_recently(v) -> bool:
+        if isinstance(v, dict) and v.get("_fail"):
+            try:
+                return (now - datetime.fromisoformat(v["_fail"])).total_seconds() < fail_ttl_hours * 3600
+            except Exception:  # noqa: BLE001
+                return False
+        return False
 
     pending: dict[str, str] = {}
     for it in items:
         h = it.get("hash") or title_hash(it["title"])
         if not h:
             continue
-        if h in link_map and link_map[h]:
-            it["link"] = link_map[h]
+        v = link_map.get(h)
+        if isinstance(v, str) and v:
+            it["link"] = v
+        elif _failed_recently(v):
+            continue
         elif is_aggregator(it.get("link", "")) and h not in pending:
             pending[h] = it["link"]
 
@@ -142,17 +157,15 @@ def resolve_links(items: list[dict], link_map: dict, timeout: float = 6.0,
             futs = {ex.submit(_resolve_one, u, timeout): h for h, u in pending.items()}
             for fut in futs:
                 h = futs[fut]
-                real = None
                 try:
                     real = fut.result()
                 except Exception:  # noqa: BLE001
                     real = None
-                if real:
-                    link_map[h] = real
+                link_map[h] = real if real else {"_fail": now.isoformat(timespec="seconds")}
         # 用解析结果回填本轮 item
         for it in items:
             h = it.get("hash") or title_hash(it["title"])
-            if link_map.get(h):
+            if isinstance(link_map.get(h), str) and link_map[h]:
                 it["link"] = link_map[h]
     return link_map
 
