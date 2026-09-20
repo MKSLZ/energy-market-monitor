@@ -22,6 +22,7 @@
       {"id": "eu_power", "name": "欧洲电力(基准/冬季合约)", "unit": "欧元/兆瓦时", "patterns": ["电力[^。]{0,40}?(?<![\\d.])(\\d{2,3}(?:\\.\\d{1,2})?)\\s*(?:欧元/兆瓦时|€/MWh|欧元/MWh)"]}
     ],
     "live_spot": [
+      {"type": "cctd_coal", "id": "qhd5500", "name": "秦皇岛/环渤海动力煤现货 Q5500", "unit": "元/吨", "url": "https://www.cctd.com.cn/", "source_name": "CCTD中国煤炭市场网"},
       {"type": "tradingeconomics", "id": "newcastle", "name": "纽卡斯尔动力煤(国际现货)", "unit": "美元/吨", "url": "https://tradingeconomics.com/commodity/coal", "source_name": "Trading Economics", "range": [50, 400]},
       {"type": "energy_charts", "id": "eu_power", "name": "德国日前现货电价(EPEX)", "unit": "欧元/兆瓦时", "url": "https://api.energy-charts.info/price", "country": "de", "source_name": "energy-charts/SMARD", "lookback_days": 3, "range": [-1000, 3000]}
     ]

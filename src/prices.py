@@ -76,8 +76,70 @@ def fetch_yahoo(code: str) -> Optional[dict]:
     }
 
 
+def _cctd_resolve_date(mmdd: str) -> str:
+    """CCTD 首页日期只有 MM-DD，按当前北京时间补全年份；处理 1 月初看到上年 12 月数据。"""
+    now = datetime.now(timezone(timedelta(hours=8)))
+    try:
+        mm, dd = (int(x) for x in mmdd.split("-"))
+    except (ValueError, AttributeError):
+        return now.date().isoformat()
+    year = now.year
+    if mm == 12 and now.month == 1:
+        year -= 1
+    elif mm == 1 and now.month == 12:
+        year += 1
+    return f"{year:04d}-{mm:02d}-{dd:02d}"
+
+
+def fetch_cctd_coal(meta: dict, now_iso: str) -> list[dict]:
+    """CCTD 中国煤炭市场网首页官方价格块（GBK）：环渤海现货/综合交易/年度长协 5500K。
+
+    主项 qhd5500 取「环渤海动力煤现货参考价 5500K」（以秦港为锚的纯港口现货，
+    对应边际煤机现货成本）；综合交易价、年度长协价作参考一并返回。无需 API Key。
+    """
+    r = requests.get(meta["url"], headers={"User-Agent": UA}, timeout=TIMEOUT)
+    r.raise_for_status()
+    h = r.content.decode("gb18030", errors="ignore")
+
+    # (卡片标签关键词, 输出id, 展示名)
+    targets = [
+        ("环渤海现货5500", "qhd5500", "秦皇岛/环渤海动力煤现货 Q5500"),
+        ("综合交易5500", "cctd_mix5500", "CCTD秦皇岛综合交易价 5500K"),
+        ("年度长协5500", "cctd_term5500", "CCTD年度长协价 5500"),
+    ]
+    price_blocks = list(re.finditer(
+        r"<b[^>]*>\s*<em[^>]*>\s*([0-9]{2,4}(?:\.[0-9]+)?)\s*</em>\s*</b>\s*元/吨", h))
+
+    found: dict[str, dict] = {}
+    for label, sid, show_name in targets:
+        for mb in price_blocks:
+            seg = h[mb.start():mb.start() + 900]
+            if label not in seg:
+                continue
+            val = float(mb.group(1))
+            if not (400 <= val <= 2000):
+                continue
+            dm = re.search(r"日期[:：]\s*([0-9]{1,2}-[0-9]{1,2})", seg)
+            pct = re.findall(r"([+-]?[0-9]+\.[0-9]+)%", seg)
+            date_iso = _cctd_resolve_date(dm.group(1)) if dm else now_iso[:10]
+            chg = f"，环比 {pct[-1]}%" if pct else ""
+            found[sid] = {
+                "id": sid, "name": show_name, "unit": meta["unit"],
+                "value": round(val, 1),
+                "evidence": f"CCTD{label} {val:.0f} 元/吨（{date_iso[5:]}{chg}）",
+                "source": meta.get("source_name", "CCTD中国煤炭市场网"),
+                "published": date_iso + "T12:00", "link": meta["url"],
+            }
+            break
+    if "qhd5500" not in found:
+        raise ValueError("CCTD 环渤海现货5500 not parsed")
+    # 主项在前（cn_power 以 qhd5500 为锚），参考项在后（2.2 表展示）
+    order = ["qhd5500", "cctd_mix5500", "cctd_term5500"]
+    return [found[k] for k in order if k in found]
+
+
 def fetch_live_spot(cfg: dict) -> tuple[list[dict], list[str]]:
-    """确定性区域基准取数（无 API Key）：Trading Economics 国际煤价、energy-charts 欧洲日前电价。
+    """确定性区域基准取数（无 API Key）：CCTD 国内动力煤、Trading Economics 国际煤价、energy-charts 欧洲日前电价。
 
     新闻正则提取现货价不稳定，这里提供每 3 小时稳定的锚点；任一源失败返回错误并跳过，不影响主流程。
     返回结构与 analyze.extract_spot_prices 一致，可直接并入现货池。
@@ -119,6 +181,9 @@ def fetch_live_spot(cfg: dict) -> tuple[list[dict], list[str]]:
                 val = sum(last24) / len(last24)   # 最近24小时日前均值，避免取到单小时极端价
                 evidence = (f"{meta['name']}近24小时日前均值 {val:.1f}"
                             f"（最新小时 {arr[-1]:.1f}，近{len(arr)}小时均值 {sum(arr)/len(arr):.1f}）")
+            elif typ == "cctd_coal":
+                out.extend(fetch_cctd_coal(meta, now_iso))
+                continue
             else:
                 errors.append(f"live_spot unknown:{typ}")
                 continue
