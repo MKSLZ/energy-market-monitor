@@ -9,7 +9,7 @@ import json
 import sys
 from datetime import datetime, timedelta, timezone
 
-from src import analyze, news, prices, report
+from src import analyze, html_report, news, prices, report
 
 ROOT = report.ROOT
 CN_TZ = timezone(timedelta(hours=8))
@@ -61,6 +61,10 @@ def main() -> int:
     md = report.render(ctx)
     paths = report.save(md, cn_time)
 
+    # 7) HTML 网页日报（GitHub Pages 站点：site/index.html + 按日归档）
+    page_html = html_report.render(ctx)
+    hpaths = html_report.save("", page_html, cn_time)
+
     snapshot = {
         "run_time": cn_time.isoformat(timespec="minutes"),
         "run_no": ctx["run_no"],
@@ -68,6 +72,7 @@ def main() -> int:
         "new_events": bundle["new_count"],
         "errors": errors,
         "llm_enabled": bool(commentary),
+        "html": hpaths["site"],
     }
     (ROOT / "data" / "last_run.json").write_text(json.dumps(snapshot, ensure_ascii=False, indent=2), encoding="utf-8")
 

@@ -1,12 +1,15 @@
 # 能源电力市场监控日报（Energy Market Monitor）
 
 面向电力交易员的自动化情报系统：**每 3 小时**抓取油气煤电相关的政治事件、政策与新闻，
-基于内置的**历史事件→价格传导矩阵**，分析其对 **原油 / 天然气 / 煤炭 / 电力**（中国 + 欧洲市场）
-的可能影响，自动生成中文 Markdown 日报并提交到本仓库。
+基于内置的**历史事件→价格传导矩阵**，分析其对 **原油 / 天然气 / 煤炭 / 电价**（中国 + 欧洲市场）
+的可能影响，自动生成**中文日报（HTML 网页版 + Markdown 版）**并提交到本仓库。
 
-- 最新一期：[`reports/latest.md`](reports/latest.md)
-- 历史归档：[`reports/index.md`](reports/index.md)
+- 🌐 **网页版日报（推荐，每日滚动更新）**：<https://mkslz.github.io/energy-market-monitor/>
+- 历史日报（按日）：<https://mkslz.github.io/energy-market-monitor/archive/>
+- 仓库内最新一期：[`reports/latest.md`](reports/latest.md) / [`reports/latest.html`](reports/latest.html)
 - 运行状态：见仓库 **Actions** 标签页（workflow: `energy-market-monitor`）
+
+> 网页版为**当日一份日报、日内滚动更新**（每 3 小时刷新同一份），按日归档；Markdown 版保留每次运行的高频快照。
 
 ---
 
@@ -62,7 +65,20 @@ python -m src.monitor
 2. 进入仓库 **Settings → Actions → General → Workflow permissions**，选择 **Read and write permissions** 并保存（允许 Actions 提交日报）。
 3. 打开 **Actions** 标签页，启用 `energy-market-monitor` workflow。
 4. 定时计划 `15 */3 * * *`（UTC）即刻生效；GitHub 调度高峰可能有数分钟延迟，也可随时用 **Run workflow** 手动触发。
-5. 每期报告会自动 commit 到 `reports/`，在仓库里直接阅读，或结合 GitHub Pages/Obsidian 等展示。
+5. 每期报告会自动 commit：Markdown 快照到 `reports/`，HTML 网页到 `site/`，并自动部署到 GitHub Pages。
+
+### 网页版（GitHub Pages）
+
+工作流的 `deploy-pages` 作业会把 `site/` 目录发布为静态网站，固定网址：
+**`https://<你的用户名>.github.io/energy-market-monitor/`**
+
+一次性启用（本仓库已用 API 自动完成；Fork 到新仓库时需手动做一次）：
+
+1. 仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。
+2. 保证仓库为 **Public**（免费账户即可；私有仓库使用 Pages 需 GitHub Pro）。
+3. 手动 Run 一次 workflow，访问上面的固定网址即可；此后每 3 小时自动刷新。
+
+> 网页版为**当日一份日报、日内滚动更新至最新一期**，历史按日列于 `/archive/`。
 
 ### 可选：启用 LLM 综合研判
 
@@ -88,14 +104,16 @@ python -m src.monitor
 │   ├── sources.json          # 新闻关键词/RSS/行情代码/现货提取正则
 │   └── impact_matrix.json    # 事件→价格传导矩阵（20 个因子的历史经验知识库）
 ├── src/
-│   ├── prices.py             # 行情抓取（Yahoo/Stooq，多级容错）
-│   ├── news.py               # 新闻聚合与去重（状态持久化）
+│   ├── prices.py             # 行情抓取（CNBC 主、Yahoo 备，多级容错）
+│   ├── news.py               # 新闻聚合与去重（Google/Bing + 直连 RSS）
 │   ├── analyze.py            # 事件分类、方向判定、评分、现货提取、可选 LLM
-│   ├── report.py             # Markdown 日报渲染与归档
+│   ├── report.py             # Markdown 日报渲染与高频归档
+│   ├── html_report.py        # HTML 网页日报渲染（终端风格、内联样式）
 │   └── monitor.py            # 主入口
 ├── data/                     # 基线事件、去重状态、运行快照
-├── reports/                  # latest.md + 按日归档 + index
-└── .github/workflows/monitor.yml
+├── reports/                  # Markdown：latest + 每次运行高频快照
+├── site/                     # HTML 站点：index.html（最新）+ archive/按日（GitHub Pages 发布目录）
+└── .github/workflows/monitor.yml   # 每 3h 抓取分析 + 提交 + 部署 Pages
 ```
 
 ## 免责声明
