@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import random
 import re
 import time
 from datetime import datetime, timedelta, timezone
@@ -18,13 +19,45 @@ import feedparser
 import requests
 
 _UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+_RETRY_STATUS = {429, 500, 502, 503}
 
 
-def _parse_feed(url: str, timeout: int = 12):
-    """用带超时的 requests 下载，再交给 feedparser 解析（避免 urllib 无超时 hang 住）。"""
-    r = requests.get(url, headers={"User-Agent": _UA}, timeout=timeout)
-    r.raise_for_status()
-    return feedparser.parse(r.content)
+def _parse_feed(url: str, timeout: int = 12, retries: int = 2):
+    """带超时、限流退避重试的 RSS 下载与解析。"""
+    last_exc: Exception | None = None
+    for attempt in range(retries + 1):
+        try:
+            r = requests.get(url, headers={"User-Agent": _UA}, timeout=timeout, allow_redirects=True)
+            if r.status_code in _RETRY_STATUS:
+                raise requests.HTTPError(f"HTTP {r.status_code}")
+            r.raise_for_status()
+            feed = feedparser.parse(r.content)
+            if getattr(feed, "bozo", 0) and not feed.entries:
+                # 被反爬/区域重定向到 HTML 页时视为失败
+                raise RuntimeError(str(getattr(feed, "bozo_exception", "empty feed")))
+            return feed
+        except Exception as ex:  # noqa: BLE001
+            last_exc = ex
+            time.sleep(5 * (attempt + 1))
+    raise last_exc  # type: ignore[misc]
+
+
+def _google_url(q: dict, lookback_hours: int) -> str:
+    return (
+        "https://news.google.com/rss/search?q="
+        + quote_plus(q["q"] + f" when:{lookback_hours}h")
+        + f"&hl={q['hl']}&gl={q['gl']}&ceid={q['ceid']}"
+    )
+
+
+def _bing_url(q: dict) -> str:
+    lang = "zh-Hans" if q["hl"].startswith("zh") else "en-US"
+    cc = "CN" if lang == "zh-Hans" else "US"
+    return (
+        "https://www.bing.com/news/search?q="
+        + quote_plus(q["q"])
+        + f"&format=RSS&setlang={lang}&cc={cc}"
+    )
 
 ROOT = Path(__file__).resolve().parent.parent
 STATE_PATH = ROOT / "data" / "state.json"
@@ -90,17 +123,20 @@ def fetch_google_news(queries: list[dict], limit: int, lookback_hours: int) -> t
     errors: list[str] = []
     cutoff = datetime.now(timezone.utc) - timedelta(hours=lookback_hours)
     for q in queries:
-        url = (
-            "https://news.google.com/rss/search?q="
-            + quote_plus(q["q"] + f" when:{lookback_hours}h")
-            + f"&hl={q['hl']}&gl={q['gl']}&ceid={q['ceid']}"
-        )
+        feed = None
+        channel = "google_news"
         try:
-            feed = _parse_feed(url)
-            if getattr(feed, "bozo", 0) and not feed.entries:
-                raise RuntimeError(str(getattr(feed, "bozo_exception", "empty feed")))
+            feed = _parse_feed(_google_url(q, lookback_hours), retries=2)
+        except Exception as ex:  # noqa: BLE001
+            errors.append(f"google:{q['q']} {type(ex).__name__}")
+            try:
+                feed = _parse_feed(_bing_url(q), retries=1)
+                channel = "bing_news"
+            except Exception as ex2:  # noqa: BLE001
+                errors.append(f"bing:{q['q']} {type(ex2).__name__}")
+        if feed is not None:
             for e in feed.entries[:limit]:
-                title, src = _split_title_source(e.get("title", ""), "Google News")
+                title, src = _split_title_source(e.get("title", ""), "Bing/Google News")
                 ts = _entry_time(e)
                 if ts and ts < cutoff:
                     continue
@@ -114,12 +150,10 @@ def fetch_google_news(queries: list[dict], limit: int, lookback_hours: int) -> t
                         if ts
                         else _cn_now().isoformat(timespec="minutes"),
                         "summary": re.sub(r"<[^>]+>", "", e.get("summary", ""))[:300],
-                        "channel": "google_news",
+                        "channel": channel,
                     }
                 )
-        except Exception as ex:  # noqa: BLE001
-            errors.append(f"google:{q['q']} {type(ex).__name__}")
-        time.sleep(0.3)
+        time.sleep(random.uniform(1.5, 3.2))
     return items, errors
 
 

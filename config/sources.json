@@ -24,21 +24,21 @@
   },
   "news": {
     "google_news": [
-      {"q": "布伦特 原油价格 OPEC", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
-      {"q": "天然气 LNG 价格 欧洲", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
-      {"q": "动力煤 煤价 秦皇岛", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
-      {"q": "电力现货 电价 政策", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
-      {"q": "伊朗 霍尔木兹 中东 石油", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
-      {"q": "Brent crude oil price OPEC", "hl": "en-US", "gl": "US", "ceid": "US:en"},
-      {"q": "TTF natural gas price Europe storage", "hl": "en-US", "gl": "US", "ceid": "US:en"},
-      {"q": "thermal coal Newcastle Indonesia export", "hl": "en-US", "gl": "US", "ceid": "US:en"},
-      {"q": "electricity price power market Europe", "hl": "en-US", "gl": "US", "ceid": "US:en"},
-      {"q": "Strait of Hormuz oil LNG disruption", "hl": "en-US", "gl": "US", "ceid": "US:en"},
-      {"q": "EIA crude oil inventory OPEC supply", "hl": "en-US", "gl": "US", "ceid": "US:en"}
+      {"q": "原油 OR 油价 OR OPEC OR 布伦特", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "天然气 OR LNG OR TTF OR 储气", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "动力煤 OR 煤价 OR 秦皇岛 OR 印尼煤", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "电价 OR 电力现货 OR 容量电价 OR 新能源消纳", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "伊朗 OR 霍尔木兹 OR 中东 石油 OR 红海 航运", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "Brent crude oil OPEC OR Strait of Hormuz", "hl": "en-US", "gl": "US", "ceid": "US:en"},
+      {"q": "TTF natural gas OR LNG price OR gas storage", "hl": "en-US", "gl": "US", "ceid": "US:en"},
+      {"q": "thermal coal Newcastle OR Indonesia coal export", "hl": "en-US", "gl": "US", "ceid": "US:en"},
+      {"q": "electricity price power market OR nuclear outage", "hl": "en-US", "gl": "US", "ceid": "US:en"}
     ],
     "direct_feeds": [
       {"name": "OilPrice.com", "url": "https://oilprice.com/rss/main"},
       {"name": "EIA Today in Energy", "url": "https://www.eia.gov/rss/todayinenergy.xml"},
+      {"name": "Reuters Energy", "url": "https://www.reuters.com/business/energy/rss"},
+      {"name": "MarketWatch", "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories"},
       {"name": "BBC Business", "url": "https://feeds.bbci.co.uk/news/business/rss.xml"},
       {"name": "The Guardian Energy", "url": "https://www.theguardian.com/environment/energy/rss"}
     ],
