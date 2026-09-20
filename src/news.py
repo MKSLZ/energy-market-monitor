@@ -62,7 +62,91 @@ def _bing_url(q: dict) -> str:
 ROOT = Path(__file__).resolve().parent.parent
 STATE_PATH = ROOT / "data" / "state.json"
 SEED_PATH = ROOT / "data" / "seed_events.json"
+LINKMAP_PATH = ROOT / "data" / "link_map.json"
 SEEN_KEEP_DAYS = 7
+
+# 聚合跳转链接域名（中国大陆通常无法直接打开 news.google.com），需还原为原文直链或给国内检索兜底
+_AGG_MARKERS = ("news.google.com", "bing.com/news", "bing.com/newsv7", "/news/apiclick", "msn.com/en-us/news")
+
+
+def is_aggregator(url: str) -> bool:
+    u = (url or "").lower()
+    return any(m in u for m in _AGG_MARKERS)
+
+
+def domestic_search_url(title: str) -> str:
+    """国内可达的原文检索入口：百度按标题搜索，首条通常即媒体原文。"""
+    from urllib.parse import quote_plus
+    return "https://www.baidu.com/s?wd=" + quote_plus((title or "").strip()[:80])
+
+
+def load_link_map() -> dict:
+    if LINKMAP_PATH.exists():
+        try:
+            return json.loads(LINKMAP_PATH.read_text(encoding="utf-8"))
+        except Exception:  # noqa: BLE001
+            pass
+    return {}
+
+
+def save_link_map(link_map: dict) -> None:
+    # 仅保留最近 2000 条，避免无限膨胀
+    if len(link_map) > 2000:
+        link_map = dict(list(link_map.items())[-2000:])
+    LINKMAP_PATH.parent.mkdir(parents=True, exist_ok=True)
+    LINKMAP_PATH.write_text(json.dumps(link_map, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def _resolve_one(url: str, timeout: float) -> str | None:
+    """尝试把聚合跳转链接还原为媒体原文直链（跟随重定向）。失败/仍是聚合页返回 None。"""
+    try:
+        r = requests.get(url, headers={"User-Agent": _UA, "Accept-Language": "en-US,en;q=0.9,zh-CN;q=0.8"},
+                         timeout=timeout, allow_redirects=True)
+        final = r.url
+        if final and not is_aggregator(final) and final.startswith("http"):
+            return final
+    except Exception:  # noqa: BLE001
+        return None
+    return None
+
+
+def resolve_links(items: list[dict], link_map: dict, timeout: float = 6.0,
+                  workers: int = 8) -> dict:
+    """对聚合链接尽力还原真实网址；按 hash 缓存，只对未缓存项请求网络，更新后返回 link_map。
+
+    解析成功会就地把 item['link'] 替换为原文直链；失败保留聚合链接，由渲染层给国内检索兜底。
+    """
+    from concurrent.futures import ThreadPoolExecutor
+
+    pending: dict[str, str] = {}
+    for it in items:
+        h = it.get("hash") or title_hash(it["title"])
+        if not h:
+            continue
+        if h in link_map and link_map[h]:
+            it["link"] = link_map[h]
+        elif is_aggregator(it.get("link", "")) and h not in pending:
+            pending[h] = it["link"]
+
+    if pending:
+        with ThreadPoolExecutor(max_workers=workers) as ex:
+            futs = {ex.submit(_resolve_one, u, timeout): h for h, u in pending.items()}
+            for fut in futs:
+                h = futs[fut]
+                real = None
+                try:
+                    real = fut.result()
+                except Exception:  # noqa: BLE001
+                    real = None
+                if real:
+                    link_map[h] = real
+        # 用解析结果回填本轮 item
+        for it in items:
+            h = it.get("hash") or title_hash(it["title"])
+            if link_map.get(h):
+                it["link"] = link_map[h]
+    return link_map
+
 
 
 def _cn_now() -> datetime:

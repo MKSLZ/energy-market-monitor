@@ -28,6 +28,20 @@ def main() -> int:
     bundle = news.collect(cfg)
     errors += bundle["errors"]
 
+    # 2.5) 链接治理：把 Google/Bing 聚合跳转链接尽力还原为媒体原文直链（云端美国网络，按 hash 缓存）；
+    #      解析不出的保留聚合链接，渲染层给国内可达的百度检索兜底，确保每条资讯在国内都能找到原文。
+    link_map = news.load_link_map()
+    _link_items, _seen_h = [], set()
+    for it in bundle["new_items"] + bundle["recent_items"]:
+        if it["hash"] not in _seen_h:
+            _seen_h.add(it["hash"])
+            _link_items.append(it)
+    try:
+        link_map = news.resolve_links(_link_items, link_map)
+        news.save_link_map(link_map)
+    except Exception as ex:  # noqa: BLE001
+        errors.append(f"link_resolve {type(ex).__name__}")
+
     # 3) 行情基线兜底（实时源全失败时，用 7 天内人工核验报价占位并标注）
     _apply_seed_prices(quote_items, bundle["seed_prices"], cn_time)
 

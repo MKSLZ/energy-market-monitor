@@ -4,9 +4,22 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 from pathlib import Path
 
+from src.news import domestic_search_url as _cn_search, is_aggregator as _is_agg
+
 ROOT = Path(__file__).resolve().parent.parent
 REPORTS = ROOT / "reports"
 ARCHIVE = REPORTS / "archive"
+
+
+def _md_link(title: str, link: str) -> str:
+    """聚合链接附国内检索入口；原文直链直接用。"""
+    t = (title or "").strip()
+    u = (link or "").strip()
+    if not u.startswith(("http://", "https://")):
+        return t
+    if _is_agg(u):
+        return f"[{t}]({u})（国内打不开？[搜原文]({_cn_search(t)})）"
+    return f"[{t}]({u})"
 
 ARROW = {"强烈看涨": "▲▲", "偏强": "▲", "中性（多空交织）": "—", "偏弱": "▼", "强烈看弱": "▼▼"}
 
@@ -94,14 +107,14 @@ def render(ctx: dict) -> str:
             mark = {1: "▲", -1: "▼"}.get(ev.get("real_dir", 0), "•")
             newb = "**[NEW·3h]** " if ev.get("new") else ""
             tail = f"（反转信号：{ev['inverter']}）" if ev["inverter"] else ""
-            L.append(f"- {mark} {newb}[{ev['title']}]({ev['link']}) — {ev['source']}，{ev['published'][:16]}{tail}")
+            L.append(f"- {mark} {newb}{_md_link(ev['title'], ev.get('link',''))} — {ev['source']}，{ev['published'][:16]}{tail}")
         L.append("")
     other = [x for x in ctx["news"]["new_items"] if x.get("channel") != "seed"][:10]
     if other:
         L.append("<details><summary>本3小时其他新增资讯（点击展开）</summary>")
         L.append("")
         for it in other:
-            L.append(f"- [{it['title']}]({it['link']}) — {it['source']}，{it['published'][:16]}")
+            L.append(f"- {_md_link(it['title'], it.get('link',''))} — {it['source']}，{it['published'][:16]}")
         L.append("")
         L.append("</details>")
         L.append("")

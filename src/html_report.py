@@ -11,6 +11,8 @@ import shutil
 from datetime import datetime
 from pathlib import Path
 
+from src.news import domestic_search_url as _cn_search, is_aggregator as _is_agg
+
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 ARCHIVE_WEB = SITE / "archive"
@@ -107,6 +109,10 @@ ul.ev li:last-child{border-bottom:none}
 .inv{color:var(--amber);font-size:12px;margin-left:6px}
 .newb{display:inline-block;background:var(--up);color:#fff;font-size:10.5px;font-weight:800;
  padding:1px 6px;border-radius:4px;margin-right:6px;vertical-align:1px;letter-spacing:.3px}
+.dom{display:inline-block;margin-left:7px;padding:1px 8px;border:1px solid #2f6fed;border-radius:11px;
+ color:#2f6fed;font-size:11.5px;font-weight:700;text-decoration:none;white-space:nowrap;vertical-align:1px}
+.dom:hover{background:#2f6fed;color:#fff}
+a.agg{border-bottom:1px dashed #c0392b}
 details.other{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 16px;margin-top:6px}
 details.other summary{cursor:pointer;font-weight:600;color:var(--navy2)}
 details.other ul{margin:10px 0 4px;padding-left:20px;font-size:13.5px}
@@ -173,6 +179,22 @@ def e(s) -> str:
 def safe_url(u: str) -> str:
     u = (u or "").strip()
     return u if u.startswith(("http://", "https://")) else ""
+
+
+def _link_html(raw_link: str, title: str) -> str:
+    """证据链接：原文直链直接用；Google/Bing 聚合链接（国内常打不开）附国内可达的检索入口。"""
+    u = safe_url(raw_link)
+    ttl = e(title)
+    if not u:
+        return ttl
+    if _is_agg(u):
+        bd = e(_cn_search(title))
+        return (
+            f"<a class='agg' href='{e(u)}' target='_blank' rel='noopener' "
+            f"title='Google/Bing 聚合链接，国内若打不开请点右侧“国内搜原文”'>{ttl}</a>"
+            f"<a class='dom' href='{bd}' target='_blank' rel='noopener'>国内搜原文</a>"
+        )
+    return f"<a href='{e(u)}' target='_blank' rel='noopener'>{ttl}</a>"
 
 
 def render(ctx: dict) -> str:
@@ -289,9 +311,7 @@ def render(ctx: dict) -> str:
             rd = ev.get("real_dir", 0)
             mk = {1: "<span class='mk up-txt'>▲</span>", -1: "<span class='mk dn-txt'>▼</span>"}.get(rd, "<span class='mk mut'>•</span>")
             newb = "<span class='newb'>NEW·3h</span>" if ev.get("new") else ""
-            u = safe_url(ev.get("link"))
-            ttl = e(ev["title"])
-            link = f"<a href='{e(u)}' target='_blank' rel='noopener'>{ttl}</a>" if u else ttl
+            link = _link_html(ev.get("link"), ev["title"])
             inv = f"<span class='inv'>反转信号：{e(ev['inverter'])}</span>" if ev.get("inverter") else ""
             H.append(f"<li>{mk}{newb}{link}<span class='src'>{e(ev.get('source'))} · {e(ev.get('published','')[:16])}</span>{inv}</li>")
         H.append("</ul></div>")
@@ -300,9 +320,7 @@ def render(ctx: dict) -> str:
     if other:
         H.append("<details class='other'><summary>本3小时其他新增资讯（点击展开）</summary><ul>")
         for it in other:
-            u = safe_url(it.get("link"))
-            ttl = e(it["title"])
-            link = f"<a href='{e(u)}' target='_blank' rel='noopener'>{ttl}</a>" if u else ttl
+            link = _link_html(it.get("link"), it["title"])
             H.append(f"<li>{link} <span class='src'>{e(it.get('source'))}</span></li>")
         H.append("</ul></details>")
 
