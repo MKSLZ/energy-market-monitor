@@ -1,0 +1,149 @@
+{
+  "_comment": "人工核验基线，仅在程序首次运行时并入事件流；价格项在实时源失败时用于7天内兜底展示（会标注'基线报价'）。全部条目来自2026-09-20公开检索，链接见link。",
+  "prices": [
+    {"name": "Brent原油(近月期货)", "value": 105.83, "unit": "美元/桶", "change_pct": 16.46, "source": "东方财富原油月报（截至2026-09-16）", "ts": "2026-09-16T16:00:00+08:00", "link": "https://pdf.dfdfw.com/pdf/H3_AP202609181829627223_1.pdf"},
+    {"name": "WTI原油(近月期货)", "value": 102.43, "unit": "美元/桶", "change_pct": 21.22, "source": "东方财富原油月报（截至2026-09-16）", "ts": "2026-09-16T16:00:00+08:00", "link": "https://pdf.dfcfw.com/pdf/H3_AP202609181829627223_1.pdf"}
+  ],
+  "items": [
+    {
+      "title": "美军对伊朗发动新一轮打击、摧毁五艘伊朗油轮，布伦特一度升破100美元/桶，英国天然气价格创2022年以来新高、单日涨4%",
+      "link": "http://www.telegraph.co.uk/business/2026/09/09/uk-gas-prices-hit-four-year-high-as-oil-tops-100/",
+      "source": "The Telegraph",
+      "published": "2026-09-09T09:38:00+08:00",
+      "summary": "美伊冲突升级，霍尔木兹海峡运输受阻；英国天然气合约触及2022年能源危机以来最高，较此前上涨约88%。"
+    },
+    {
+      "title": "约1000万桶/日中东产能持续关停，WTI 103.20、Brent 107.60美元/桶维持在100美元上方",
+      "link": "https://www.tradingnews.com/news/wti-103-usd-brent-107-usd-hold-above-100-usd",
+      "source": "Trading News",
+      "published": "2026-09-16T12:18:00+08:00",
+      "summary": "市场定价霍尔木兹封锁导致的大量原油shut-in；机构给出的目标价上看118美元。"
+    },
+    {
+      "title": "OPEC+确认2026年10月产量配额维持不变；9月已完成165万桶/日自愿减产中最后18.8万桶/日的阶段性回归",
+      "link": "https://www.tradingnews.com/news/wti-103-usd-brent-107-usd-hold-above-100-usd",
+      "source": "Trading News",
+      "published": "2026-09-06T10:00:00+08:00",
+      "summary": "在中东断供背景下冻产，配额政策对市场的边际影响被地缘冲击盖过。"
+    },
+    {
+      "title": "IEA：中东供应缺口难以填补，紧急库存释放与绕行路线仅部分对冲，原油及成品油价格重新上行",
+      "link": "https://www.iea.org/commentaries/oil-markets-strain-to-plug-the-gap-left-by-middle-east-supply-shortfall",
+      "source": "IEA",
+      "published": "2026-09-18T00:00:00+08:00",
+      "summary": "IEA指出地区外增产与波斯湾部分出口恢复不足以弥补缺口，成品油市场比原油更紧。"
+    },
+    {
+      "title": "EIA短期能源展望大幅上调油价预期：2026年布伦特现货均价上调至91.01美元、WTI至84.65美元；2027年分别回落至73.74美元",
+      "link": "https://cj.sina.com.cn/articles/view/5115326071/130e5ae77020030uug",
+      "source": "新浪财经/EIA STEO",
+      "published": "2026-09-10T10:54:00+08:00",
+      "summary": "EIA假设2H26布伦特约90美元/桶，随中东出口逐步恢复、关停产量重启，2Q27均价降至约77美元。"
+    },
+    {
+      "title": "IEA、EIA、OPEC三大机构9月月报均预期2026年下半年全球原油继续去库",
+      "link": "https://field.10jqka.com.cn/20260918/c680069362.shtml",
+      "source": "同花顺财经",
+      "published": "2026-09-18T18:12:00+08:00",
+      "summary": "三家机构对2026年全球原油库存变化预测分别为-175.55、-193.07、-797.13万桶/日，均较8月预测进一步下调。"
+    },
+    {
+      "title": "欧洲天然气持续走高：TTF结算价升至82欧元/兆瓦时，同比+147.7%、环比+14.3%；欧洲储气率约65.83%，同比低约12.7个百分点",
+      "link": "https://activity.csc108.com/activity/messageCon/#/homePage?reportId=2_1_d4a0a91d-ae45-4866-8532-4ee73db9c8c5_1789349072398",
+      "source": "中信建投证券",
+      "published": "2026-09-14T23:39:00+08:00",
+      "summary": "美伊冲突持续、霍尔木兹输运受阻；LNG售价或维持高位。"
+    },
+    {
+      "title": "欧洲天然气库存仅为库容65.6%、创15年来同期最低，气价两个月上涨超75%创三年新高",
+      "link": "http://finance.china.com.cn/industry/energy/20260904/6323250.shtml",
+      "source": "中国网财经",
+      "published": "2026-09-04T16:15:00+08:00",
+      "summary": "高气价限制夏季补库速度，冬季临近，LNG中断或冷冬将放大供应风险。"
+    },
+    {
+      "title": "欧洲电力大涨：10月合约收于130.19欧元/兆瓦时，10月起冬季季度合约达140.08欧元/兆瓦时、周涨10.5%，2027日历年合约79.16欧元",
+      "link": "https://www.environnement-magazine.fr/energie/article/2026/09/08/156071/marches-energie-une-semaine-sous-tension",
+      "source": "Environnement Magazine",
+      "published": "2026-09-08T00:00:00+08:00",
+      "summary": "气价高企通过边际气电机组完全传导至批发电价，冬季合约升水明显。"
+    },
+    {
+      "title": "中东战争以来欧盟汽油价格上涨24%、柴油上涨33%，欧元集团讨论能源价格应对措施",
+      "link": "http://m.toutiao.com/group/7687056358453117469/",
+      "source": "新华财经/Anadolu",
+      "published": "2026-09-19T09:44:00+08:00",
+      "summary": "欧元集团称中东局势新变化再次推高油气价格，欧洲须加快能源独立；滞胀担忧升温。"
+    },
+    {
+      "title": "秦皇岛Q5500动力煤快速冲高后回落：9月9-10日平仓价涨至1002元/吨，9月11日跌至982元/吨",
+      "link": "http://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/industry/rptid/842753193783/index.phtml",
+      "source": "申万宏源/新浪财经",
+      "published": "2026-09-18T05:53:00+08:00",
+      "summary": "主产区供应约束、发运成本抬升、港口库存下降共同推高煤炭成本中枢；预计2027年长协电价趋于理性。"
+    },
+    {
+      "title": "秦皇岛港5500大卡动力煤9月11日报989元/吨，单周上涨48元；广州港印尼Q5500进口煤此前报1072元/吨、同比+51.8%",
+      "link": "https://caifuhao.eastmoney.com/news/20260915071532385110200",
+      "source": "光大证券/东方财富",
+      "published": "2026-09-15T07:15:00+08:00",
+      "summary": "安徽省电力现货市场正式运行；本周动力煤价格延续反弹。"
+    },
+    {
+      "title": "摩根大通将2026年中国动力煤价格预测由805元/吨上调至830元/吨，三季度至今内地煤价已上涨14%",
+      "link": "https://www.cls.cn/subject/1503",
+      "source": "财联社",
+      "published": "2026-09-18T11:32:00+08:00",
+      "summary": "国内供应受限叠加补库存需求，短期煤价仍有上行风险。"
+    },
+    {
+      "title": "亚洲煤价飙升至两年高位：纽卡斯尔动力煤期货升至148.75美元/吨，印尼煤炭出口新规导致发货延迟叠加发电补库",
+      "link": "http://yuzhou.hr9.cn/info/02b12599872.html",
+      "source": "市场综合报道",
+      "published": "2026-09-20T07:36:00+08:00",
+      "summary": "气荒引发煤炭替代潮，印尼作为全球最大煤炭出口国的出口管理扰动亚太现货供给。"
+    },
+    {
+      "title": "印尼能源部设定9月上半月HBA基准价：5300千卡煤95.05美元/吨、4100千卡煤65.06美元/吨",
+      "link": "https://24h.jrj.com.cn/2026/09/01220958323761.shtml",
+      "source": "金融界",
+      "published": "2026-09-01T22:09:00+08:00",
+      "summary": "印尼月度基准价处于高位，进口煤成本支撑国内沿海煤价。"
+    },
+    {
+      "title": "反内卷政策叠加煤价上涨：成本核算新规首次将低价无序竞争纳入可执行监管框架，电价修复预期强化，火电龙头二季度电价环比改善超1.1分/千瓦时",
+      "link": "https://www.cfi.cn/newspage.aspx?id=20260915001234",
+      "source": "中财网",
+      "published": "2026-09-15T10:11:00+08:00",
+      "summary": "发改委与市场监管总局联合发布成本核算新规；9月秦皇岛5500大卡煤价同比高约124元/吨，中报验证电价拐点。"
+    },
+    {
+      "title": "山东拟将电力现货市场电能量申报价格下限由-80元/兆瓦时下调至-120元、出清价格下限由-100下调至-140元/兆瓦时",
+      "link": "https://finance.sina.com.cn/roll/2026-09-17/doc-iniscekf3618643.shtml",
+      "source": "新浪财经",
+      "published": "2026-09-17T00:00:00+08:00",
+      "summary": "山东围绕新能源消纳连发三文，现货谷段价格中枢可能进一步下探，负电价时长或增加，倒逼储能与灵活调节价值重估。"
+    },
+    {
+      "title": "国办发〔2026〕4号：完善全国统一电力市场体系，推动电力现货市场2027年前基本实现正式运行，发用两侧全面报量报价",
+      "link": "https://xadrc.xa.gov.cn/web_files/xadrc/file/2026/03/09/202603091450540166584.pdf",
+      "source": "国务院办公厅",
+      "published": "2026-02-08T00:00:00+08:00",
+      "summary": "现货市场发现实时价格、准确反映供需的作用被进一步强化，峰谷价差与交易复杂度系统性上升。"
+    },
+    {
+      "title": "发改价格〔2026〕114号：分类完善煤电、气电、抽蓄、新型储能容量电价机制，现货连续运行后有序建立可靠容量补偿",
+      "link": "https://www.ndrc.gov.cn/xxgk/zcfb/tz/202601/t20260130_1403524.html",
+      "source": "国家发展改革委",
+      "published": "2026-01-30T00:00:00+08:00",
+      "summary": "容量电费回收机组固定成本（煤电固定成本基准330元/千瓦·年），电量电价承压但火电收益稳定性提升。"
+    },
+    {
+      "title": "美国8月PPI同比升至5.4%、能源项拉动明显，CME显示美联储9月加息概率上行，美元指数走强压制大宗商品估值；欧央行加息25bp",
+      "link": "http://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/11/rptid/842698247458/index.phtml",
+      "source": "新浪财经研报",
+      "published": "2026-09-14T00:00:00+08:00",
+      "summary": "宏观金融面对油价构成逆风，但被地缘供给冲击暂时主导；欧洲滞胀风险升温。"
+    }
+  ]
+}

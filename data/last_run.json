@@ -1,0 +1,58 @@
+{
+  "run_time": "2026-09-20T09:08+08:00",
+  "run_no": 1,
+  "temperature": {
+    "oil": {
+      "name": "原油",
+      "score": 21.0,
+      "label": "强烈看涨",
+      "pos": 9,
+      "neg": 1
+    },
+    "gas": {
+      "name": "天然气",
+      "score": 19.0,
+      "label": "强烈看涨",
+      "pos": 11,
+      "neg": 1
+    },
+    "coal": {
+      "name": "煤炭",
+      "score": 22.0,
+      "label": "强烈看涨",
+      "pos": 15,
+      "neg": 1
+    },
+    "power": {
+      "name": "电力",
+      "score": 28.0,
+      "label": "强烈看涨",
+      "pos": 17,
+      "neg": 0
+    }
+  },
+  "new_events": 24,
+  "errors": [
+    "fetch_yahoo:BZ=F ReadTimeout",
+    "fetch_stooq:cb.f HTTPError",
+    "fetch_yahoo:CL=F ReadTimeout",
+    "fetch_stooq:cl.f HTTPError",
+    "fetch_yahoo:NG=F ReadTimeout",
+    "fetch_stooq:ng.f HTTPError",
+    "fetch_yahoo:^DXY ReadTimeout",
+    "google:布伦特 原油价格 OPEC ReadTimeout",
+    "google:天然气 LNG 价格 欧洲 ReadTimeout",
+    "google:动力煤 煤价 秦皇岛 ReadTimeout",
+    "google:电力现货 电价 政策 ReadTimeout",
+    "google:伊朗 霍尔木兹 中东 石油 ReadTimeout",
+    "google:Brent crude oil price OPEC ReadTimeout",
+    "google:TTF natural gas price Europe storage ReadTimeout",
+    "google:thermal coal Newcastle Indonesia export ReadTimeout",
+    "google:electricity price power market Europe ReadTimeout",
+    "google:Strait of Hormuz oil LNG disruption ReadTimeout",
+    "google:EIA crude oil inventory OPEC supply ReadTimeout",
+    "feed:BBC Business ReadTimeout",
+    "feed:The Guardian Energy ReadTimeout"
+  ],
+  "llm_enabled": false
+}

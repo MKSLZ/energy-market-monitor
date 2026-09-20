@@ -1,0 +1,51 @@
+name: energy-market-monitor
+
+on:
+  schedule:
+    # 每 3 小时运行一次（UTC :15，避开整点拥堵；对应北京时间 08:15/11:15/14:15/17:15/20:15/23:15/02:15/05:15）
+    - cron: '15 */3 * * *'
+  workflow_dispatch: {}   # 支持在 Actions 页面手动触发
+
+permissions:
+  contents: write
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run monitor & generate daily report
+        env:
+          # 可选：配置后启用 LLM 综合研判；不配置则使用纯规则引擎
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+        run: python -m src.monitor
+
+      - name: Commit & push report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports data
+          if git diff --staged --quiet; then
+            echo "No new content to commit."
+          else
+            git commit -m "📊 监控日报自动更新 $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git push
+          fi

@@ -1,0 +1,12 @@
+# Local
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+
+# Keep data/state but ignore large raw snapshots if needed
+data/raw/
+
+# OS
+.DS_Store

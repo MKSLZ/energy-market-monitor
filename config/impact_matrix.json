@@ -1,0 +1,299 @@
+{
+  "_comment": "事件→能源价格传导矩阵（基于历史经验规律：2021-22欧洲能源危机、2022俄乌冲突、2019Abqaiq遇袭、OPEC+多轮减产、2021国内电荒与煤价周期、2023-26电改政策、2025-26美伊冲突等）。dir: 1利多 -1利空 0结构性/中性；mag: 1-5；effects按油/气/煤/电四品种。",
+  "themes": [
+    {
+      "id": "middle_east",
+      "name": "中东地缘冲突升级 / 霍尔木兹等能源通道受阻",
+      "category": "地缘政治",
+      "weight": 3,
+      "keywords": ["霍尔木兹", "伊朗", "中东", "美伊", "以伊", "胡塞", "袭击油轮", "封锁海峡", "石油设施遇袭", "hormuz", "iran", "israel", "houthi", "strike on iran", "oil tanker", "strait blocked", "shut-in", "middle east war", "escalation", "missile attack", "red sea"],
+      "inverters": ["停火", "复航", "海峡恢复", "局势缓和", "重启谈判", "ceasefire", "de-escalat", "strait reopen", "resume traffic", "restart production", "diplomacy", "talks progress"],
+      "effects": {
+        "oil":   {"dir": 1, "mag": 5, "horizon": "即时～数日，供给恢复前持续", "channel": "海峡承担全球约20%海运石油，冲突直接造成实物断供+战争风险溢价；历史对照：2019 Abqaiq遇袭Brent单日涨约15%，2025-26本轮冲突Brent一度破百"},
+        "gas":   {"dir": 1, "mag": 4, "horizon": "数日～数周", "channel": "卡塔尔LNG经霍尔木兹/阿曼湾外运，全球LNG约1/5经此；断供预期引发欧亚抢气，气价弹性通常大于油价（2022年危机TTF峰值超300欧/MWh）"},
+        "coal":  {"dir": 1, "mag": 3, "horizon": "数周", "channel": "高气价触发'气煤切换'，日韩印欧增购现货煤；能源板块风险溢价与海运费同步抬升"},
+        "power": {"dir": 1, "mag": 3, "horizon": "数周～月度（欧洲）；国内钝化", "channel": "欧洲电价边际机组为气电，气价几乎完全传导至批发电价（2021-22 TTF与法德基荷电价同步创纪录）；中国电价受长协与政府调控，短期波动钝化，但燃料预期影响后续长协谈判"}
+      }
+    },
+    {
+      "id": "opec_supply",
+      "name": "OPEC+ 减产/冻产维稳（反向：增产放量）",
+      "category": "供给端",
+      "weight": 2,
+      "keywords": ["OPEC+", "欧佩克", "自愿减产", "延长减产", "配额维持", "减产协议", "supply cut", "extend cuts", "hold output", "quota unchanged", "voluntary cut"],
+      "inverters": ["增产", "提高配额", "放松减产", "unwind cuts", "raise output", "increase production quota", "add barrels", "ramp up"],
+      "effects": {
+        "oil":   {"dir": 1, "mag": 3, "horizon": "周度～月度", "channel": "直接改变供需平衡预期与剩余产能；冻产在去库/高价环境中确认供给收紧，增产则快速打掉地缘溢价"},
+        "gas":   {"dir": 1, "mag": 1, "horizon": "月度", "channel": "油价长期影响与油价挂钩的LNG长协（JCC/Brent slope），间接传导"},
+        "coal":  {"dir": 1, "mag": 1, "horizon": "月度", "channel": "能源价格比价效应"},
+        "power": {"dir": 1, "mag": 1, "horizon": "月度～季度", "channel": "燃料成本与通胀预期通道"}
+      }
+    },
+    {
+      "id": "crude_inventory_draw",
+      "name": "原油/成品油库存超预期去化",
+      "category": "库存数据",
+      "weight": 1,
+      "keywords": ["库存大幅下降", "库存骤降", "超预期去库", "去库", "库存减少", "inventory draw", "crude stocks fall", "stockpile decline", "larger-than-expected draw", "distillate tight"],
+      "inverters": ["累库", "库存增加", "库存超预期增长", "build in crude", "inventory build", "stocks rise", "surprise build"],
+      "effects": {
+        "oil":   {"dir": 1, "mag": 2, "horizon": "当日～数日", "channel": "EIA/API周度库存是现货紧张度的高频验证；连续去库在需求旺季强化涨势"},
+        "gas":   {"dir": 0, "mag": 0, "horizon": "-", "channel": "直接影响弱"},
+        "coal":  {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "power": {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"}
+      }
+    },
+    {
+      "id": "russia_supply",
+      "name": "对俄能源制裁 / 俄乌冲突波及油气供给",
+      "category": "地缘政治",
+      "weight": 2,
+      "keywords": ["俄罗斯石油", "俄油制裁", "管道中断", "乌克兰袭击炼油厂", "俄气", "russian oil sanction", "pipeline shutdown", "ukraine drone refinery", "gazprom cut", "druzhba"],
+      "inverters": ["恢复过境", "停火", "transit resumed", "pipeline restart", "ceasefire"],
+      "effects": {
+        "oil":   {"dir": 1, "mag": 3, "horizon": "数日～数月", "channel": "炼厂/管道受损削减成品油与原油有效供给，柴油对欧洲电价亦有间接影响"},
+        "gas":   {"dir": 1, "mag": 3, "horizon": "数月", "channel": "2022年后俄气断供重塑欧洲气价，任何管道事件仍触发紧张"},
+        "coal":  {"dir": 1, "mag": 2, "horizon": "数周", "channel": "替代采购推升海运煤"},
+        "power": {"dir": 1, "mag": 2, "horizon": "数周～月度", "channel": "欧洲气价与油价传导"}
+      }
+    },
+    {
+      "id": "eu_gas_squeeze",
+      "name": "欧洲储气偏低 / LNG现货争夺 / 冬季供应担忧",
+      "category": "供给端",
+      "weight": 2,
+      "keywords": ["储气率", "补库不及", "库存为同期最低", "同期最低", "冬季供应", "LNG争夺", "gas storage", "below seasonal", "refill lag", "winter supply crunch", "storage deficit", "ttf", "jkm", "gas prices surge", "outbid", "bid for lng", "lng prices surge"],
+      "inverters": ["储气接近满库", "补库超预期", "storage nearly full", "mild start to winter"],
+      "effects": {
+        "oil":   {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "gas":   {"dir": 1, "mag": 3, "horizon": "即时～冬季", "channel": "储气率是TTF季节性定价锚；低于五年均值时任何冷空气/LNG扰动都会被放大"},
+        "coal":  {"dir": 1, "mag": 2, "horizon": "数周", "channel": "气价过高时电厂切换燃煤"},
+        "power": {"dir": 1, "mag": 3, "horizon": "即时～冬季", "channel": "气电为欧洲边际定价电源，TTF→批发电价传导系数接近1:1（按热值换算）"}
+      }
+    },
+    {
+      "id": "lng_outage",
+      "name": "LNG出口设施中断（罢工/停产/检修）与气源国事件",
+      "category": "供给端",
+      "weight": 2,
+      "keywords": ["LNG工厂停产", "LNG出口暂停", "液化装置故障", "挪威管道检修", "澳洲罢工", "lng outage", "liquefaction shutdown", "strike at lng", "norway maintenance", "freeport outage", "qatar moratorium"],
+      "inverters": ["复产", "重启出口", "restart flows", "strike called off"],
+      "effects": {
+        "oil":   {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "gas":   {"dir": 1, "mag": 3, "horizon": "数日～数周", "channel": "单一LNG train即占全球供给数个百分点，现货采购瞬时失衡（2022 Freeport停产、澳洲罢工均推升JKM/TTF）"},
+        "coal":  {"dir": 1, "mag": 2, "horizon": "数周", "channel": "燃料切换"},
+        "power": {"dir": 1, "mag": 3, "horizon": "数周", "channel": "气价传导"}
+      }
+    },
+    {
+      "id": "cold_weather",
+      "name": "寒潮 / 极端低温 / 提前入冬",
+      "category": "天气与需求",
+      "weight": 2,
+      "keywords": ["寒潮", "暴雪", "极端低温", "取暖需求", "供暖季提前", "cold snap", "freeze", "arctic blast", "heating demand", "winter storm"],
+      "inverters": ["暖冬", "气温偏高", "暖湿", "mild winter", "warmer than usual"],
+      "effects": {
+        "oil":   {"dir": 1, "mag": 1, "horizon": "天气周期", "channel": "馏分油/取暖油需求脉冲"},
+        "gas":   {"dir": 1, "mag": 3, "horizon": "天气周期", "channel": "供暖负荷陡增，低库存时尤为剧烈（2021年初德州寒潮Henry Hub短暂暴涨）"},
+        "coal":  {"dir": 1, "mag": 2, "horizon": "天气周期", "channel": "火电采暖负荷提升"},
+        "power": {"dir": 1, "mag": 3, "horizon": "即时", "channel": "采暖电力负荷与气价双重抬升批发电价"}
+      }
+    },
+    {
+      "id": "heatwave",
+      "name": "热浪 / 持续高温",
+      "category": "天气与需求",
+      "weight": 2,
+      "keywords": ["热浪", "持续高温", "用电负荷创新高", "空调负荷", "heatwave", "heat dome", "record power demand", "cooling demand", "scorching"],
+      "inverters": ["凉夏", "cool summer"],
+      "effects": {
+        "oil":   {"dir": 1, "mag": 1, "horizon": "天气周期", "channel": "发电与出行需求"},
+        "gas":   {"dir": 1, "mag": 2, "horizon": "天气周期", "channel": "燃气调峰发电负荷大增"},
+        "coal":  {"dir": 1, "mag": 1, "horizon": "天气周期", "channel": "火电出力提升"},
+        "power": {"dir": 1, "mag": 3, "horizon": "即时", "channel": "制冷负荷推高现货峰价，容量紧张时触发尖峰电价（2022-24中欧夏季多次刷新电价纪录）"}
+      }
+    },
+    {
+      "id": "cn_coal_constraint",
+      "name": "国内煤炭供给约束（安监/限产/产地扰动）",
+      "category": "供给端",
+      "weight": 2,
+      "keywords": ["安监", "停产整顿", "煤管票", "产地供应收紧", "供应受限", "供应偏紧", "煤矿减产", "发运成本", "港口库存下降", "供应约束", "safety inspection", "mine shutdown", "supply curbs", "supply constrained"],
+      "inverters": ["保供增产", "核增产能", "增产保供", "长协煤兑现", "加快释放产能", "output boost", "ramp up coal output"],
+      "effects": {
+        "oil":   {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "gas":   {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "coal":  {"dir": 1, "mag": 3, "horizon": "数日～数周", "channel": "国内定价以'三西'产地供给+秦港库存为锚；安监收紧与发运成本上移直接推升现货（历史对照：2021年Q5500破2000元引发电荒）"},
+        "power": {"dir": 1, "mag": 2, "horizon": "月度（长协滞后）", "channel": "煤电联动：成本上行→现货报价与次年长协电价预期上修；但长协煤与容量电价缓冲短期冲击"}
+      }
+    },
+    {
+      "id": "indonesia_coal",
+      "name": "印尼等主要煤出口国政策/发运扰动",
+      "category": "供给端",
+      "weight": 1,
+      "keywords": ["印尼出口", "HBA", "DMO", "出口禁令", "发货延迟", "出口新规", "indonesia coal export", "export ban", "shipping delay", "mining quota", "RKAB"],
+      "inverters": ["放松出口", "出口配额增加", "ease export rules"],
+      "effects": {
+        "oil":   {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "gas":   {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "coal":  {"dir": 1, "mag": 2, "horizon": "数周", "channel": "印尼占全球海运煤约1/3、中国进口煤重要来源；新规/延迟收紧亚太现货（Newcastle/HBA上行）并传导国内进口煤报价"},
+        "power": {"dir": 1, "mag": 1, "horizon": "月度", "channel": "沿海省份进口煤依存度高，成本间接传导"}
+      }
+    },
+    {
+      "id": "shipping_disruption",
+      "name": "红海/关键航道航运扰动与运费上涨",
+      "category": "地缘政治",
+      "weight": 1,
+      "keywords": ["红海", "胡塞袭击商船", "绕行好望角", "航运中断", "运费上涨", "red sea", "bab el-mandeb", "vessel reroute", "shipping rates surge", "tanker rates", "suez disruption"],
+      "inverters": ["复航", "航线恢复", "rerouting ends"],
+      "effects": {
+        "oil":   {"dir": 1, "mag": 2, "horizon": "数周", "channel": "绕行拉长运距、收紧有效运力，VLCC运费上行直接抬升到岸成本"},
+        "gas":   {"dir": 1, "mag": 2, "horizon": "数周", "channel": "LNG船运费跳涨，欧亚到岸价承压"},
+        "coal":  {"dir": 1, "mag": 1, "horizon": "数周", "channel": "海运煤运费通道"},
+        "power": {"dir": 0, "mag": 0, "horizon": "-", "channel": "间接且有限"}
+      }
+    },
+    {
+      "id": "cn_power_price_policy",
+      "name": "国内电价政策：成本监审/反内卷/长协电价上行（反向：电价让利下行）",
+      "category": "政策监管",
+      "weight": 2,
+      "keywords": ["反内卷", "成本核算新规", "低价无序竞争", "电价修复", "长协电价", "煤电联动", "电价上浮", "上网电价上调", "电价拐点", "tariff hike", "market-based tariff"],
+      "inverters": ["电价下调", "电价让利", "降价", "tariff cut", "price cut for industry"],
+      "effects": {
+        "oil":   {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "gas":   {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "coal":  {"dir": 0, "mag": 0, "horizon": "-", "channel": "本主题直接作用于电价，煤价是其外生变量"},
+        "power": {"dir": 1, "mag": 3, "horizon": "季度～年度", "channel": "监管将低价竞争纳入成本监审、煤价高位传导至次年长协，电量电价中枢上移；历史上每轮'煤电联动'均系统性重定电价基准"}
+      }
+    },
+    {
+      "id": "spot_market_expand",
+      "name": "电力现货市场扩围/转正式运行（结构性：波动放大）",
+      "category": "政策监管",
+      "weight": 1,
+      "keywords": ["现货市场正式运行", "现货连续运行", "转正式", "现货扩围", "全面报量报价", "统一电力市场", "spot market launch", "real-time market"],
+      "inverters": [],
+      "effects": {
+        "oil": {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "gas": {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "coal": {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "power": {"dir": 0, "mag": 0, "horizon": "长期", "channel": "【结构性】价格发现前移至实时：峰谷价差扩大、尖峰价与负电价频率同步上升；对火/储是收益结构重估，不是单向涨跌"}
+      }
+    },
+    {
+      "id": "capacity_price",
+      "name": "容量电价/可靠容量补偿机制完善（结构性）",
+      "category": "政策监管",
+      "weight": 1,
+      "keywords": ["容量电价", "容量补偿", "可靠容量", "顶峰能力", "capacity payment", "capacity market", "reliability payment"],
+      "inverters": [],
+      "effects": {
+        "oil": {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "gas": {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "coal": {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "power": {"dir": 0, "mag": 0, "horizon": "长期", "channel": "【结构性】煤电/气电/抽蓄/独立储能按固定成本回收获得容量收益，电量电价承压但总收益稳定性提升；改变报量报价策略（更愿意让出电能量市场）"}
+      }
+    },
+    {
+      "id": "negative_price_floor",
+      "name": "现货负电价下限/报价下限调整（结构性：谷段价中枢下移）",
+      "category": "政策监管",
+      "weight": 1,
+      "keywords": ["负电价", "报价下限", "出清价格下限", "申报下限", "negative price floor", "lower price limit"],
+      "inverters": [],
+      "effects": {
+        "oil": {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "gas": {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "coal": {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "power": {"dir": 0, "mag": 0, "horizon": "中长期", "channel": "【结构性】下限进一步下调（如-80→-120元/MWh）使新能源大发时段谷价更深、负价时长增加；倒逼储能/灵活调节价值，火电挤压深谷出力"}
+      }
+    },
+    {
+      "id": "hydro_output",
+      "name": "来水偏丰/水电增发（反向：偏枯干旱）",
+      "category": "天气与需求",
+      "weight": 1,
+      "keywords": ["来水偏丰", "水电增发", "水电满发", "蓄能值", "丰水期", "hydro output high", "reservoir inflow", "hydropower surge"],
+      "inverters": ["来水偏枯", "干旱", "水电减发", "hydro drought", "low inflow"],
+      "effects": {
+        "oil":   {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "gas":   {"dir": -1, "mag": 1, "horizon": "季度", "channel": "西南/南方区域气电调峰需求下降"},
+        "coal":  {"dir": -1, "mag": 2, "horizon": "季度", "channel": "水电挤出火电日耗（丰水期沿海/沿江煤价通常承压）"},
+        "power": {"dir": -1, "mag": 2, "horizon": "即时～月度", "channel": "川滇等水电大省现货谷价显著走低、外送增加；偏枯年则火电补位、电价上行"}
+      }
+    },
+    {
+      "id": "renewables_curtail",
+      "name": "新能源大发/消纳约束（结构性+时段性压谷价）",
+      "category": "结构性",
+      "weight": 1,
+      "keywords": ["弃风弃光", "新能源大发", "消纳红线", "利用率下滑", "强制配储", "curtailment", "renewable curtail", "zero marginal cost", "negative midday prices"],
+      "inverters": [],
+      "effects": {
+        "oil":   {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "gas":   {"dir": -1, "mag": 1, "horizon": "长期/午间时段", "channel": "午间光伏挤压气电出清"},
+        "coal":  {"dir": -1, "mag": 1, "horizon": "长期/午间时段", "channel": "煤电利用小时数与报价空间被压缩"},
+        "power": {"dir": 0, "mag": 0, "horizon": "长期", "channel": "【结构性】日内鸭曲线加深：午间现货价趋近0甚至为负，傍晚爬坡峰价更陡；交易策略需区分时段，不能看日均价"}
+      }
+    },
+    {
+      "id": "fed_usd",
+      "name": "美联储紧缩/美元走强（反向：降息弱美元）",
+      "category": "宏观金融",
+      "weight": 1,
+      "keywords": ["加息", "鹰派", "美元走强", "美债收益率上行", "紧缩", "rate hike", "hawkish fed", "dollar strengthens", "higher for longer", "yield rises"],
+      "inverters": ["降息", "鸽派", "美元走弱", "rate cut", "dovish", "dollar weakens", "easing"],
+      "effects": {
+        "oil":   {"dir": -1, "mag": 2, "horizon": "数日～周度", "channel": "美元计价商品的金融属性：实际利率上行压制估值、抑制需求预期；原油金融属性最强"},
+        "gas":   {"dir": -1, "mag": 1, "horizon": "数日", "channel": "金融属性弱于原油，区域供需主导"},
+        "coal":  {"dir": -1, "mag": 1, "horizon": "数日", "channel": "美元通道+风险偏好"},
+        "power": {"dir": 0, "mag": 0, "horizon": "-", "channel": "电价以区域供需/燃料为主，金融化程度低"}
+      }
+    },
+    {
+      "id": "macro_demand",
+      "name": "全球/中国经济与能源需求预期变化",
+      "category": "宏观金融",
+      "weight": 2,
+      "keywords": ["衰退", "需求疲软", "下调需求预期", "经济下行", "工业用电下滑", "recession", "demand weakness", "cuts demand forecast", "slowdown", "demand destruction", "sluggish"],
+      "inverters": ["刺激经济", "稳增长", "需求复苏", "上调需求预期", "stimulus", "demand recovery", "raises demand forecast", "reflation"],
+      "effects": {
+        "oil":   {"dir": -1, "mag": 3, "horizon": "周度～季度", "channel": "原油是全球增长最敏感的大宗；IEA/EIA/OPEC月报需求调整是月度主线"},
+        "gas":   {"dir": -1, "mag": 2, "horizon": "季度", "channel": "工业用气与发电需求"},
+        "coal":  {"dir": -1, "mag": 2, "horizon": "季度", "channel": "工业/发电用煤（中国用电量与地产、制造业链条高度相关）"},
+        "power": {"dir": -1, "mag": 1, "horizon": "季度", "channel": "用电量增速下行→现货均价承压，但保供限价政策会平滑"}
+      }
+    },
+    {
+      "id": "carbon_price",
+      "name": "碳价/碳配额政策变化",
+      "category": "政策监管",
+      "weight": 1,
+      "keywords": ["碳价上涨", "碳配额收紧", "碳市场", "CBAM", "carbon price jumps", "allowance tighten", "ETS rally"],
+      "inverters": ["碳价下跌", "配额宽松", "carbon price falls", "allowance surplus"],
+      "effects": {
+        "oil":   {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "gas":   {"dir": 1, "mag": 1, "horizon": "季度", "channel": "气电碳强度低于煤电，碳价抬升改善气电相对竞争力→气电需求边际增"},
+        "coal":  {"dir": -1, "mag": 1, "horizon": "季度", "channel": "煤电度电碳排放约为气电2倍，碳价直接抬升煤电变动成本"},
+        "power": {"dir": 1, "mag": 1, "horizon": "季度", "channel": "欧盟ETS成本已传导至批发电价；中国碳市场扩容后影响将增强"}
+      }
+    },
+    {
+      "id": "nuclear_outage",
+      "name": "核电停机/检修（法国等）",
+      "category": "供给端",
+      "weight": 1,
+      "keywords": ["核电停机", "反应堆检修", "法国核电", "核电机组故障", "nuclear outage", "edf reactor", "nuclear strike", "plant maintenance"],
+      "inverters": ["核电复产", "机组重启", "reactor restart", "nuclear output rises"],
+      "effects": {
+        "oil":   {"dir": 0, "mag": 0, "horizon": "-", "channel": "-"},
+        "gas":   {"dir": 1, "mag": 2, "horizon": "数周", "channel": "法国核电占比约70%，减发需气电补位并增加管道气/LNG需求（2022年法国核电低谷叠加气荒）"},
+        "coal":  {"dir": 1, "mag": 1, "horizon": "数周", "channel": "煤电替代"},
+        "power": {"dir": 1, "mag": 2, "horizon": "数周", "channel": "法国从电力出口国转为进口国，抬升西欧电价中枢"}
+      }
+    }
+  ]
+}

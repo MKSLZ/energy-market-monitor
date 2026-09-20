@@ -1,0 +1,49 @@
+{
+  "_comment": "监控信息源配置。所有源均免费、无需 API Key。Google News / Yahoo 在 GitHub Actions(美国节点) 可直接访问。",
+  "prices": {
+    "yahoo": [
+      {"code": "BZ=F", "name": "Brent原油(近月期货)", "unit": "美元/桶", "category": "国际原油"},
+      {"code": "CL=F", "name": "WTI原油(近月期货)", "unit": "美元/桶", "category": "国际原油"},
+      {"code": "NG=F", "name": "NYMEX天然气(Henry Hub)", "unit": "美元/百万英热", "category": "国际天然气"},
+      {"code": "^DXY", "name": "美元指数", "unit": "点", "category": "宏观金融"}
+    ],
+    "stooq": [
+      {"code": "cb.f", "name": "Brent原油(近月期货)", "unit": "美元/桶", "category": "国际原油"},
+      {"code": "cl.f", "name": "WTI原油(近月期货)", "unit": "美元/桶", "category": "国际原油"},
+      {"code": "ng.f", "name": "NYMEX天然气(Henry Hub)", "unit": "美元/百万英热", "category": "国际天然气"}
+    ],
+    "_spot_note": "以下现货/区域基准无稳定免费接口，由程序从当期新闻文本中自动正则提取，并标注来源与口径",
+    "spot_patterns": [
+      {"id": "ttf", "name": "欧洲TTF天然气期货", "unit": "欧元/兆瓦时", "patterns": ["TTF[^。]{0,16}?(?<![\\d.])(\\d{2,3}(?:\\.\\d{1,2})?)\\s*(?:欧元/兆瓦时|欧元/MWh|€/MWh|EUR/MWh|欧元)", "(?:荷兰|欧洲)天然气期货[^。]{0,24}?(?<![\\d.])(\\d{2,3}(?:\\.\\d{1,2})?)\\s*欧元"]},
+      {"id": "qhd5500", "name": "秦皇岛港Q5500动力煤平仓价", "unit": "元/吨", "patterns": ["秦皇岛[^。]{0,50}?5500[^。]{0,40}?(?<![\\d.])(\\d{3,4}(?:\\.\\d)?)\\s*元/吨", "(?:Q5500|5500大卡)[^。]{0,30}?(?<![\\d.])(\\d{3,4}(?:\\.\\d)?)\\s*元"]},
+      {"id": "newcastle", "name": "纽卡斯尔动力煤期货", "unit": "美元/吨", "patterns": ["(?:纽卡斯尔|Newcastle)[^。]{0,40}?(?<![\\d.])(\\d{2,3}(?:\\.\\d{1,2})?)\\s*美元/吨"]},
+      {"id": "hba", "name": "印尼HBA基准煤价(5300kcal)", "unit": "美元/吨", "patterns": ["(?:HBA|印尼(?:能源部)?基准价?|5300千卡)[^。]{0,30}?(?<![\\d.])(\\d{2,3}(?:\\.\\d{1,2})?)\\s*美元/吨"]},
+      {"id": "eu_power", "name": "欧洲电力(基准/冬季合约)", "unit": "欧元/兆瓦时", "patterns": ["电力[^。]{0,40}?(?<![\\d.])(\\d{2,3}(?:\\.\\d{1,2})?)\\s*(?:欧元/兆瓦时|€/MWh|欧元/MWh)"]}
+    ]
+  },
+  "news": {
+    "google_news": [
+      {"q": "布伦特 原油价格 OPEC", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "天然气 LNG 价格 欧洲", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "动力煤 煤价 秦皇岛", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "电力现货 电价 政策", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "伊朗 霍尔木兹 中东 石油", "hl": "zh-CN", "gl": "CN", "ceid": "CN:zh-Hans"},
+      {"q": "Brent crude oil price OPEC", "hl": "en-US", "gl": "US", "ceid": "US:en"},
+      {"q": "TTF natural gas price Europe storage", "hl": "en-US", "gl": "US", "ceid": "US:en"},
+      {"q": "thermal coal Newcastle Indonesia export", "hl": "en-US", "gl": "US", "ceid": "US:en"},
+      {"q": "electricity price power market Europe", "hl": "en-US", "gl": "US", "ceid": "US:en"},
+      {"q": "Strait of Hormuz oil LNG disruption", "hl": "en-US", "gl": "US", "ceid": "US:en"},
+      {"q": "EIA crude oil inventory OPEC supply", "hl": "en-US", "gl": "US", "ceid": "US:en"}
+    ],
+    "direct_feeds": [
+      {"name": "OilPrice.com", "url": "https://oilprice.com/rss/main"},
+      {"name": "EIA Today in Energy", "url": "https://www.eia.gov/rss/todayinenergy.xml"},
+      {"name": "BBC Business", "url": "https://feeds.bbci.co.uk/news/business/rss.xml"},
+      {"name": "The Guardian Energy", "url": "https://www.theguardian.com/environment/energy/rss"}
+    ],
+    "filter_keywords": ["oil", "crude", "opec", "brent", "wti", "gas", "lng", "gasoline", "diesel", "fuel", "coal", "electric", "power", "grid", "energy", "pipeline", "refin", "iran", "hormuz", "sanction", "houthi", "strait", "nuclear", "renewable", "eia", "inventor", "barrel", "石油", "原油", "油价", "布伦特", "天然气", "煤", "电力", "电价", "现货", "能源", "霍尔木兹", "伊朗", "俄", "OPEC", "库存", "储气", "LNG", "寒潮", "高温"],
+    "per_query_limit": 12,
+    "lookback_hours": 24,
+    "max_items_in_report": 36
+  }
+}
