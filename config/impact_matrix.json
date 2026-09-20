@@ -7,7 +7,7 @@
       "category": "地缘政治",
       "weight": 3,
       "keywords": ["霍尔木兹", "伊朗", "中东", "美伊", "以伊", "胡塞", "袭击油轮", "封锁海峡", "石油设施遇袭", "hormuz", "iran", "israel", "houthi", "strike on iran", "oil tanker", "strait blocked", "shut-in", "middle east war", "escalation", "missile attack", "red sea"],
-      "inverters": ["停火", "复航", "恢复通航", "恢复通行", "船只通行", "船只正常通过", "海峡恢复", "局势缓和", "重启谈判", "ceasefire", "de-escalat", "strait reopen", "vessels crossing", "ships crossing", "traffic resumes", "traffic flowing", "resume traffic", "restart production", "diplomacy", "talks progress"],
+      "inverters": ["停火", "复航", "恢复通航", "恢复通行", "船只通行", "船只正常通过", "海峡恢复", "局势缓和", "重启谈判", "达成谅解备忘录", "签署备忘录", "美伊备忘录", "关系正常化", "流量恢复正常", "流量正常化", "下调布伦特", "下调油价预测", "下调油价预期", "油价预期下调", "ceasefire", "de-escalat", "strait reopen", "vessels crossing", "ships crossing", "traffic resumes", "traffic flowing", "resume traffic", "restart production", "diplomacy", "talks progress", "cuts brent", "cuts crude", "cuts its brent", "cuts oil price", "oil price forecast cut", "price forecasts on improved", "improved hormuz", "flows normalization", "flow normalization", "flows normalizing", "oil flows improve", "flows improve", "iran mou", "-iran mou", "memorandum of understanding", "ease tensions", "tensions ease", "war ends", "ends the war"],
       "effects": {
         "oil":   {"dir": 1, "mag": 5, "horizon": "即时～数日，供给恢复前持续", "channel": "海峡承担全球约20%海运石油，冲突直接造成实物断供+战争风险溢价；历史对照：2019 Abqaiq遇袭Brent单日涨约15%，2025-26本轮冲突Brent一度破百"},
         "gas":   {"dir": 1, "mag": 4, "horizon": "数日～数周", "channel": "卡塔尔LNG经霍尔木兹/阿曼湾外运，全球LNG约1/5经此；断供预期引发欧亚抢气，气价弹性通常大于油价（2022年危机TTF峰值超300欧/MWh）"},

@@ -89,7 +89,7 @@ def analyze(news_items: list[dict], matrix: dict, new_hashes: set | None = None)
                 agg["down"] += 1
             else:
                 agg["neutral"] += 1
-            if len(agg["evidence"]) < 6:
+            if len(agg["evidence"]) < 12:
                 agg["evidence"].append(
                     {"title": item["title"], "link": item.get("link", ""),
                      "source": item.get("source", ""), "mult": h["mult"], "real_dir": real_dir,
@@ -108,6 +108,9 @@ def analyze(news_items: list[dict], matrix: dict, new_hashes: set | None = None)
     # direction：主题叙事方向（标准叙事 vs 反转叙事），供打分使用；up/down 为对商品的实际多空计数
     for agg in theme_agg.values():
         agg["direction"] = 1 if agg["mup"] >= agg["mdown"] else -1
+        # 证据精选：本周期新增(new)优先，其次时间倒序；确保最新边际驱动（含利空反转）不被旧证据淹没
+        agg["evidence"].sort(key=lambda e: (bool(e.get("new")), e.get("published", "")), reverse=True)
+        agg["evidence"] = agg["evidence"][:6]
 
     signals = sorted(
         theme_agg.values(),
