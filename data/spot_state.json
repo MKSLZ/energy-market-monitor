@@ -6,17 +6,17 @@
     "value": 144.0,
     "evidence": "纽卡斯尔动力煤(国际现货)自动取数（Trading Economics）",
     "source": "Trading Economics",
-    "published": "2026-09-21T07:16+08:00",
+    "published": "2026-09-21T12:59+08:00",
     "link": "https://tradingeconomics.com/commodity/coal"
   },
   "eu_power": {
     "id": "eu_power",
     "name": "德国日前现货电价(EPEX)",
     "unit": "欧元/兆瓦时",
-    "value": 67.95,
-    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 68.0（最新小时 41.9，近288小时均值 59.7）",
+    "value": 57.75,
+    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 57.7（最新小时 148.9，近288小时均值 53.3）",
     "source": "energy-charts/SMARD",
-    "published": "2026-09-21T07:16+08:00",
+    "published": "2026-09-21T12:59+08:00",
     "link": "https://api.energy-charts.info/price"
   },
   "qhd5500": {
@@ -38,5 +38,15 @@
     "source": "CCTD中国煤炭市场网",
     "published": "2026-09-18T12:00",
     "link": "https://www.cctd.com.cn/"
+  },
+  "ttf": {
+    "id": "ttf",
+    "name": "欧洲TTF天然气期货",
+    "unit": "欧元/兆瓦时",
+    "value": 100.0,
+    "evidence": "高盛预计今冬TTF气价突破100欧元/兆瓦时",
+    "source": "cj.sina.cn",
+    "published": "2026-09-21T09:26+08:00",
+    "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB3dExVbGh2R2JrNmdZQVZKbzgzN1dJZnVuV0R2UTlkY3ZLandMeEdPU21XTWg3VncycktPeDRiTFhONVVYUC1UWWJuS2lSbEZtVW1JLUtJdlJObG1jRm1neHQ3bW92aDAtUnBPTWdR?oc=5"
   }
 }
