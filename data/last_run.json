@@ -1,6 +1,6 @@
 {
-  "run_time": "2026-09-22T19:42+08:00",
-  "run_no": 26,
+  "run_time": "2026-09-23T00:59+08:00",
+  "run_no": 27,
   "temperature": {
     "oil": {
       "name": "原油",
@@ -27,11 +27,11 @@
       "name": "电力",
       "score": 9.0,
       "label": "偏强",
-      "pos": 12,
+      "pos": 11,
       "neg": 1
     }
   },
-  "new_events": 53,
+  "new_events": 40,
   "errors": [],
   "llm_enabled": false,
   "html": "site/index.html"
