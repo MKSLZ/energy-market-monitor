@@ -3,20 +3,20 @@
     "id": "newcastle",
     "name": "纽卡斯尔动力煤(国际现货)",
     "unit": "美元/吨",
-    "value": 144.05,
+    "value": 145.4,
     "evidence": "纽卡斯尔动力煤(国际现货)自动取数（Trading Economics）",
     "source": "Trading Economics",
-    "published": "2026-09-23T05:22+08:00",
+    "published": "2026-09-23T12:48+08:00",
     "link": "https://tradingeconomics.com/commodity/coal"
   },
   "eu_power": {
     "id": "eu_power",
     "name": "德国日前现货电价(EPEX)",
     "unit": "欧元/兆瓦时",
-    "value": 363.85,
-    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 363.8（最新小时 214.5，近288小时均值 113.9）",
+    "value": 200.87,
+    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 200.9（最新小时 347.8，近288小时均值 133.2）",
     "source": "energy-charts/SMARD",
-    "published": "2026-09-23T05:22+08:00",
+    "published": "2026-09-23T12:48+08:00",
     "link": "https://api.energy-charts.info/price"
   },
   "qhd5500": {
