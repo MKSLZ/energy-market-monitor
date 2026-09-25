@@ -1,38 +1,59 @@
 {
-  "run_time": "2026-09-25T19:53+08:00",
-  "run_no": 38,
+  "run_time": "2026-09-26T01:14+08:00",
+  "run_no": 39,
   "temperature": {
     "oil": {
       "name": "原油",
       "score": 15.0,
       "label": "强烈看涨",
-      "pos": 6,
+      "pos": 3,
       "neg": 3
     },
     "gas": {
       "name": "天然气",
       "score": 18.0,
       "label": "强烈看涨",
-      "pos": 8,
+      "pos": 4,
       "neg": 3
     },
     "coal": {
       "name": "煤炭",
       "score": 13.0,
       "label": "强烈看涨",
-      "pos": 8,
+      "pos": 4,
       "neg": 3
     },
     "power": {
       "name": "电力",
       "score": 15.0,
       "label": "强烈看涨",
-      "pos": 8,
+      "pos": 4,
       "neg": 3
     }
   },
-  "new_events": 50,
-  "errors": [],
+  "new_events": 12,
+  "errors": [
+    "google:原油 OR 油价 OR OPEC OR 布伦特 HTTPError",
+    "bing:原油 OR 油价 OR OPEC OR 布伦特 RuntimeError",
+    "google:天然气 OR LNG OR TTF OR 储气 HTTPError",
+    "bing:天然气 OR LNG OR TTF OR 储气 RuntimeError",
+    "google:动力煤 OR 煤价 OR 秦皇岛 OR 印尼煤 HTTPError",
+    "bing:动力煤 OR 煤价 OR 秦皇岛 OR 印尼煤 RuntimeError",
+    "google:电力现货 日前 实时 出清价 OR 代理购电 OR 容量电价 HTTPError",
+    "bing:电力现货 日前 实时 出清价 OR 代理购电 OR 容量电价 RuntimeError",
+    "google:年度长协 电价 成交 OR 电力中长期 交易 上浮 OR 工商业 电价 HTTPError",
+    "bing:年度长协 电价 成交 OR 电力中长期 交易 上浮 OR 工商业 电价 RuntimeError",
+    "google:CECI 电煤价格指数 OR 长协煤 兑现 OR 电厂 日耗 库存 OR 来水 水电 HTTPError",
+    "bing:CECI 电煤价格指数 OR 长协煤 兑现 OR 电厂 日耗 库存 OR 来水 水电 RuntimeError",
+    "google:秦皇岛 Q5500 平仓价 OR 动力煤现货 元/吨 OR 环渤海动力煤价格指数 OR 纽卡斯尔动力煤 美元 HTTPError",
+    "bing:秦皇岛 Q5500 平仓价 OR 动力煤现货 元/吨 OR 环渤海动力煤价格指数 OR 纽卡斯尔动力煤 美元 RuntimeError",
+    "google:伊朗 OR 霍尔木兹 OR 中东 石油 OR 红海 航运 HTTPError",
+    "bing:伊朗 OR 霍尔木兹 OR 中东 石油 OR 红海 航运 RuntimeError",
+    "google:Brent crude oil OPEC OR Strait of Hormuz HTTPError",
+    "google:TTF natural gas OR LNG price OR gas storage HTTPError",
+    "google:thermal coal Newcastle OR Indonesia coal export HTTPError",
+    "google:electricity price power market OR nuclear outage HTTPError"
+  ],
   "llm_enabled": false,
   "html": "site/index.html"
 }
