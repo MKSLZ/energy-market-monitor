@@ -6,17 +6,17 @@
     "value": 143.75,
     "evidence": "纽卡斯尔动力煤(国际现货)自动取数（Trading Economics）",
     "source": "Trading Economics",
-    "published": "2026-09-28T05:23+08:00",
+    "published": "2026-09-28T13:27+08:00",
     "link": "https://tradingeconomics.com/commodity/coal"
   },
   "eu_power": {
     "id": "eu_power",
     "name": "德国日前现货电价(EPEX)",
     "unit": "欧元/兆瓦时",
-    "value": 172.66,
-    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 172.7（最新小时 147.5，近288小时均值 146.2）",
+    "value": 174.52,
+    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 174.5（最新小时 244.0，近288小时均值 144.0）",
     "source": "energy-charts/SMARD",
-    "published": "2026-09-28T05:23+08:00",
+    "published": "2026-09-28T13:27+08:00",
     "link": "https://api.energy-charts.info/price"
   },
   "qhd5500": {
@@ -27,16 +27,6 @@
     "evidence": "CCTD环渤海现货5500 988 元/吨（09-24，环比 0.2%）",
     "source": "CCTD中国煤炭市场网",
     "published": "2026-09-24T12:00",
-    "link": "https://www.cctd.com.cn/"
-  },
-  "cctd_mix5500": {
-    "id": "cctd_mix5500",
-    "name": "CCTD秦皇岛综合交易价 5500K",
-    "unit": "元/吨",
-    "value": 754.0,
-    "evidence": "CCTD综合交易5500 754 元/吨（09-18，环比 0.00%）",
-    "source": "CCTD中国煤炭市场网",
-    "published": "2026-09-18T12:00",
     "link": "https://www.cctd.com.cn/"
   },
   "ttf": {
