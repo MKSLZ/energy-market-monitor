@@ -1,26 +1,26 @@
 {
-  "run_time": "2026-10-03T19:42+08:00",
-  "run_no": 68,
+  "run_time": "2026-10-04T00:19+08:00",
+  "run_no": 69,
   "temperature": {
     "oil": {
       "name": "原油",
-      "score": 17.0,
+      "score": 15.0,
       "label": "强烈看涨",
-      "pos": 5,
+      "pos": 4,
       "neg": 0
     },
     "gas": {
       "name": "天然气",
-      "score": 14.0,
+      "score": 12.0,
       "label": "强烈看涨",
-      "pos": 5,
+      "pos": 4,
       "neg": 0
     },
     "coal": {
       "name": "煤炭",
-      "score": 10.0,
+      "score": 9.0,
       "label": "偏强",
-      "pos": 5,
+      "pos": 4,
       "neg": 0
     },
     "power": {
@@ -31,7 +31,7 @@
       "neg": 0
     }
   },
-  "new_events": 31,
+  "new_events": 25,
   "errors": [
     "live_spot:qhd5500 ConnectionError"
   ],
