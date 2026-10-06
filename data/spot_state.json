@@ -6,17 +6,17 @@
     "value": 150.0,
     "evidence": "纽卡斯尔动力煤(国际现货)自动取数（Trading Economics）",
     "source": "Trading Economics",
-    "published": "2026-10-06T23:59+08:00",
+    "published": "2026-10-07T06:41+08:00",
     "link": "https://tradingeconomics.com/commodity/coal"
   },
   "eu_power": {
     "id": "eu_power",
     "name": "德国日前现货电价(EPEX)",
     "unit": "欧元/兆瓦时",
-    "value": 165.12,
-    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 165.1（最新小时 324.3，近288小时均值 170.0）",
+    "value": 269.18,
+    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 269.2（最新小时 192.2，近288小时均值 175.6）",
     "source": "energy-charts/SMARD",
-    "published": "2026-10-06T23:59+08:00",
+    "published": "2026-10-07T06:41+08:00",
     "link": "https://api.energy-charts.info/price"
   },
   "qhd5500": {
