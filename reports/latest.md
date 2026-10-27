@@ -1,15 +1,15 @@
-# 能源电力市场监控日报（第 161 期）
+# 能源电力市场监控日报（第 162 期）
 
-> 生成时间：2026-10-27 23:22（北京/UTC+8）　|　监控周期：每 3 小时　|　本3h新增：53 条、命中 5 主题　|　近24h事件：104 条、命中 6 主题
+> 生成时间：2026-10-28 06:16（北京/UTC+8）　|　监控周期：每 3 小时　|　本3h新增：47 条、命中 4 主题　|　近24h事件：106 条、命中 8 主题
 
 ## 一、四品种影响速览（主分=近24h市场态势，末列=本3h边际）
 
 | 品种 | 方向信号 | 24h态势分 | 近24h利多/利空 | 本3h边际 | 核心驱动（Top） |
 |---|---|---|---|---|---|
-| 原油 | ▲▲ 强烈看涨 | 21.0 | 5 / 0 | ▲ +21 | 中东地缘冲突升级 / 霍尔木兹等能源通道受阻 |
-| 天然气 | ▲▲ 强烈看涨 | 20.0 | 6 / 0 | ▲ +20 | 中东地缘冲突升级 / 霍尔木兹等能源通道受阻 |
-| 煤炭 | ▲▲ 强烈看涨 | 15.0 | 6 / 0 | ▲ +15 | 中东地缘冲突升级 / 霍尔木兹等能源通道受阻 |
-| 电力 | ▲▲ 强烈看涨 | 17.0 | 6 / 0 | ▲ +17 | 中东地缘冲突升级 / 霍尔木兹等能源通道受阻 |
+| 原油 | ▲▲ 强烈看涨 | 15.0 | 8 / 0 | ▲ +15 | 中东地缘冲突升级 / 霍尔木兹等能源通道受阻 |
+| 天然气 | ▲▲ 强烈看涨 | 12.0 | 8 / 0 | ▲ +12 | 中东地缘冲突升级 / 霍尔木兹等能源通道受阻 |
+| 煤炭 | ▲ 偏强 | 9.0 | 8 / 0 | ▲ +9 | 中东地缘冲突升级 / 霍尔木兹等能源通道受阻 |
+| 电力 | ▲ 偏强 | 9.0 | 8 / 0 | ▲ +9 | 中东地缘冲突升级 / 霍尔木兹等能源通道受阻 |
 
 > 24h态势分=Σ(主题权重×历史影响强度×方向)，同一因子只计一次，基于近24小时滚动事件，反映当前市场压力与集中度；本3h边际仅计最新3小时新增。均非价格预测点位。
 
@@ -19,10 +19,10 @@
 
 | 品种 | 最新价 | 日涨跌 | 单位 | 数据源 | 时间 |
 |---|---|---|---|---|---|
-| WTI原油(近月期货) | 99.94 | -1.79% | 美元/桶 | CNBC | 2026-10-27T11:12:52.000-0400 |
-| Brent原油(近月期货) | 113.69 | -1.83% | 美元/桶 | CNBC | 2026-10-27T16:12:50.000+0100 |
-| NYMEX天然气(Henry Hub) | 2.656 | +2.08% | 美元/百万英热 | CNBC | 2026-10-27T11:12:53.000-0400 |
-| 美元指数 | 102.246 | +0.28% | 点 | CNBC | 2026-10-27T11:22:50.000-0400 |
+| WTI原油(近月期货) | 100.09 | +0.19% | 美元/桶 | CNBC | 2026-10-27T18:06:36.000-0400 |
+| Brent原油(近月期货) | 114.2 | -1.39% | 美元/桶 | CNBC | 2026-10-27T23:00:00.000+0100 |
+| NYMEX天然气(Henry Hub) | 2.697 | +0.00% | 美元/百万英热 | CNBC | 2026-10-27T01:00:00.000-0400 |
+| 美元指数 | 102.366 | +0.40% | 点 | CNBC | 2026-10-27T18:05:00.000-0400 |
 
 ### 2.2 区域现货参考（新闻文本自动提取）
 
@@ -31,73 +31,56 @@
 | 秦皇岛/环渤海动力煤现货 Q5500 | 1029.0 | 元/吨 | CCTD中国煤炭市场网：CCTD环渤海现货5500 1029 元/吨（10-27，环比 -0 | 2026-10-27T12:00 |
 | CCTD秦皇岛综合交易价 5500K | 774.0 | 元/吨 | CCTD中国煤炭市场网：CCTD综合交易5500 774 元/吨（10-23，环比 0.52 | 2026-10-23T12:00 |
 | CCTD年度长协价 5500 | 717.0 | 元/吨 | CCTD中国煤炭市场网：CCTD年度长协5500 717 元/吨（10-01，环比 1.85 | 2026-10-01T12:00 |
-| 纽卡斯尔动力煤(国际现货) | 149.75 | 美元/吨 | Trading Economics：纽卡斯尔动力煤(国际现货)自动取数（Trading Economic | 2026-10-27T23:23 |
-| 德国日前现货电价(EPEX) | 92.6 | 欧元/兆瓦时 | energy-charts/SMARD：德国日前现货电价(EPEX)近24小时日前均值 92.6（最新小时  | 2026-10-27T23:23 |
+| 纽卡斯尔动力煤(国际现货) | 149.75 | 美元/吨 | Trading Economics：纽卡斯尔动力煤(国际现货)自动取数（Trading Economic | 2026-10-28T06:17 |
+| 德国日前现货电价(EPEX) | 243.79 | 欧元/兆瓦时 | energy-charts/SMARD：德国日前现货电价(EPEX)近24小时日前均值 243.8（最新小时 | 2026-10-28T06:17 |
 
 ## 三、近24小时重大事件（按影响因子分组，**[NEW·3h]** 为本3小时新增）
 
-### 3.1 中东地缘冲突升级 / 霍尔木兹等能源通道受阻　【地缘政治｜近24h对商品利多 4 条 / 利空 0 条，其中本3h新增 3】
-- ▲ **[NEW·3h]** [Iran Turns to Russia for Nuclear Power as IAEA Oversight Falters](https://oilprice.com/Geopolitics/Middle-East/Iran-Turns-to-Russia-for-Nuclear-Power-as-IAEA-Oversight-Falters.html) — OilPrice.com，2026-10-27T22:00
-- ▲ **[NEW·3h]** [伊朗战事推高油价，特朗普支持者仍呼吁“再给他时间-市场参考](https://news.google.com/rss/articles/CBMiT0FVX3lxTE14YjhST2NFb0EwQkllRnQ1emh0Xzd2NzFOLUtPR3dGYmtBRFZFdndwUlZhOE9raEplNXhwbDVWd2w3V2toS2R1Mm11R0F6azA?oc=5) — 金十数据，2026-10-27T21:00
-- ▲ **[NEW·3h]** [胡塞武装首次袭击沙特最大石油出口终端](https://news.google.com/rss/articles/CBMiU0FVX3lxTE5BTUh3Vkt1TkNqQVFuN3E1LWdNeEFfeUFqTzhkRmRmbVpIdFpCa1M0NFp6dlN2SmJjZ3R4T25tN015ajV5SVZiWlRadF83QkNHUjRr?oc=5) — 华尔街见闻，2026-10-27T19:54
-- ▲ [Category 2 Hurricane Isaias nears landfall, leading to production shut-ins](https://www.eia.gov/todayinenergy/detail.php?id=68284) — EIA Today in Energy，2026-10-27T23:23
-
-### 3.2 OPEC+ 减产/冻产维稳（反向：增产放量）　【供给端｜近24h对商品利多 1 条 / 利空 0 条，其中本3h新增 1】
-- ▲ **[NEW·3h]** [OPEC+ Set to Keep Oil Quotas Unchanged](https://oilprice.com/Latest-Energy-News/World-News/OPEC-Set-to-Keep-Oil-Quotas-Unchanged.html) — OilPrice.com，2026-10-27T22:30
-
-### 3.3 欧洲储气偏低 / LNG现货争夺 / 冬季供应担忧　【供给端｜近24h对商品利多 1 条 / 利空 0 条，其中本3h新增 1】
-- ▲ **[NEW·3h]** [ICE registers record OI across its TTF options](https://news.google.com/rss/articles/CBMilwFBVV95cUxQLXViSTNJUzd3NXczcTlub2VvM1ExY21fZmVEc3VNc0FrTXRJeDdKR3dEazNZNzYyVFZsa2s5aHVGSWM2Q2dReENMbld4ZHAteVpBa2xhUXFYNzlvV1A1bDB2TVpCWDBWcm9hWGZrbW1UX1NnSlF2MnlkdkRGa0JnLWZSbnp1cEdSNFNaYzNHYkQyT0xqd1NF?oc=5) — FX News Group，2026-10-27T19:43
+### 3.1 中东地缘冲突升级 / 霍尔木兹等能源通道受阻　【地缘政治｜近24h对商品利多 8 条 / 利空 0 条，其中本3h新增 4】
+- ▲ **[NEW·3h]** [Crude Oil Futures Pull Back, Briefly Down $2; Hormuz Attacks Hit Record High but Prices Stay Near Multi-Month Peak](https://news.google.com/rss/articles/CBMidkFVX3lxTFBrcVgxWVhYTEUxeEFBWjdfNnNsY0wwUWRfQ0FEY2I4azJ2LVk5bC12NE42SzVUeXlQYkQ1YkU5dEE1dzdrZkEzQzRsU2lTTGNObHFpR1lhTkVMelI2RDFLRkQxaGxRUk5mR0RzejBKVWZNVGhmRGc?oc=5) — BigGo Finance，2026-10-28T06:05
+- ▲ **[NEW·3h]** [As Trump touts energy companies’ fortunes, U.S. consumers face the most expensive year for gas prices ever](https://www.marketwatch.com/story/as-trump-touts-energy-companies-fortunes-u-s-consumers-face-the-most-expensive-year-for-gas-prices-ever-c467268c?mod=mw_rss_topstories) — MarketWatch，2026-10-28T05:29
+- ▲ **[NEW·3h]** [原油：油价继续回落 中东外交活动升温 市场等待以色列大选结果](https://news.google.com/rss/articles/CBMijwFBVV95cUxNMkV4WS1YS202UzVQUkpMcE42N2Q1YzFCQnlDNEJkalhTVHJ5MVUtTXFWZmpHTHFfaDRhTV9FVnEwNjdzUGRrTXdxcFJiWEFyME1wZlNoTERGb0NRd1dEZ3dsbHpZUFdFaC1QRTRQVXdaR3k4aXc2dUJ1c0pPSDRHUERPTlA5QVVkX2VBTjNKYw?oc=5) — 新浪财经，2026-10-28T05:10
+- ▲ **[NEW·3h]** [Oil Markets Brace for a New Iran Escalation After U.S. Midterms](https://oilprice.com/Energy/Crude-Oil/Oil-Markets-Brace-for-a-New-Iran-Escalation-After-US-Midterms.html) — OilPrice.com，2026-10-28T00:37
+- ▲ [Category 2 Hurricane Isaias nears landfall, leading to production shut-ins](https://www.eia.gov/todayinenergy/detail.php?id=68284) — EIA Today in Energy，2026-10-28T06:17
+- ▲ [风向松动，中东四国座谈形成积极进展，油价走低](https://news.google.com/rss/articles/CBMigwFBVV95cUxQUXpCVzhCTWxXVHRCZy1ZZEJ6NkEyS2VVQmZHSWZqQjJocTlrb2xPcGhoSmRxOVhrSVJqdGkyd1YzZUU5LXM2a1BfNi1oMzhvX1BXUExOZkRrY0ZUYnFkUjh6b1lCSjM1dXkzN29TSnRlMnN3b3h0WFo5elhPRzkzdHdCYw?oc=5) — 手机新浪网，2026-10-28T04:20
 
 <details><summary>本3小时其他新增资讯（点击展开）</summary>
 
-- [天然气：冬季风险持续，价格维持高位——德国商业银行](https://news.google.com/rss/articles/CBMi0AFBVV95cUxPNjhKSzIyTUZtTHdNRENOdkt3bkJqS1hZNC1GNVVISV9wWEhnYllQZldUQjV6Q19mWmNXY2V0cVI2aTEyTTZpdmI5a2h1UV9ic0FMemQxV2pOQUs1SEFEdkxYbE50NVZ5N2dJZ1RfMTN1QVpDTmdtQnRDYndkR2hnMHJlOGEzd3ZXeVJic0JsWVd0cGJDMk1naTFtME5sb2R0aGJLdlZWN3lub1pkcFhLRDJiWEVEU3FtX3BPdUhwSTkzSUJOYzIyV3VoMWNwS2Vi?oc=5) — www.tmgm.com，2026-10-27T23:22
-- [Researchers explore use of thermal energy storage for nuclear power plants](https://news.google.com/rss/articles/CBMihgFBVV95cUxPTU5YSEFkWnp2cTllNC04dXRCdF94dDJ2Qm0zT09feHFKT0hSVzNRaXo0Mk9tRkFySW15aG11TmZITnVHY1pneFFLMGljRllIWlRVQUJsYjlQRUk5MXZFZnMtdDlaVFItOEVqRWVoeGR0MWVOeXVUaTA2aWpSZ0JlUC13dHY0Zw?oc=5) — Tech Xplore，2026-10-27T23:20
-- [Column | I went to Mexico to test-drive the cars Americans can’t buy](https://news.google.com/rss/articles/CBMitgFBVV95cUxPb09JUU9JSGRGV2RnYWJNQVI0TC1jM20xNE9SaTJqTDdDN09QbmxJYWtQa19fTTAyNU5TR3ZGdC1JLTBXa01KbTMzc29FekozTHdCSWFDRUthRlhpNlBHS3hENFJuQlI5UFZPVjRZTWRDTWlJTjhjdFY5d1BrMEQxMllKRldFNzlUTDRiZVJCeV9jVzh4eHNYUVlZZmdCamViaVhXRm96Q1NfOW9oSlVPNXdLRU01QQ?oc=5) — The Washington Post，2026-10-27T23:02
-- [塞浦路斯将开建首座海上天然气田](https://news.google.com/rss/articles/CBMieEFVX3lxTE05em5rdGVmU2JHdkZiNVJ5WHAyc2pkZG9BYzVpRC11VVlPeHJtTEg3MVA0WGx6UzcwSDNtNkR0Sy1jU3JwT0RWUlBMdHF5endueUJyVUg1Qm9kLVhkX2c5MldTbnNoYW9tS3RPaEo1dmdlNWNabG1TZw?oc=5) — 新浪财经，2026-10-27T22:43
-- [Jefferies cuts American Electric Power stock target to USD 146](https://news.google.com/rss/articles/CBMiwwFBVV95cUxNRmVBRkpST0hDbVVkclFGSTZyVG5TcjdWRUxXdEE3LXNLWUhmOEtEM25GUGpZbjNFRndETEhMMWVqZjNHMkN6WlhELVV3MjJOelNfOXhSOVBPVXJGZWxfY3g2LXF3TG9za3dUX2lrci05TUxlaFlBTXRTWnlZTWs5VVI4MVRkSjZCSHdwalAydHNpUzNfeUpiYzJQaGhEWFBhcEdaWWxEdDFET0dwMTNSckZ0M0lzVmk3cWZJOEhFSEd1V3M?oc=5) — ad-hoc-news.de，2026-10-27T22:43
-- [OPEC+ Set to Keep Oil Quotas Unchanged](https://oilprice.com/Latest-Energy-News/World-News/OPEC-Set-to-Keep-Oil-Quotas-Unchanged.html) — OilPrice.com，2026-10-27T22:30
-- [【国联民生能源】兰花科创2026年三季报点评：煤价虽涨，资产减值影响26Q3业绩释放](https://news.google.com/rss/articles/CBMieEFVX3lxTE9jaUkxUzZRMF9kYVhDbE9LWWkycDd0WjFyTnV1Q2F4T3o1QXR5UHdfTm95NXBXN2plLXR0MHZmSHJOSlRHOWNzeU9BT1lTSjB2RnpCc3lYVi1FZHBPaUNCUmlZNzVMX3lVYm1hVlNhVVd5d1BNQWdFVw?oc=5) — 新浪财经，2026-10-27T22:06
-- [预计上调0.27-0.29元/升，今年油价或将再刷新高！中山倡议全市油站让利](https://news.google.com/rss/articles/CBMiiwFBVV95cUxQMFlBWEZrX2hBVl90VFZXZzFGTUpwVnJSaWxUbUtQQk50dlhnRFdzT2oyRll5alk2QW13VGdQbDVCZW9NTXI5ak5wODJmcGk3eVgzT2JQSUw1emZjbW9LejB4WlhFNHMxVk1IZ0JqZGlhNWdKVDJyalRnaTl0cl9DdkpaS1NGT3ZaSkRB?oc=5) — 搜狐网，2026-10-27T22:01
-- [Iran Turns to Russia for Nuclear Power as IAEA Oversight Falters](https://oilprice.com/Geopolitics/Middle-East/Iran-Turns-to-Russia-for-Nuclear-Power-as-IAEA-Oversight-Falters.html) — OilPrice.com，2026-10-27T22:00
-- [NYMEX天然气主力合约跌超1%](https://news.google.com/rss/articles/CBMib0FVX3lxTE50OEl1N2Q1cTlOcXI1UlVIZGl4dUpTYWY0X0V1dkhnZ0d3OHhPcW12UTVsOWNrY281bVdabTl1RkJDY0dWNjlIY0hRdGVfMk5QQ0RJdGU3R3ZCTkdoTnFKbFN6dEVRc0l5a0w1dEpSNA?oc=5) — 金融界，2026-10-27T21:46
+- [Crude Oil Futures Pull Back, Briefly Down $2; Hormuz Attacks Hit Record High but Prices Stay Near Multi-Month Peak](https://news.google.com/rss/articles/CBMidkFVX3lxTFBrcVgxWVhYTEUxeEFBWjdfNnNsY0wwUWRfQ0FEY2I4azJ2LVk5bC12NE42SzVUeXlQYkQ1YkU5dEE1dzdrZkEzQzRsU2lTTGNObHFpR1lhTkVMelI2RDFLRkQxaGxRUk5mR0RzejBKVWZNVGhmRGc?oc=5) — BigGo Finance，2026-10-28T06:05
+- [Will Rubio’s Jamnagar Move Permanently Break The Russia-India Oil Axis?](https://oilprice.com/Energy/Energy-General/Will-Rubios-Jamnagar-Move-Permanently-Break-The-Russia-India-Oil-Axis.html) — OilPrice.com，2026-10-28T06:00
+- [As Trump touts energy companies’ fortunes, U.S. consumers face the most expensive year for gas prices ever](https://www.marketwatch.com/story/as-trump-touts-energy-companies-fortunes-u-s-consumers-face-the-most-expensive-year-for-gas-prices-ever-c467268c?mod=mw_rss_topstories) — MarketWatch，2026-10-28T05:29
+- [WTI原油日内跌幅一度达2.0% 最低报99.56美元/桶](https://news.google.com/rss/articles/CBMiYEFVX3lxTE1GSWxPRElWUkNxQWl6NUpEOENxakxMYzI2YkRDanNYb3VhV1dTRWZwNXNRekRvV1BNVWQwZl9ud0VSM29HTzhfTmRRd2VNX29BN2NTa0RlRXJrcS1sMng3VA?oc=5) — 东方财富，2026-10-28T05:11
+- [原油：油价继续回落 中东外交活动升温 市场等待以色列大选结果](https://news.google.com/rss/articles/CBMijwFBVV95cUxNMkV4WS1YS202UzVQUkpMcE42N2Q1YzFCQnlDNEJkalhTVHJ5MVUtTXFWZmpHTHFfaDRhTV9FVnEwNjdzUGRrTXdxcFJiWEFyME1wZlNoTERGb0NRd1dEZ3dsbHpZUFdFaC1QRTRQVXdaR3k4aXc2dUJ1c0pPSDRHUERPTlA5QVVkX2VBTjNKYw?oc=5) — 新浪财经，2026-10-28T05:10
+- [Turkey’s Libya Deal Puts Oil Majors in a Bind](https://oilprice.com/Energy/Energy-General/Turkeys-Libya-Deal-Puts-Oil-Majors-in-a-Bind.html) — OilPrice.com，2026-10-28T05:00
+- [US Crude Oil Inventories Buck Analyst Expectations](https://oilprice.com/Latest-Energy-News/World-News/US-Crude-Oil-Inventories-Buck-Analyst-Expectations.html) — OilPrice.com，2026-10-28T04:56
+- [天然气出口国论坛第八次峰会发表《莫斯科宣言》](https://news.google.com/rss/articles/CBMijAFBVV95cUxQakNXb3VEZXJKOC1PU3BreVVRYUdiYS1jcUVxR0tLUk02aENPZWtIZ3N1UkZjRDlFcnNuYXNCb3ByeGgyckNyaWFhUzlvV3hhbnB0X2ZYcGQ2ZkFPTGI0aEFHWUhyaGhVWjFBa3lZOHVocFFFclNNQUl3UUZDdEFxZjVFc2VwSlB5UWpsVg?oc=5) — 搜狐网，2026-10-28T04:15
+- [5 Data Center Power Stocks to Watch Before Earnings](https://oilprice.com/Energy/Energy-General/5-Data-Center-Power-Stocks-to-Watch-Before-Earnings.html) — OilPrice.com，2026-10-28T04:00
+- [国际油价27日下跌](https://news.google.com/rss/articles/CBMiY0FVX3lxTE1KN0E5X3h4bnVQdUZvV2ExX3hKWFcwenplTENnZGdNS0VaQnZ3emhDRFBQT3VTREd4cURsVnpFQ1owRFR1QVQwNjFER3Q4R0thUmY0ZUwySFNWeWt5NTR3Nms0WQ?oc=5) — 东方财富，2026-10-28T03:36
 
 </details>
 
 ## 四、事件 → 价格传导推演（近24h主线 · 基于历史经验矩阵）
 
-### 4.1 原油：▲▲ 强烈看涨（24h态势 21.0；本3h边际 ▲+21）
-- **近24h主线驱动**：▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度5/5，4条证据）；▲OPEC+ 减产/冻产维稳（反向：增产放量）（强度3/5，1条证据）
+### 4.1 原油：▲▲ 强烈看涨（24h态势 15.0；本3h边际 ▲+15）
+- **近24h主线驱动**：▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度5/5，8条证据）
 - **传导逻辑**：海峡承担全球约20%海运石油，冲突直接造成实物断供+战争风险溢价；历史对照：2019 Abqaiq遇袭Brent单日涨约15%，2025-26本轮冲突Brent一度破百
-- **传导逻辑**：直接改变供需平衡预期与剩余产能；冻产在去库/高价环境中确认供给收紧，增产则快速打掉地缘溢价
 - **时滞/持续性**：即时～数日，供给恢复前持续
-- **时滞/持续性**：周度～月度
 
-### 4.2 天然气：▲▲ 强烈看涨（24h态势 20.0；本3h边际 ▲+20）
-- **近24h主线驱动**：▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度4/5，4条证据）；▲OPEC+ 减产/冻产维稳（反向：增产放量）（强度1/5，1条证据）；▲欧洲储气偏低 / LNG现货争夺 / 冬季供应担忧（强度3/5，1条证据）
+### 4.2 天然气：▲▲ 强烈看涨（24h态势 12.0；本3h边际 ▲+12）
+- **近24h主线驱动**：▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度4/5，8条证据）
 - **传导逻辑**：卡塔尔LNG经霍尔木兹/阿曼湾外运，全球LNG约1/5经此；断供预期引发欧亚抢气，气价弹性通常大于油价（2022年危机TTF峰值超300欧/MWh）
-- **传导逻辑**：油价长期影响与油价挂钩的LNG长协（JCC/Brent slope），间接传导
-- **传导逻辑**：储气率是TTF季节性定价锚；低于五年均值时任何冷空气/LNG扰动都会被放大
 - **时滞/持续性**：数日～数周
-- **时滞/持续性**：月度
-- **时滞/持续性**：即时～冬季
 
-### 4.3 煤炭：▲▲ 强烈看涨（24h态势 15.0；本3h边际 ▲+15）
-- **近24h主线驱动**：▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度3/5，4条证据）；▲OPEC+ 减产/冻产维稳（反向：增产放量）（强度1/5，1条证据）；▲欧洲储气偏低 / LNG现货争夺 / 冬季供应担忧（强度2/5，1条证据）
+### 4.3 煤炭：▲ 偏强（24h态势 9.0；本3h边际 ▲+9）
+- **近24h主线驱动**：▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度3/5，8条证据）
 - **传导逻辑**：高气价触发'气煤切换'，日韩印欧增购现货煤；能源板块风险溢价与海运费同步抬升
-- **传导逻辑**：能源价格比价效应
-- **传导逻辑**：气价过高时电厂切换燃煤
 - **时滞/持续性**：数周
-- **时滞/持续性**：月度
 - **结构注记**：国内看'三西'安监与秦港库存，进口看印尼 HBA/RKAB 与纽卡斯尔；长协煤（'三锁'定价）与现货价差决定电厂采购节奏。
 
-### 4.4 电力：▲▲ 强烈看涨（24h态势 17.0；本3h边际 ▲+17）
-- **近24h主线驱动**：▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度3/5，4条证据）；▲OPEC+ 减产/冻产维稳（反向：增产放量）（强度1/5，1条证据）；▲欧洲储气偏低 / LNG现货争夺 / 冬季供应担忧（强度3/5，1条证据）
+### 4.4 电力：▲ 偏强（24h态势 9.0；本3h边际 ▲+9）
+- **近24h主线驱动**：▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度3/5，8条证据）
 - **传导逻辑**：欧洲电价边际机组为气电，气价几乎完全传导至批发电价（2021-22 TTF与法德基荷电价同步创纪录）；中国电价受长协与政府调控，短期波动钝化，但燃料预期影响后续长协谈判
-- **传导逻辑**：燃料成本与通胀预期通道
-- **传导逻辑**：气电为欧洲边际定价电源，TTF→批发电价传导系数接近1:1（按热值换算）
 - **时滞/持续性**：数周～月度（欧洲）；国内钝化
-- **时滞/持续性**：月度～季度
-- **时滞/持续性**：即时～冬季
 - **中国市场注记**：国内电量电价受中长期合约、容量电价与政府调控平滑，对国际油气短期冲击钝化；成本压力主要通过次年长协谈判与沿海现货报价体现。结构性看，现货扩围+负价下限调整使**峰谷价差双向放大**，不能只看日均价。
 - **欧洲市场注记**：气电为边际定价机组，TTF→批发电价近似完全传导；电价冬季合约对储气率与寒潮高度敏感。
 
@@ -109,8 +92,8 @@
 
 ### 5.1 三种能源对国内电价的传导权重
 
-- **原油（几乎不传导）**：Brent 113.69 美元/桶，油电仅占发电约 0.1%。中国石油发电占比≈0，国际油价不直接进入上网电价；主要通过运输/化工成本与输入性 PPI 间接影响，且成品油由发改委调价机制平滑。对国内电价的直接影响可忽略，仅作为宏观通胀与情绪变量。
-- **天然气（沿海尖峰）**：TTF 待报（HH 2.656 美元/百万英热），气电占发电约 3.5%、气耗约 0.19 m³/度。国际气价高位，沿海 LNG 现货电厂与顶峰气电变动成本抬升，在晚高峰/紧张时段推高尖峰电价；但气电电量占比仅约3.5%且非沿海省份以长协气/保供气为主，对全国综合电价影响有限。 敏感度：气价每涨 1 元/方，气电度电燃料成本约 +19 分。
+- **原油（几乎不传导）**：Brent 114.2 美元/桶，油电仅占发电约 0.1%。中国石油发电占比≈0，国际油价不直接进入上网电价；主要通过运输/化工成本与输入性 PPI 间接影响，且成品油由发改委调价机制平滑。对国内电价的直接影响可忽略，仅作为宏观通胀与情绪变量。
+- **天然气（沿海尖峰）**：TTF 待报（HH 2.697 美元/百万英热），气电占发电约 3.5%、气耗约 0.19 m³/度。国际气价高位，沿海 LNG 现货电厂与顶峰气电变动成本抬升，在晚高峰/紧张时段推高尖峰电价；但气电电量占比仅约3.5%且非沿海省份以长协气/保供气为主，对全国综合电价影响有限。 敏感度：气价每涨 1 元/方，气电度电燃料成本约 +19 分。
 - **煤炭（定价主体）**：秦港Q5500 1029.0 元/吨 （2026-10-27·当期）（高位破千·政策保供警戒区），煤电占发电约 59%、度电煤耗约 300 克。国内电价以煤为锚，但约 80% 电煤走长协，现货煤波动被大幅对冲；进口煤（约 9%、集中沿海）与国际煤价（纽卡斯尔 149.75）主要影响边际与情绪。
 
 ### 5.2 煤价 → 度电燃料成本测算（行业经验参数）
@@ -163,7 +146,7 @@
 
 ## 七、运行信息与免责声明
 
-- 抓取条目：新增 53 / 近24h去重后 104；未命中主题 30 条（作为资讯留存，不进入评分）
+- 抓取条目：新增 47 / 近24h去重后 106；未命中主题 28 条（作为资讯留存，不进入评分）
 - 数据源：Google News RSS（12 组关键词，中英文）、公开 RSS 5 个、CNBC 行情（Yahoo 备用）
 - 本次所有数据源请求成功。
 - **免责声明**：本报告由监控程序基于公开信息与预设的历史传导规则自动生成，仅供交易研究参考，不构成任何投资建议。规则方向为历史经验的统计性概括，单次事件的实际价格反应受仓位、预期差、政策干预与流动性影响，可能与历史规律偏离，请结合实时盘口独立决策。
