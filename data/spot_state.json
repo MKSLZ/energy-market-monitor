@@ -3,20 +3,20 @@
     "id": "newcastle",
     "name": "纽卡斯尔动力煤(国际现货)",
     "unit": "美元/吨",
-    "value": 152.45,
+    "value": 149.5,
     "evidence": "纽卡斯尔动力煤(国际现货)自动取数（Trading Economics）",
     "source": "Trading Economics",
-    "published": "2026-11-03T05:44+08:00",
+    "published": "2026-11-03T14:51+08:00",
     "link": "https://tradingeconomics.com/commodity/coal"
   },
   "eu_power": {
     "id": "eu_power",
     "name": "德国日前现货电价(EPEX)",
     "unit": "欧元/兆瓦时",
-    "value": 285.96,
-    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 286.0（最新小时 243.6，近288小时均值 255.7）",
+    "value": 243.42,
+    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 243.4（最新小时 303.9，近288小时均值 255.8）",
     "source": "energy-charts/SMARD",
-    "published": "2026-11-03T05:44+08:00",
+    "published": "2026-11-03T14:51+08:00",
     "link": "https://api.energy-charts.info/price"
   },
   "qhd5500": {
@@ -48,5 +48,15 @@
     "source": "CCTD中国煤炭市场网",
     "published": "2026-11-01T12:00",
     "link": "https://www.cctd.com.cn/"
+  },
+  "ttf": {
+    "id": "ttf",
+    "name": "欧洲TTF天然气期货",
+    "unit": "欧元/兆瓦时",
+    "value": 51.0,
+    "evidence": "高盛将2027年欧洲基准天然气TTF均价预测上调至51欧元/兆瓦时，此前预测为32欧元/兆瓦时。",
+    "source": "21财经",
+    "published": "2026-11-03T12:09+08:00",
+    "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPZUtJejlIU1F0V0w0bWtLV1ZCNE0tTUd0dldOTHB1UXZjUTduMGlaVzhUMWRHLWpVVkRxemh2T3ZxNjVwelNnei1KX3F6cmNVV0VHWGVtdlA5XzFxSU1iNW1XR3NOazREN2t6UUs1TVpIRGVMdjVfa0hWOVBKMU9ZRFNyMldwdTVORnA2c1pCYw?oc=5"
   }
 }
