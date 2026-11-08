@@ -1,15 +1,15 @@
-# 能源电力市场监控日报（第 198 期）
+# 能源电力市场监控日报（第 199 期）
 
-> 生成时间：2026-11-08 08:39（北京/UTC+8）　|　监控周期：每 3 小时　|　本3h新增：31 条、命中 9 主题　|　近24h事件：73 条、命中 10 主题
+> 生成时间：2026-11-08 18:26（北京/UTC+8）　|　监控周期：每 3 小时　|　本3h新增：38 条、命中 13 主题　|　近24h事件：73 条、命中 13 主题
 
 ## 一、四品种影响速览（主分=近24h市场态势，末列=本3h边际）
 
 | 品种 | 方向信号 | 24h态势分 | 近24h利多/利空 | 本3h边际 | 核心驱动（Top） |
 |---|---|---|---|---|---|
-| 原油 | ▲ 偏强 | 11.0 | 8 / 2 | ▲ +11 | 中东地缘冲突升级 / 霍尔木兹等能源通道受阻 |
-| 天然气 | ▲▲ 强烈看涨 | 13.0 | 7 / 2 | ▲ +14 | 中东地缘冲突升级 / 霍尔木兹等能源通道受阻 |
-| 煤炭 | ▲ 偏强 | 8.0 | 7 / 2 | ▲ +9 | 中东地缘冲突升级 / 霍尔木兹等能源通道受阻 |
-| 电力 | ▲▲ 强烈看涨 | 13.0 | 7 / 1 | ▲ +13 | 中东地缘冲突升级 / 霍尔木兹等能源通道受阻 |
+| 原油 | ▲▲ 强烈看涨 | 19.0 | 13 / 0 | ▲ +17 | 寒潮 / 极端低温 / 提前入冬 |
+| 天然气 | ▲▲ 强烈看涨 | 18.0 | 12 / 0 | ▲ +18 | 寒潮 / 极端低温 / 提前入冬 |
+| 煤炭 | ▲▲ 强烈看涨 | 13.0 | 12 / 0 | ▲ +13 | 寒潮 / 极端低温 / 提前入冬 |
+| 电力 | ▲▲ 强烈看涨 | 15.0 | 12 / 0 | ▲ +15 | 寒潮 / 极端低温 / 提前入冬 |
 
 > 24h态势分=Σ(主题权重×历史影响强度×方向)，同一因子只计一次，基于近24小时滚动事件，反映当前市场压力与集中度；本3h边际仅计最新3小时新增。均非价格预测点位。
 
@@ -19,9 +19,9 @@
 
 | 品种 | 最新价 | 日涨跌 | 单位 | 数据源 | 时间 |
 |---|---|---|---|---|---|
-| WTI原油(近月期货) | 90.34 | -0.20% | 美元/桶 | CNBC | 2026-11-07T18:13:32.000-0500 |
-| Brent原油(近月期货) | 98.32 | +0.00% | 美元/桶 | CNBC | 2026-11-07T06:00:00.000+0100 |
-| NYMEX天然气(Henry Hub) | 3.003 | +1.90% | 美元/百万英热 | CNBC | 2026-11-07T18:13:32.000-0500 |
+| WTI原油(近月期货) | 90.34 | -0.20% | 美元/桶 | CNBC | 2026-11-07 |
+| Brent原油(近月期货) | 98.32 | +0.00% | 美元/桶 | CNBC | 2026-11-07 |
+| NYMEX天然气(Henry Hub) | 3.003 | +1.90% | 美元/百万英热 | CNBC | 2026-11-07 |
 | 美元指数 | 102.279 | +0.72% | 点 | CNBC | 2026-11-06 |
 
 ### 2.2 区域现货参考（新闻文本自动提取）
@@ -31,93 +31,79 @@
 | 秦皇岛/环渤海动力煤现货 Q5500 | 1017.0 | 元/吨 | CCTD中国煤炭市场网：CCTD环渤海现货5500 1017 元/吨（11-06，环比 0. | 2026-11-06T12:00 |
 | CCTD秦皇岛综合交易价 5500K | 778.0 | 元/吨 | CCTD中国煤炭市场网：CCTD综合交易5500 778 元/吨（11-06，环比 0.78 | 2026-11-06T12:00 |
 | CCTD年度长协价 5500 | 727.0 | 元/吨 | CCTD中国煤炭市场网：CCTD年度长协5500 727 元/吨（11-01，环比 1.39 | 2026-11-01T12:00 |
-| 纽卡斯尔动力煤(国际现货) | 144.45 | 美元/吨 | Trading Economics：纽卡斯尔动力煤(国际现货)自动取数（Trading Economic | 2026-11-08T08:39 |
-| 德国日前现货电价(EPEX) | 265.28 | 欧元/兆瓦时 | energy-charts/SMARD：德国日前现货电价(EPEX)近24小时日前均值 265.3（最新小时 | 2026-11-08T08:39 |
+| 纽卡斯尔动力煤(国际现货) | 144.45 | 美元/吨 | Trading Economics：纽卡斯尔动力煤(国际现货)自动取数（Trading Economic | 2026-11-08T18:26 |
+| 德国日前现货电价(EPEX) | 218.12 | 欧元/兆瓦时 | energy-charts/SMARD：德国日前现货电价(EPEX)近24小时日前均值 218.1（最新小时 | 2026-11-08T18:26 |
 
 ## 三、近24小时重大事件（按影响因子分组，**[NEW·3h]** 为本3小时新增）
 
-### 3.1 中东地缘冲突升级 / 霍尔木兹等能源通道受阻　【地缘政治｜近24h对商品利多 6 条 / 利空 0 条，其中本3h新增 3】
-- ▲ **[NEW·3h]** [Category 2 Hurricane Isaias nears landfall, leading to production shut-ins](https://www.eia.gov/todayinenergy/detail.php?id=68284) — EIA Today in Energy，2026-11-08T08:39
-- ▲ **[NEW·3h]** [Oil falls 7.2% as Iran clarifies Hormuz stance, rejects talks](https://news.google.com/rss/articles/CBMisAFBVV95cUxNRy15YUhOYk9FVk9XOG45RlVwcEFEZG1KWDNRbkpCcFRXMW00ODlvbDU4T1NwMDhIa1RQU0wyTmZON2t4cTdBWk1JbGpzU0pHcl96bHcxSHZRMUY5ZTFmeVE0bG9wS05lakkwTHdGa19JX3RYYVlRaHpOaGxyZ2g5dnRqRFpjb3lTY2NIRDMxaGdJTUlWX0JxbS1NTnU0QkFPd0JyWl9fUlZtQ0J4T1Vnbg?oc=5) — scanx.trade，2026-11-07T23:34
-- ▲ **[NEW·3h]** [Citi Raises Brent Forecast for 2026; Sees $150 Oil if Hormuz Disruption Persists](https://news.google.com/rss/articles/CBMirgFBVV95cUxQdk5UVWpBQWFNVy1reG1ZeFlEdlQxcWlxWkMzTFNfUmFKdVFZaWRqNm4zTFo5V05Pd2o5b3hpOXNLeWJ3Tm9XdzR1aEk1VWd1S29vaW1GUVZ1OTU5c0hsUE5fWnhUV1RoakRubVlGcW14cHBhaER0VzZmeDVFNGZkeEVUb2l6WGhtTVlBUXBMTFFYNkMwalRYZmYzQUItWEhDLUhiVkdaOFBoU0Q4Vnc?oc=5) — EnergyNow.com，2026-11-07T20:58
-- ▲ [霍尔木兹之后曼德海峡再告急，两大全球能源命脉遭遇连环锁](https://news.google.com/rss/articles/CBMiSEFVX3lxTE9ZbDdnRkxvbHpTOEFFVHE1VUoyUnp4Rk9mWkJ2RXlYRzhTWndaRGxadXBVc0xpM0pxY2p2MDBJcFJKYUN6RE1fTA?oc=5) — 财联社，2026-11-08T04:00
-- ▲ [UPDATES: US War on Iran, Day 254 - "Minor" US Strikes on Qeshm Island in the Strait of Hormuz](https://news.google.com/rss/articles/CBMikgFBVV95cUxNbWc1TnVMWUZ5dnF2bXBzYS1vVk1qYkdjT0tJdzlKaW56TklnY3BDTUtOQ28yNXhUQ0FTUG9admQ0bU5LOFEtVWk0Yl9fTHd1Q2VkVjRxem5aVFRqa1ZUakFTVllVVDhidDVWRllwdWQzNEU2aHp5aWtsRzM2WDV5dHFmS24zTFNXV3NPTktaTWlJdw?oc=5) — EA WorldView，2026-11-07T23:38
-- ▲ [Oil Prices Flat After Iran Says Dozens of Vessels are Crossing Hormuz](https://news.google.com/rss/articles/CBMiogFBVV95cUxPRHRlT1VGMFB1d0txZ1NNN09lRktZLTh3OExQOUQwRDhiVGRQN1NlWGVjMXlKU2pZTDlCYktPTEFZbndtdVF3aFd6YTZ6SXlxVkZFTUw5T0I1dXEyVzVUVXFKbVJCYXBUbFRablNqdGRvYlZkZ0xOVWVxMi1XLWhKVVZfZE1WNVJBRmlYMlFPa2N3c190M2VFclB5eTM3ZjlCSGc?oc=5) — EnergyNow.com，2026-11-07T21:16
+### 3.1 寒潮 / 极端低温 / 提前入冬　【天气与需求｜近24h对商品利多 10 条 / 利空 0 条，其中本3h新增 6】
+- ▲ **[NEW·3h]** [河北秦皇島降暴雪 居民：近20年來最大降雪](https://news.google.com/rss/articles/CBMiYEFVX3lxTE1DdHNNMjc5RUdJeDdxWDJXMlIyZEpOZ1Vjcm00QUg2SGtTbWpPczBtSi1CZDgxZmhMUzBNR1hRWHRGLUdDS2NNbGlTZWJFOExBZ3Z6ZjVhMld6M1NDTmhiZtIBZkFVX3lxTFBXeGZ2bU9NVzRvY09yN09RY0owSXJUZTR6QW9VVU14WmZZcnpTMV9HaW5XLWxRRVhKcDQ0UEUyQWR2d0xyY0x4V3hBaFhpUmlwVW9ZTzdfYlhmU2dRM1dTdVRub0d4Zw?oc=5) — 大紀元，2026-11-08T18:12
+- ▲ **[NEW·3h]** [“20年没见过这么大的雪”！河北秦皇岛遭遇暴雪，积雪厚达23厘米→](https://news.google.com/rss/articles/CBMi0AFBVV95cUxQUWRlLWNkTTB5RUg3a0NfclRCM0Rwb3JlcmZ4aEdXX0lkdHlyM1ZHTDVocDlTNnUtMUJjQndqc1QyMUJjYVFQUW16bEt0N1Q4NWlQeUlFRVowcmI3Rno5V0V3WU9EYjZjdHlEV1pkQmdMRnQ3NmJRR3E0UnNWX0hKLU4yMEoycUNkeTJiTEpqWjh1MWo5eU1KOW9sZ1Zrb09xZ3M3Vl9RWE4xZUt4Q2lTUTE1aGhmSUdtcjVjZEh2OU9OM09welJIRjgtbHpHYjVt?oc=5) — 欧洲头条，2026-11-08T16:06
+- ▲ **[NEW·3h]** [河北秦皇岛遭遇暴雪，积雪厚达23厘米](https://news.google.com/rss/articles/CBMiigFBVV95cUxOR1h6cVcxX09lcmJUQTc1U3RScjhfWU40UU5SRzZpU1VRNzZCcUJHWnBMMWlPVU9FNUV6NGNVa0FFYzdGQkp3enVJZTdVR1BzVU1uVG9UTm0zVFhERk1HemEzZTNKRXczcm1CQUdLMXE2Y2xtdE1ZUWVHQVp2YXNSRVQ3cXYxUndyWHc?oc=5) — 广州日报新花城，2026-11-08T15:45
+- ▲ **[NEW·3h]** [一夜回到冰河时 代？河北秦皇岛暴雪实测厚达23厘米 居民称20年少见](https://news.google.com/rss/articles/CBMiWEFVX3lxTE1FTGFydGp3cFVaSkRrZ0FfM1Z2dnBXVkNXRlBPMkhTaTVBZmhXQmNEVHFrUDlTOWp1bERsMklMcFJMdjVxeFROYUZsaWNqZDRGdFh3T3JUc0E?oc=5) — 驱动之家，2026-11-08T15:05
+- ▲ **[NEW·3h]** [秦皇岛遭遇暴雪天气 降雪仍在持续 当地发布红色预警](https://news.google.com/rss/articles/CBMiZEFVX3lxTFB3Ylk5QlgzdWhPVm5vWWZWeGdwd1loNUhPOE8zUHB1WE14YmtnZ1VZTGlfU19zb1otUFZaRGxudXh4aFJnZTNpZk4wSGl6VG9hRlZEZm1mM3hHekZ3Vm1Wd2E5S04?oc=5) — 中新经纬，2026-11-08T14:42
+- ▲ **[NEW·3h]** [秦皇岛遭遇暴雪，居民实测积雪厚达30厘米，“20年没见过这么大的”](https://news.google.com/rss/articles/CBMiZkFVX3lxTE11YUZ0cUF2R3FFVzNzaVlwQm1ZU3gxd0dIN3pJbHotT3RlLWZ6QUF6NDFLUUE1QmV4RGZiWi1YTE1uU0tXQ2p3eUF6Mll1QkVKSlpqYXhvaTdLbjg4WEQzLU1pZzB3dw?oc=5) — 观察者网，2026-11-08T14:23
 
-### 3.2 寒潮 / 极端低温 / 提前入冬　【天气与需求｜近24h对商品利多 1 条 / 利空 0 条，其中本3h新增 1】
-- ▲ **[NEW·3h]** [河北秦皇岛凌晨发布暴雪红色预警 降雪仍在持续](https://news.google.com/rss/articles/CBMiaEFVX3lxTE5lbDlzX254cjlTZDNSZlZDWmRjSVFKTW04S2JLZFlkaXZFdFlhckg0SDJCNlA2QVVfM0J6dDFjTTM2bjFFY3VqVFh3S0x2Q2liY1hld2haaXZaa0tJMUZOSEkzLVljZ3BL?oc=5) — 中国新闻网，2026-11-08T08:25
+### 3.2 中东地缘冲突升级 / 霍尔木兹等能源通道受阻　【地缘政治｜近24h对商品利多 2 条 / 利空 0 条，其中本3h新增 1】
+- ▲ **[NEW·3h]** [Philippines declares national energy emergency as Asia risks energy crisis amid Iran war - ABC News](https://news.google.com/rss/articles/CBMisgFBVV95cUxOeE1ldVFZSXdBWWRGcDlTNDdpaEE0aFNicTNidEJrLWlycTQ4NDlqdzFhdXk2cl9XWXRxdExqWFhtcDgzNzdNMTljVmVCQ28zQjhIM1hzUXd5TllON2dEaGZYTm8xSUNtT0xQUm5fOVQzX19RT1E5b3FYVmpXejZWYkFnenVmMllSOVAxNk8xMFRSUXgwblJ6TFdkUXgxbzU3ZFQ2cnNxXzVZeVVhY1VkUzdB0gG3AUFVX3lxTE5mSTJ3M2xnS2g1Nm80TzZ4WGtla3RQSWkzdjRXRXNacWtJQUZvSTdRbXltSy15ZW51cGhzTnBVRXZ0X0JMT1h3Y0ZBOWZrNlZHWGszR3RmVGxRTGFNaUdIMzJpSWRYM3pFY1U3aEtlYnlubVJtZTFyWDRHdExfYnlySWFibktCN2ZPTjROSjgtVnB0Ymk2UkxIdHJkTEVuQWxEM0NMMzBKXzI3dmE4ZENUdllMakRXSQ?oc=5) — Breaking News, Latest News and Videos，2026-11-08T16:55
+- ▲ [Category 2 Hurricane Isaias nears landfall, leading to production shut-ins](https://www.eia.gov/todayinenergy/detail.php?id=68284) — EIA Today in Energy，2026-11-08T18:26
 
-### 3.3 全球/中国经济与能源需求预期变化　【宏观金融｜近24h对商品利多 0 条 / 利空 1 条，其中本3h新增 1】
-- ▼ **[NEW·3h]** [Wars May Spur Faster Electrification](https://oilprice.com/Energy/Energy-General/Wars-May-Spur-Faster-Electrification.html) — OilPrice.com，2026-11-08T08:00
-
-### 3.4 美联储紧缩/美元走强（反向：降息弱美元）　【宏观金融｜近24h对商品利多 0 条 / 利空 1 条】
-- ▼ [We Energies customers face another rate hike — but smaller, as regulators push back on utility](https://news.google.com/rss/articles/CBMiuwFBVV95cUxQanVOeWNJaEVoOUM1cElVN0FIRTJueWtSUTRfNXVMbms5V3BaU3A2YldYanVvZGFxc3RTcFlsQy04RDZfNXd6Q3Y1eVBZS0NMay10LVhpVmVmMUxVYi02RnB5Q3hRc3ZMVG5TOU1BWUhfOHNfZWNmYmlPV29lc3YyNEI3dkExTnpDMDdCSHZKbF9RZ0cyMEJEZ2lRbTVUVlZPN2MyWGw3anZhTFNaeTBjOEJyTFRqRzJLSFJn?oc=5) — VernonReporter，2026-11-08T03:34
-
-### 3.5 原油/成品油库存超预期去化　【库存数据｜近24h对商品利多 1 条 / 利空 0 条】
-- ▲ [美国商业原油库存大幅下降！上周大降1112万桶 远超市场预期](https://news.google.com/rss/articles/CBMiSEFVX3lxTE9XaTd2UnFoempPWlN3YTlka093NlY1UjQ4SGx0Q2p0RC1md0RoTGdxU2hlNnRHdHBjOG1qbXBEVlFfYml3cks2TQ?oc=5) — 财联社，2026-11-07T21:46
+### 3.3 原油/成品油库存超预期去化　【库存数据｜近24h对商品利多 1 条 / 利空 0 条】
+- ▲ [美国商业原油库存大幅下降！上周大降1112万桶 远超市场预期](https://news.google.com/rss/articles/CBMiSEFVX3lxTE9XaTd2UnFoempPWlN3YTlka093NlY1UjQ4SGx0Q2p0RC1md0RoTGdxU2hlNnRHdHBjOG1qbXBEVlFfYml3cks2TQ?oc=5) — 财联社，2026-11-08T13:08
 
 <details><summary>本3小时其他新增资讯（点击展开）</summary>
 
-- [Category 2 Hurricane Isaias nears landfall, leading to production shut-ins](https://www.eia.gov/todayinenergy/detail.php?id=68284) — EIA Today in Energy，2026-11-08T08:39
-- [油价，一周暴跌超16%！](https://news.google.com/rss/articles/CBMiY0FVX3lxTE9UTzVEend3ak83eVVCOGQ1UTc4cmMtR1I3bUZUcXlydHdtUTBCQlBZeUZObjBRZFljVHRmcENIa0w4Rm5NZlV2ODY4VUVHYUNDT1JxekFLM2E1SFpFVXRZdnNvTQ?oc=5) — 东方财富，2026-11-08T08:32
-- [河北秦皇岛凌晨发布暴雪红色预警 降雪仍在持续](https://news.google.com/rss/articles/CBMiaEFVX3lxTE5lbDlzX254cjlTZDNSZlZDWmRjSVFKTW04S2JLZFlkaXZFdFlhckg0SDJCNlA2QVVfM0J6dDFjTTM2bjFFY3VqVFh3S0x2Q2liY1hld2haaXZaa0tJMUZOSEkzLVljZ3BL?oc=5) — 中国新闻网，2026-11-08T08:25
-- [Wars May Spur Faster Electrification](https://oilprice.com/Energy/Energy-General/Wars-May-Spur-Faster-Electrification.html) — OilPrice.com，2026-11-08T08:00
-- [斯洛伐克总理：若欧盟强制要求放弃俄石油，将继续发起诉讼](https://news.google.com/rss/articles/CBMiTEFVX3lxTE8xRDU4WmZNVlVsbUYwMXFIalBkSFpwWGpjWi1JcUc0eVlFenZuMzB3bkItT0llbFVUNVJhRTVrSXJNOHNoNjZvVlFocXI?oc=5) — 凤凰网，2026-11-08T07:59
-- [中国下达逐客令，正式宣布不再购买该国天然气，普京未曾料到!](https://news.google.com/rss/articles/CBMiVEFVX3lxTFBOM2JKaTh2a0pPRFhpcDAtckF0WlVmT041bzlVMzB5dnVtczNNVjhUdGI5VUFlcEFGb2JSZmJQcDdWVGNEYlVMWU5BZmxlX3p1R3hPRg?oc=5) — 手机网易网，2026-11-08T07:19
-- [German Chancellor: "Phasing Out Nuclear Power Was a Serious Strategic Mistake"... What Went Wrong With the Energiewende? [Energy Odyssey](19)](https://news.google.com/rss/articles/CBMiZEFVX3lxTE4yYWtjaVBKbnh5Ym01d1RhOUtqZXd4bUw1OF81VHBnenJyNHJObDVMeGFhSkZ0bl9XN1N4SVZoMHA2MHYyb19remJMQkxuelV2bWZydFE4bXQ3bHVfTDZKUV83a3Q?oc=5) — 아시아경제，2026-11-08T07:00
-- [The U.S. Has $50 Billion for Nuclear Waste and Nowhere to Put It](https://oilprice.com/Alternative-Energy/Nuclear-Power/The-US-Has-50-Billion-for-Nuclear-Waste-and-Nowhere-to-Put-It.html) — OilPrice.com，2026-11-08T06:00
-- [African Currencies Mostly Soft As Oil Posts Steepest Weekly Drop Since 2020](https://news.google.com/rss/articles/CBMipAFBVV95cUxPS2FsbUs1MTJEak5PWlVUUDNNVTN5RDY2ckQyZktnUlFpU2ZzUWVDc244MWNhd1hFN3k3X1pvN1NLUm5MTXpWd3MwcmlHcWZkSmJOUUhrRXFYMS1QbUxpdThqd1VSelM5bzVQQVFNaHVFelVrLVZNV1N6NUdQSm1Gdl9ibDRzU3Fyc3BNT3Z3aWJvRHpYdldaUDM2UnhUbWlKOWN1Qg?oc=5) — MarketForces Africa，2026-11-08T05:05
-- [为何放着天然气不动，拿烟草开刀？普京给日本上了一堂反制课](https://news.google.com/rss/articles/CBMif0FVX3lxTE1hamhzWGlsQ1ZuZmptckh4ZERpY0tQVzdaQm5jR2NHUE5xT1IxZnUzcmhObjZRZlIyVE1UQ1dPVUw5QlFGQXE5dlB2NlQ0TmtTOXZIZWZlSEJWcEFQRmRkcHV1R2ZsTkxtUDhLZ0UyQ3pIRTYwb0k1RE02ZEJnaWc?oc=5) — 手机新浪网，2026-11-08T04:18
+- [河北秦皇島降暴雪 居民：近20年來最大降雪](https://news.google.com/rss/articles/CBMiYEFVX3lxTE1DdHNNMjc5RUdJeDdxWDJXMlIyZEpOZ1Vjcm00QUg2SGtTbWpPczBtSi1CZDgxZmhMUzBNR1hRWHRGLUdDS2NNbGlTZWJFOExBZ3Z6ZjVhMld6M1NDTmhiZtIBZkFVX3lxTFBXeGZ2bU9NVzRvY09yN09RY0owSXJUZTR6QW9VVU14WmZZcnpTMV9HaW5XLWxRRVhKcDQ0UEUyQWR2d0xyY0x4V3hBaFhpUmlwVW9ZTzdfYlhmU2dRM1dTdVRub0d4Zw?oc=5) — 大紀元，2026-11-08T18:12
+- [碳热电池：旨在取代工业中天然气和煤炭的技术](https://news.google.com/rss/articles/CBMi0gJBVV95cUxNM3VPalR1S2ZFVXdCSUFRSTZaaThBQ3cyOTFzZlVhQndNNGxpdEh6b1JZTlNBUkZfTVRKTWViOTNNWXRZQTl2UVZUMGg2NXhkYWNLYjNoOUk2RjhoOXl0MTBsNEFOaUNjY2ZZRHFqSkoxam1GVFFPdWFPbU1McTJTa3RLcEwxZkZ5eS15ekp4ekZRSXI1MTVxYXhhTzktdExwbUtyYnlIUGlHaUF2cnVNRm5HVnBzYXZDeXBCUXd2aHFlcC05YUloWkp3THhfUWxDOFBiRERlRlJwQ2l3Qm1fWFdETXM5TlhQaWRjSnFmZHN0LTR6cFBPcC0zYXVXWDhzYzlWVGRHalVEbThidC1OclQ4VnAzNktKT01IWEUtTV9RaXppR2h0Mi02M2h3U0V1Y3BFa3RzOG5Uc3hQUzVnTkhUUkJwclVBdW9tRlIwS0FmZ9IB1wJBVV95cUxONVBCX0h4azEtNzRqZldtaTNXSmhnV0xtMHZ0MUVVQTVTOGJESy01V1Q1cENYZDlVNmYxT2sxNGhxN3g1UU5LVkFiVnZRLVp5MDZZdHpiWWhrMjZwNmZVMTg0VnlXS3lwcy1fZ0R4M0w0bXN4NDdQZHllVVMyakVoV09lQ0NqcTZKdldsOWFUSTFMcG56RnZlWHNXWk9MRmxVWnJCWEFOczJveFdGblJQdzlSZGxSemhvcEhybjJ4UGNGYWd6RU1XNXpBRFhuWmI5cE14OG1hMngtVXVlVHEyQlJBVERBQ3l4ZGlsR2NOaUg5UEdRbmJtZXg4ZmFhUVExTk9KeXpBQTIxVWl6VDFyQXAwRVNmZFZwc3R2cFlVek9LUV96SWZ2azNpTmlua29hbnFsZ1AteS13U01mc1BZR3RYRDhuZTB4TjZvOU5OTW5vM2Q2eng4?oc=5) — Noticias Ambientales，2026-11-08T18:05
+- [Japan sees COP31 as opportunity to deepen energy cooperation with Türkiye, ambassador says](https://news.google.com/rss/articles/CBMi0AFBVV95cUxQX3VWVjNuVGtCdXVodW8wOFRQMUEzZ19rQ3oxeWJHOU1JODUzQmx4a01NOVhwbklUZzdzMEVCRGE2X0haMnZYazgzTndfTzZLYUVUWDdsN3B1RmZBbE5UTDU0ZGNaMzh4Nm41QnVDdzlzM0pDcHdveXBnRFd3TTFTOThxTjU5YUVsWmEwMXFaNWJGOG5vdXQ5b0ZEcWZtU2s4ZERlQkxoUUlUeFZ1NU9oQnJDSC1jRE1FZnlXYjZyUGxqSmNjcXFXb1Z2c3diY1dX0gHYAUFVX3lxTE5jN0JtNDV4eW9JVjZnMUJDTVRkVkFuWHBlS1FmVENrR1UxMmdDa3NFeWJoMFVldFEtaks0ZFQxaFBKVTlZUTF6ZWJEQnA2d2ZhdWh3OVFERFFKV0sycWNDWWpvV2J6aVdZbzktai1NM3labzdNZ01DU3BQQmlwSWc0RXBWRy1iZkVPdklDNlEtOVdmSHVrLWVOSzN3MXRWVUtTdUZGNHg5LVR2NEJoY0hXUWFUYTExc3Vob2lUNER3d0ZuY1pqZC15QU9HOWF3ejRicWhwQVhtNA?oc=5) — Anadolu Ajansı，2026-11-08T17:52
+- [First unit at the Czech Temelín plant resumes electricity production after a two-month outage](https://news.google.com/rss/articles/CBMizgFBVV95cUxNZ3NHWENkLUdfQk05eHY0eUdOVU9CQzVXRzc3eFd5bFNLWjdXUlhTa05XY1pyTjF2SEdjUGJ3MV9PRU5nWkZQSjY1N0MzQU5FRFZ2UUNYN0Fwekk0U2lFYk41SHN2VlVtRW1LWHlsTEM0aHBMVjhXYnNURTYwNklEVkpsWXlRUkpNWEoxSkFsQm5pdnpOOUhfa09raFJPVjB3MlBPRVA4am84TkhxeWZuaVFYMWIzR2pDU2REdHRaZGtheDN6eFBtZ050Q25xZw?oc=5) — oEnergetice.cz，2026-11-08T17:31
+- [Philippines declares national energy emergency as Asia risks energy crisis amid Iran war - ABC News](https://news.google.com/rss/articles/CBMisgFBVV95cUxOeE1ldVFZSXdBWWRGcDlTNDdpaEE0aFNicTNidEJrLWlycTQ4NDlqdzFhdXk2cl9XWXRxdExqWFhtcDgzNzdNMTljVmVCQ28zQjhIM1hzUXd5TllON2dEaGZYTm8xSUNtT0xQUm5fOVQzX19RT1E5b3FYVmpXejZWYkFnenVmMllSOVAxNk8xMFRSUXgwblJ6TFdkUXgxbzU3ZFQ2cnNxXzVZeVVhY1VkUzdB0gG3AUFVX3lxTE5mSTJ3M2xnS2g1Nm80TzZ4WGtla3RQSWkzdjRXRXNacWtJQUZvSTdRbXltSy15ZW51cGhzTnBVRXZ0X0JMT1h3Y0ZBOWZrNlZHWGszR3RmVGxRTGFNaUdIMzJpSWRYM3pFY1U3aEtlYnlubVJtZTFyWDRHdExfYnlySWFibktCN2ZPTjROSjgtVnB0Ymk2UkxIdHJkTEVuQWxEM0NMMzBKXzI3dmE4ZENUdllMakRXSQ?oc=5) — Breaking News, Latest News and Videos，2026-11-08T16:55
+- [油价调整通知](https://news.google.com/rss/articles/CBMiYEFVX3lxTFBFMFQyTDE1RWNXTGNKZElxNXBKZ2FRendnUXpJb1R1QjRYVmhfTEtUcXlmMU1zdHRfdDFWLTdlcWtnZ21tSnl2YVZLZVBCR00zS2ZHQS1EckFXcEpJYlZBbg?oc=5) — ThePaper.cn，2026-11-08T16:35
+- [石油化工行业研究：中选压低升级预期，原油回吐部分风险溢价](https://news.google.com/rss/articles/CBMiYkFVX3lxTFBMODE0bWZ2OFFQWnFnUzJ4RjQxWWRoZ01Mem13bnkyQ2xkdHozcUF0RGNVRE9uTGFLSGxDeEo0TTd3WU9aQ080VXItSWZ3MmlzZ2l2ZDlQcjh2SnQyVWZ5RlR3?oc=5) — 证券之星，2026-11-08T16:22
+- [河北秦皇岛：多部门积极应对降雪天气](https://news.google.com/rss/articles/CBMiaEFVX3lxTFA3V2xmODgteGhNejVFTkxVVlFycUdPNUVzTHROZlFYbmpKSXFDZDhYYXd0NUxMNWlUeFhRaWZGWFlwaGNwWk5ZSEJLZjJGbU5fdmlFN1BYTFFJeWVFZzZFZ3VqUUNYbTNs?oc=5) — 中国新闻网，2026-11-08T16:17
+- [“20年没见过这么大的雪”！河北秦皇岛遭遇暴雪，积雪厚达23厘米→](https://news.google.com/rss/articles/CBMi0AFBVV95cUxQUWRlLWNkTTB5RUg3a0NfclRCM0Rwb3JlcmZ4aEdXX0lkdHlyM1ZHTDVocDlTNnUtMUJjQndqc1QyMUJjYVFQUW16bEt0N1Q4NWlQeUlFRVowcmI3Rno5V0V3WU9EYjZjdHlEV1pkQmdMRnQ3NmJRR3E0UnNWX0hKLU4yMEoycUNkeTJiTEpqWjh1MWo5eU1KOW9sZ1Zrb09xZ3M3Vl9RWE4xZUt4Q2lTUTE1aGhmSUdtcjVjZEh2OU9OM09welJIRjgtbHpHYjVt?oc=5) — 欧洲头条，2026-11-08T16:06
+- [国际油价暴跌！布伦特油价一周跌超16% 纽约油价一度跌破90美元](https://news.google.com/rss/articles/CBMiiAFBVV95cUxOZjUzLXJ3UmF0eE9ZQTR1Q1ltMHNyX3h3TDBtWU4zeFpfZEpmM3RKb29uZldGcEZyTVpxc2xDcUVVV1VwdjZfbTFyc1RwZEJqc3pjQVI2Z1I0YjY5bldoQmFZdVhYRnVJemg3eG9YcThzQUhsSWtwWnphS2I2NHEwRFl0MDU1VW9U?oc=5) — 搜狐网，2026-11-08T15:48
 
 </details>
 
 ## 四、事件 → 价格传导推演（近24h主线 · 基于历史经验矩阵）
 
-### 4.1 原油：▲ 偏强（24h态势 11.0；本3h边际 ▲+11）
-- **近24h主线驱动**：▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度5/5，6条证据）；▲寒潮 / 极端低温 / 提前入冬（强度1/5，1条证据）；▼全球/中国经济与能源需求预期变化（强度3/5，1条证据）；▼美联储紧缩/美元走强（反向：降息弱美元）（强度2/5，1条证据）；▲原油/成品油库存超预期去化（强度2/5，1条证据）
-- **传导逻辑**：海峡承担全球约20%海运石油，冲突直接造成实物断供+战争风险溢价；历史对照：2019 Abqaiq遇袭Brent单日涨约15%，2025-26本轮冲突Brent一度破百
+### 4.1 原油：▲▲ 强烈看涨（24h态势 19.0；本3h边际 ▲+17）
+- **近24h主线驱动**：▲寒潮 / 极端低温 / 提前入冬（强度1/5，10条证据）；▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度5/5，2条证据）；▲原油/成品油库存超预期去化（强度2/5，1条证据）
 - **传导逻辑**：馏分油/取暖油需求脉冲
-- **传导逻辑**：原油是全球增长最敏感的大宗；IEA/EIA/OPEC月报需求调整是月度主线
-- **传导逻辑**：美元计价商品的金融属性：实际利率上行压制估值、抑制需求预期；原油金融属性最强
+- **传导逻辑**：海峡承担全球约20%海运石油，冲突直接造成实物断供+战争风险溢价；历史对照：2019 Abqaiq遇袭Brent单日涨约15%，2025-26本轮冲突Brent一度破百
+- **传导逻辑**：EIA/API周度库存是现货紧张度的高频验证；连续去库在需求旺季强化涨势
+- **时滞/持续性**：天气周期
 - **时滞/持续性**：即时～数日，供给恢复前持续
-- **时滞/持续性**：天气周期
-- **时滞/持续性**：周度～季度
+- **时滞/持续性**：当日～数日
 
-### 4.2 天然气：▲▲ 强烈看涨（24h态势 13.0；本3h边际 ▲+14）
-- **近24h主线驱动**：▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度4/5，6条证据）；▲寒潮 / 极端低温 / 提前入冬（强度3/5，1条证据）；▼全球/中国经济与能源需求预期变化（强度2/5，1条证据）；▼美联储紧缩/美元走强（反向：降息弱美元）（强度1/5，1条证据）
-- **传导逻辑**：卡塔尔LNG经霍尔木兹/阿曼湾外运，全球LNG约1/5经此；断供预期引发欧亚抢气，气价弹性通常大于油价（2022年危机TTF峰值超300欧/MWh）
+### 4.2 天然气：▲▲ 强烈看涨（24h态势 18.0；本3h边际 ▲+18）
+- **近24h主线驱动**：▲寒潮 / 极端低温 / 提前入冬（强度3/5，10条证据）；▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度4/5，2条证据）
 - **传导逻辑**：供暖负荷陡增，低库存时尤为剧烈（2021年初德州寒潮Henry Hub短暂暴涨）
-- **传导逻辑**：工业用气与发电需求
-- **传导逻辑**：金融属性弱于原油，区域供需主导
+- **传导逻辑**：卡塔尔LNG经霍尔木兹/阿曼湾外运，全球LNG约1/5经此；断供预期引发欧亚抢气，气价弹性通常大于油价（2022年危机TTF峰值超300欧/MWh）
+- **时滞/持续性**：天气周期
 - **时滞/持续性**：数日～数周
-- **时滞/持续性**：天气周期
-- **时滞/持续性**：季度
 
-### 4.3 煤炭：▲ 偏强（24h态势 8.0；本3h边际 ▲+9）
-- **近24h主线驱动**：▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度3/5，6条证据）；▲寒潮 / 极端低温 / 提前入冬（强度2/5，1条证据）；▼全球/中国经济与能源需求预期变化（强度2/5，1条证据）；▼美联储紧缩/美元走强（反向：降息弱美元）（强度1/5，1条证据）
-- **传导逻辑**：高气价触发'气煤切换'，日韩印欧增购现货煤；能源板块风险溢价与海运费同步抬升
+### 4.3 煤炭：▲▲ 强烈看涨（24h态势 13.0；本3h边际 ▲+13）
+- **近24h主线驱动**：▲寒潮 / 极端低温 / 提前入冬（强度2/5，10条证据）；▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度3/5，2条证据）
 - **传导逻辑**：火电采暖负荷提升
-- **传导逻辑**：工业/发电用煤（中国用电量与地产、制造业链条高度相关）
-- **传导逻辑**：美元通道+风险偏好
-- **时滞/持续性**：数周
+- **传导逻辑**：高气价触发'气煤切换'，日韩印欧增购现货煤；能源板块风险溢价与海运费同步抬升
 - **时滞/持续性**：天气周期
-- **时滞/持续性**：季度
+- **时滞/持续性**：数周
 - **结构注记**：国内看'三西'安监与秦港库存，进口看印尼 HBA/RKAB 与纽卡斯尔；长协煤（'三锁'定价）与现货价差决定电厂采购节奏。
 
-### 4.4 电力：▲▲ 强烈看涨（24h态势 13.0；本3h边际 ▲+13）
-- **近24h主线驱动**：▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度3/5，6条证据）；▲寒潮 / 极端低温 / 提前入冬（强度3/5，1条证据）；▼全球/中国经济与能源需求预期变化（强度1/5，1条证据）
-- **传导逻辑**：欧洲电价边际机组为气电，气价几乎完全传导至批发电价（2021-22 TTF与法德基荷电价同步创纪录）；中国电价受长协与政府调控，短期波动钝化，但燃料预期影响后续长协谈判
+### 4.4 电力：▲▲ 强烈看涨（24h态势 15.0；本3h边际 ▲+15）
+- **近24h主线驱动**：▲寒潮 / 极端低温 / 提前入冬（强度3/5，10条证据）；▲中东地缘冲突升级 / 霍尔木兹等能源通道受阻（强度3/5，2条证据）
 - **传导逻辑**：采暖电力负荷与气价双重抬升批发电价
-- **传导逻辑**：用电量增速下行→现货均价承压，但保供限价政策会平滑
-- **时滞/持续性**：数周～月度（欧洲）；国内钝化
+- **传导逻辑**：欧洲电价边际机组为气电，气价几乎完全传导至批发电价（2021-22 TTF与法德基荷电价同步创纪录）；中国电价受长协与政府调控，短期波动钝化，但燃料预期影响后续长协谈判
 - **时滞/持续性**：即时
-- **时滞/持续性**：季度
+- **时滞/持续性**：数周～月度（欧洲）；国内钝化
 - **中国市场注记**：国内电量电价受中长期合约、容量电价与政府调控平滑，对国际油气短期冲击钝化；成本压力主要通过次年长协谈判与沿海现货报价体现。结构性看，现货扩围+负价下限调整使**峰谷价差双向放大**，不能只看日均价。
 - **欧洲市场注记**：气电为边际定价机组，TTF→批发电价近似完全传导；电价冬季合约对储气率与寒潮高度敏感。
 
 ## 五、国内电价专项推演 · 事件 / 油价 / 气价 / 煤价 → 中国电价
 
-**国内现货电价成本压力指数：54/100（温和上行）**
+**国内现货电价成本压力指数：62/100（上行压力强）**
 
 国内电价以煤为锚：当前秦港Q5500约 1017 元/吨（高位破千·政策保供警戒区），较长协锚 700 元高 317 元，边际煤机燃料成本端压力约 10 分/千瓦时；经长协煤（约80%）对冲后，综合上网电量成本压力约 1.9 分/千瓦时。国际油价对国内电价几乎无直接影响，国际气价主要推沿海尖峰。
 
@@ -177,7 +163,7 @@
 
 ## 七、运行信息与免责声明
 
-- 抓取条目：新增 31 / 近24h去重后 73；未命中主题 26 条（作为资讯留存，不进入评分）
+- 抓取条目：新增 38 / 近24h去重后 73；未命中主题 23 条（作为资讯留存，不进入评分）
 - 数据源：Google News RSS（12 组关键词，中英文）、公开 RSS 5 个、CNBC 行情（Yahoo 备用）
 - 本次所有数据源请求成功。
 - **免责声明**：本报告由监控程序基于公开信息与预设的历史传导规则自动生成，仅供交易研究参考，不构成任何投资建议。规则方向为历史经验的统计性概括，单次事件的实际价格反应受仓位、预期差、政策干预与流动性影响，可能与历史规律偏离，请结合实时盘口独立决策。
