@@ -1,37 +1,37 @@
 {
-  "run_time": "2026-11-10T22:56+08:00",
-  "run_no": 205,
+  "run_time": "2026-11-11T05:19+08:00",
+  "run_no": 206,
   "temperature": {
     "oil": {
       "name": "原油",
       "score": 17.0,
       "label": "强烈看涨",
-      "pos": 10,
-      "neg": 1
+      "pos": 9,
+      "neg": 0
     },
     "gas": {
       "name": "天然气",
-      "score": 24.0,
+      "score": 20.0,
       "label": "强烈看涨",
-      "pos": 11,
-      "neg": 1
+      "pos": 10,
+      "neg": 0
     },
     "coal": {
       "name": "煤炭",
-      "score": 17.0,
+      "score": 14.0,
       "label": "强烈看涨",
-      "pos": 11,
-      "neg": 1
+      "pos": 10,
+      "neg": 0
     },
     "power": {
       "name": "电力",
-      "score": 21.0,
+      "score": 15.0,
       "label": "强烈看涨",
-      "pos": 11,
-      "neg": 1
+      "pos": 8,
+      "neg": 0
     }
   },
-  "new_events": 71,
+  "new_events": 41,
   "errors": [],
   "llm_enabled": false,
   "html": "site/index.html"
