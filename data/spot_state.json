@@ -3,20 +3,20 @@
     "id": "newcastle",
     "name": "纽卡斯尔动力煤(国际现货)",
     "unit": "美元/吨",
-    "value": 138.05,
+    "value": 139.0,
     "evidence": "纽卡斯尔动力煤(国际现货)自动取数（Trading Economics）",
     "source": "Trading Economics",
-    "published": "2026-11-11T05:19+08:00",
+    "published": "2026-11-11T14:27+08:00",
     "link": "https://tradingeconomics.com/commodity/coal"
   },
   "eu_power": {
     "id": "eu_power",
     "name": "德国日前现货电价(EPEX)",
     "unit": "欧元/兆瓦时",
-    "value": 369.65,
-    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 369.7（最新小时 255.0，近288小时均值 313.4）",
+    "value": 218.71,
+    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 218.7（最新小时 294.3，近288小时均值 312.7）",
     "source": "energy-charts/SMARD",
-    "published": "2026-11-11T05:19+08:00",
+    "published": "2026-11-11T14:27+08:00",
     "link": "https://api.energy-charts.info/price"
   },
   "qhd5500": {
@@ -37,16 +37,6 @@
     "evidence": "CCTD综合交易5500 778 元/吨（11-06，环比 0.78%）",
     "source": "CCTD中国煤炭市场网",
     "published": "2026-11-06T12:00",
-    "link": "https://www.cctd.com.cn/"
-  },
-  "cctd_term5500": {
-    "id": "cctd_term5500",
-    "name": "CCTD年度长协价 5500",
-    "unit": "元/吨",
-    "value": 727.0,
-    "evidence": "CCTD年度长协5500 727 元/吨（11-01，环比 1.39%）",
-    "source": "CCTD中国煤炭市场网",
-    "published": "2026-11-01T12:00",
     "link": "https://www.cctd.com.cn/"
   },
   "ttf": {
