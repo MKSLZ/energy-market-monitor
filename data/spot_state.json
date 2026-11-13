@@ -6,17 +6,17 @@
     "value": 145.25,
     "evidence": "纽卡斯尔动力煤(国际现货)自动取数（Trading Economics）",
     "source": "Trading Economics",
-    "published": "2026-11-13T09:51+08:00",
+    "published": "2026-11-13T19:02+08:00",
     "link": "https://tradingeconomics.com/commodity/coal"
   },
   "eu_power": {
     "id": "eu_power",
     "name": "德国日前现货电价(EPEX)",
     "unit": "欧元/兆瓦时",
-    "value": 148.3,
-    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 148.3（最新小时 137.2，近288小时均值 284.1）",
+    "value": 152.56,
+    "evidence": "德国日前现货电价(EPEX)近24小时日前均值 152.6（最新小时 92.0，近288小时均值 255.1）",
     "source": "energy-charts/SMARD",
-    "published": "2026-11-13T09:51+08:00",
+    "published": "2026-11-13T19:02+08:00",
     "link": "https://api.energy-charts.info/price"
   },
   "qhd5500": {
@@ -24,29 +24,19 @@
     "name": "秦皇岛/环渤海动力煤现货 Q5500",
     "unit": "元/吨",
     "value": 1026.0,
-    "evidence": "CCTD环渤海现货5500 1026 元/吨（11-12，环比 0.0%）",
+    "evidence": "CCTD环渤海现货5500 1026 元/吨（11-13，环比 0.0%）",
     "source": "CCTD中国煤炭市场网",
-    "published": "2026-11-12T12:00",
+    "published": "2026-11-13T12:00",
     "link": "https://www.cctd.com.cn/"
   },
   "cctd_mix5500": {
     "id": "cctd_mix5500",
     "name": "CCTD秦皇岛综合交易价 5500K",
     "unit": "元/吨",
-    "value": 778.0,
-    "evidence": "CCTD综合交易5500 778 元/吨（11-06，环比 0.78%）",
+    "value": 780.0,
+    "evidence": "CCTD综合交易5500 780 元/吨（11-13，环比 0.26%）",
     "source": "CCTD中国煤炭市场网",
-    "published": "2026-11-06T12:00",
+    "published": "2026-11-13T12:00",
     "link": "https://www.cctd.com.cn/"
-  },
-  "ttf": {
-    "id": "ttf",
-    "name": "欧洲TTF天然气期货",
-    "unit": "欧元/兆瓦时",
-    "value": 51.0,
-    "evidence": "高盛将2027年欧洲基准天然气TTF均价预测上调至51欧元/兆瓦时，此前预测为32欧元/兆瓦时。",
-    "source": "21财经",
-    "published": "2026-11-03T12:09+08:00",
-    "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPZUtJejlIU1F0V0w0bWtLV1ZCNE0tTUd0dldOTHB1UXZjUTduMGlaVzhUMWRHLWpVVkRxemh2T3ZxNjVwelNnei1KX3F6cmNVV0VHWGVtdlA5XzFxSU1iNW1XR3NOazREN2t6UUs1TVpIRGVMdjVfa0hWOVBKMU9ZRFNyMldwdTVORnA2c1pCYw?oc=5"
   }
 }
